@@ -73,7 +73,7 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
             <div className="p-6">
               {success ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-emerald-50 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-100">
+                  <div className="w-16 h-16 bg-orange-50 text-[#E07B00] rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-100">
                     <Check className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold text-stone-900 mb-2">Заявка отправлена!</h3>
@@ -89,7 +89,7 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
                         required
                         type="text"
                         placeholder="Иван"
-                        className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-stone-500"
+                        className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
@@ -114,7 +114,7 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-amber-500 hover:bg-amber-600 border border-transparent disabled:opacity-50 text-stone-900 font-bold py-4 rounded-xl flex items-center justify-center mt-6 transition-colors shadow-sm"
+                    className="w-full bg-[#E07B00] hover:bg-[#B86300] text-white font-bold py-4 rounded-xl flex items-center justify-center mt-6 transition-colors shadow-sm"
                   >
                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Перезвоните мне"}
                   </button>
@@ -150,3 +150,4 @@ function Check(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
