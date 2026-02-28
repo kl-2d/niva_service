@@ -40,9 +40,9 @@ export async function POST(req: Request) {
       `;
 
       await transporter.sendMail({
-        from: \`"Нива Сервис" <\${process.env.SMTP_USER}>\`,
+        from: `"Нива Сервис" <${process.env.SMTP_USER}>`,
         to: process.env.MANAGER_EMAIL,
-        subject: \`Новая заявка с сайта от: \${name}\`,
+        subject: `Новая заявка с сайта от: ${name}`,
         html: htmlContent,
       });
     } catch (error) {
