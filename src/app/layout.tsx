@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="scroll-smooth">
-      <body className={`${inter.variable} antialiased flex flex-col min-h-screen`}>
+      <body className={`${inter.variable} antialiased flex flex-col min-h-screen bg-slate-50 text-slate-800`}>
         <Navbar />
         <main className="flex-grow pt-[72px]">
           {children}

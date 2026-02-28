@@ -51,7 +51,7 @@ const stats = [
     value: 15,
     suffix: " лет",
     label: "успешной работы",
-    color: "text-orange-500",
+    color: "text-blue-600",
   },
   {
     id: 3,
@@ -73,7 +73,7 @@ const stats = [
 
 export default function Statistics() {
   return (
-    <section className="py-20 bg-black border-b border-zinc-800">
+    <section className="py-20 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => {
@@ -85,15 +85,15 @@ export default function Statistics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center justify-center p-6 bg-zinc-900/50 rounded-2xl border border-zinc-800/50 hover:border-orange-500/30 transition-colors group"
+                className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 transition-colors group shadow-sm hover:shadow"
               >
-                <div className={`p-4 rounded-full bg-zinc-800/50 mb-4 group-hover:bg-zinc-800 transition-colors ${stat.color}`}>
+                <div className={`p-4 rounded-full bg-white border border-slate-100 mb-4 group-hover:bg-slate-50 transition-colors ${stat.color}`}>
                   <IconComponent className="w-8 h-8" />
                 </div>
-                <h3 className="text-4xl md:text-5xl font-bold text-white mb-2 font-mono tabular-nums">
+                <h3 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2 font-mono tabular-nums">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h3>
-                <p className="text-zinc-400 text-center uppercase tracking-wider text-sm font-medium">
+                <p className="text-slate-500 text-center uppercase tracking-wider text-sm font-medium">
                   {stat.label}
                 </p>
               </motion.div>

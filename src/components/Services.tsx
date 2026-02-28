@@ -65,14 +65,14 @@ export const services = [
 
 export default function Services() {
   return (
-    <section className="py-24 bg-zinc-950" id="services">
+    <section className="py-24 bg-slate-50" id="services">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-3xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 uppercase tracking-tight"
           >
             Перечень ремонтных работ
           </motion.h2>
@@ -81,7 +81,7 @@ export default function Services() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-orange-500 mx-auto rounded-full"
+            className="h-1 bg-blue-600 mx-auto rounded-full"
           />
         </div>
 
@@ -95,15 +95,15 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-zinc-900 border border-zinc-800 hover:border-orange-500/50 rounded-xl p-6 transition-all group hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-900/10 flex flex-col items-start"
+                className="bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
               >
-                <div className="w-12 h-12 bg-zinc-800 rounded-lg flex items-center justify-center mb-6 group-hover:bg-orange-500/20 transition-colors">
-                  <Icon className="w-6 h-6 text-orange-500" />
+                <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
+                  <Icon className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-400 transition-colors">
+                <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-zinc-400 leading-relaxed text-sm">
+                <p className="text-slate-600 leading-relaxed text-sm">
                   {service.description}
                 </p>
               </motion.div>

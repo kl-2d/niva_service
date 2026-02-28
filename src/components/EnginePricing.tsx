@@ -31,7 +31,7 @@ export default function EnginePricing() {
   }, []);
 
   return (
-    <section className="py-20 bg-zinc-900 border-t border-zinc-800" id="engine-repair">
+    <section className="py-20 bg-slate-50 border-t border-slate-200" id="engine-repair">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           
@@ -42,22 +42,22 @@ export default function EnginePricing() {
               viewport={{ once: true, margin: "-50px" }}
               className="sticky top-24"
             >
-              <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tight">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6 uppercase tracking-tight">
                 Ремонт двигателя
               </h2>
-              <p className="text-zinc-400 mb-6 text-lg">
+              <p className="text-slate-600 mb-6 text-lg">
                 Капитальный и текущий ремонт двигателей ВАЗ. Точная диагностика и честные цены на работы.
               </p>
               
-              <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4 text-orange-400 font-semibold">
+              <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-4 text-blue-700 font-semibold">
                   <AlertCircle className="w-6 h-6" />
                   <h3>Вам нужен ремонт, если:</h3>
                 </div>
                 <ul className="space-y-3">
                   {symptoms.map((symptom, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-zinc-300 text-sm">
-                      <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0" />
+                    <li key={idx} className="flex items-start gap-2 text-slate-700 text-sm">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 shrink-0" />
                       {symptom}
                     </li>
                   ))}
@@ -71,11 +71,11 @@ export default function EnginePricing() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              className="bg-black border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl"
+              className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-lg"
             >
-              <div className="p-6 md:p-8 bg-zinc-900/50 border-b border-zinc-800 flex justify-between items-center">
-                <h3 className="text-xl font-bold text-white">Прайс-лист на работы</h3>
-                <span className="text-xs text-zinc-500 bg-zinc-800 px-3 py-1 rounded-full">Цены в рублях</span>
+              <div className="p-6 md:p-8 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                <h3 className="text-xl font-bold text-slate-800">Прайс-лист на работы</h3>
+                <span className="text-xs text-slate-500 bg-white border border-slate-200 px-3 py-1 rounded-full shadow-sm">Цены в рублях</span>
               </div>
               
               <div className="p-6 md:p-8">
@@ -92,14 +92,14 @@ export default function EnginePricing() {
                         className="flex items-end gap-4 group"
                       >
                         <div className="flex items-center gap-3 shrink-0">
-                          <CheckCircle2 className="w-5 h-5 text-orange-500/50 group-hover:text-orange-500 transition-colors" />
-                          <span className="text-zinc-300 group-hover:text-white transition-colors">{item.title}</span>
+                          <CheckCircle2 className="w-5 h-5 text-blue-200 group-hover:text-blue-600 transition-colors" />
+                          <span className="text-slate-700 group-hover:text-slate-900 font-medium transition-colors">{item.title}</span>
                         </div>
                         
-                        <div className="flex-grow border-b border-dotted border-zinc-700 mb-1 opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="flex-grow border-b border-dotted border-slate-300 mb-1 opacity-50 group-hover:border-blue-300 transition-colors"></div>
                         
                         <div className="flex items-center gap-4 shrink-0">
-                          <span className="font-mono text-lg font-medium text-white">
+                          <span className="font-mono text-lg font-bold text-slate-800">
                             {item.price} ₽
                           </span>
                           <button
@@ -107,8 +107,8 @@ export default function EnginePricing() {
                             disabled={isAdded}
                             className={`flex items-center justify-center p-2 rounded transition-colors ${
                               isAdded 
-                                ? "bg-green-500/20 text-green-500 cursor-not-allowed" 
-                                : "bg-orange-500/10 text-orange-500 hover:bg-orange-500 hover:text-white"
+                                ? "bg-green-50 text-green-600 border border-green-200 cursor-not-allowed" 
+                                : "bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-600 hover:text-white"
                             }`}
                           >
                             {isAdded ? "Добавлено" : <Plus className="w-5 h-5" />}
@@ -118,7 +118,7 @@ export default function EnginePricing() {
                     );
                   })}
                   {prices.length === 0 && (
-                    <li className="text-center text-zinc-500 py-4">Загрузка прайс-листа...</li>
+                    <li className="text-center text-slate-500 py-4">Загрузка прайс-листа...</li>
                   )}
                 </ul>
               </div>

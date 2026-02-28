@@ -70,11 +70,11 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+            className="relative bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
           >
-            <div className="p-6 border-b border-zinc-800 flex justify-between items-center">
-              <h2 className="text-xl font-bold text-white">Оформление заявки</h2>
-              <button onClick={onClose} className="text-zinc-400 hover:text-white transition-colors">
+            <div className="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+              <h2 className="text-xl font-bold text-slate-800">Оформление заявки</h2>
+              <button onClick={onClose} className="text-slate-400 hover:text-slate-800 transition-colors">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -82,23 +82,23 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
             <div className="p-6">
               {success ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/30">
+                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-100">
                     <Check className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2">Заявка отправлена!</h3>
-                  <p className="text-zinc-400">Наш менеджер свяжется с вами в ближайшее время.</p>
+                  <h3 className="text-2xl font-bold text-slate-800 mb-2">Заявка отправлена!</h3>
+                  <p className="text-slate-600">Наш менеджер свяжется с вами в ближайшее время.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-sm text-zinc-400">Имя *</label>
+                    <label className="text-sm text-slate-600 font-medium">Имя *</label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <input
                         required
                         type="text"
                         placeholder="Иван"
-                        className="w-full bg-zinc-950 border border-zinc-800 text-white rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500"
+                        className="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all placeholder:text-slate-400"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
@@ -106,14 +106,14 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-sm text-zinc-400">Телефон *</label>
+                    <label className="text-sm text-slate-600 font-medium">Телефон *</label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <input
                         required
                         type="tel"
                         placeholder="+7 (999) 000-00-00"
-                        className="w-full bg-zinc-950 border border-zinc-800 text-white rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500"
+                        className="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all placeholder:text-slate-400"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
@@ -121,34 +121,34 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-sm text-zinc-400">Желаемая дата (необязательно)</label>
+                    <label className="text-sm text-slate-600 font-medium">Желаемая дата (необязательно)</label>
                     <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <input
                         type="date"
-                        className="w-full bg-zinc-950 border border-zinc-800 text-white rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500"
+                        className="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-slate-500"
                         value={formData.date}
                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                       />
                     </div>
                   </div>
 
-                  <div className="bg-zinc-950 p-4 rounded-lg border border-zinc-800 mt-6">
-                    <div className="flex justify-between items-center text-sm text-zinc-400 mb-2">
+                  <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-6 shadow-sm">
+                    <div className="flex justify-between items-center text-sm text-slate-500 mb-2">
                       <span>Выбрано услуг: {items.length}</span>
                       <span>Сумма:</span>
                     </div>
-                    <div className="text-right text-2xl font-mono text-white font-bold">{totalPrice} ₽</div>
+                    <div className="text-right text-2xl font-mono text-slate-900 font-bold">{totalPrice} ₽</div>
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-bold py-4 rounded-xl flex items-center justify-center mt-6 transition-colors"
+                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold py-4 rounded-xl flex items-center justify-center mt-6 transition-colors shadow-sm"
                   >
                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Отправить заявку"}
                   </button>
-                  <p className="text-xs text-center text-zinc-500 mt-4">
+                  <p className="text-xs text-center text-slate-500 mt-4">
                     Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.
                   </p>
                 </form>
