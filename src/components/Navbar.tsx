@@ -16,6 +16,7 @@ export default function Navbar() {
   ];
 
   return (
+    <>
     <nav className="fixed w-full z-50 top-0 start-0 border-b border-stone-200 bg-white/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between p-4">
         <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse">
@@ -80,7 +81,8 @@ export default function Navbar() {
           </ul>
         </div>
       </div>
-      <RequestCallModal isOpen={isRequestModalOpen} onClose={() => setIsRequestModalOpen(false)} />
     </nav>
+    <RequestCallModal isOpen={isRequestModalOpen} onClose={() => setIsRequestModalOpen(false)} />
+    </>
   );
 }
