@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
+import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
   try {
@@ -14,22 +15,39 @@ export async function POST(req: Request) {
       );
     }
 
-    // --- STUB: Email Sending Logic ---
-    console.log("====================================");
-    console.log("📧 STUB: Sending Email Notification to Manager");
-    console.log(`To: niva-service@example.com`);
-    console.log(`Subject: Новая заявка от ${name}`);
-    console.log(`
-      Имя: ${name}
-      Телефон: ${phone}
-      Дата: ${date || "Не указана"}
-      
-      Услуги:
-      ${services.map((s: any) => `- ${s.title} (${s.price} ₽)`).join('\n')}
-      
-      Итоговая предварительная сумма: ${totalPrice} ₽
-    `);
-    console.log("====================================");
+    // --- Email Sending Logic ---
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT) || 465,
+        secure: true,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      });
+
+      const htmlContent = `
+        <h2>Новая заявка на ремонт</h2>
+        <b>Имя:</b> ${name}<br/>
+        <b>Телефон:</b> ${phone}<br/>
+        <b>Желаемая дата:</b> ${date || "Не указана"}<br/>
+        <b>Выбранные услуги:</b>
+        <ul>
+          ${services.map((s: any) => `<li>${s.title} (${s.price} руб.)</li>`).join('')}
+        </ul>
+        <b>Итоговая сумма:</b> ${totalPrice} руб.
+      `;
+
+      await transporter.sendMail({
+        from: \`"Нива Сервис" <\${process.env.SMTP_USER}>\`,
+        to: process.env.MANAGER_EMAIL,
+        subject: \`Новая заявка с сайта от: \${name}\`,
+        html: htmlContent,
+      });
+    } catch (error) {
+      console.error("Email sending failed:", error);
+    }
 
     // --- Google Sheets Integration ---
     const auth = new google.auth.JWT({
