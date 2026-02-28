@@ -8,14 +8,14 @@ export default function ServicesPreview() {
   const previewServices = services.slice(0, 4);
 
   return (
-    <section className="py-24 bg-stone-100" id="services-preview">
+    <section className="py-24 bg-[#F5F2EC]" id="services-preview">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-3xl md:text-5xl font-bold text-stone-900 mb-6 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-bold text-[#1A1A1A] mb-6 uppercase tracking-tight"
           >
             Направления ремонта
           </motion.h2>
@@ -24,7 +24,7 @@ export default function ServicesPreview() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-emerald-800 mx-auto rounded-full"
+            className="h-1 bg-[#E07B00] mx-auto rounded-full"
           />
         </div>
 
@@ -38,12 +38,12 @@ export default function ServicesPreview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white border border-stone-200 hover:border-emerald-300 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
+                className="bg-white border border-[#D4CFC8] hover:border-[#E07B00]/40 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
               >
-                <div className="w-12 h-12 bg-stone-50 border border-stone-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-emerald-50 transition-colors">
-                  <Icon className="w-6 h-6 text-emerald-800" />
+                <div className="w-12 h-12 bg-stone-50 border border-stone-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-orange-50 transition-colors">
+                  <Icon className="w-6 h-6 text-[#2B3A2E] group-hover:text-[#E07B00] transition-colors" />
                 </div>
-                <h3 className="text-xl font-bold text-stone-900 mb-3 group-hover:text-emerald-800 transition-colors">
+                <h3 className="text-xl font-bold text-[#1A1A1A] mb-3 group-hover:text-[#E07B00] transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-stone-700 leading-relaxed text-sm">
@@ -57,7 +57,7 @@ export default function ServicesPreview() {
         <div className="text-center">
           <Link 
             href="/services"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-stone-900 transition-all bg-amber-500 border border-transparent rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-4 focus:ring-amber-300 shadow-md hover:shadow-lg"
+            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all bg-[#E07B00] border border-transparent rounded-lg hover:bg-[#B86300] focus:outline-none focus:ring-4 focus:ring-orange-300 shadow-md hover:shadow-lg"
           >
             Перейти в полный каталог услуг
           </Link>

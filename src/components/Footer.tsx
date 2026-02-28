@@ -23,16 +23,16 @@ export default function Footer() {
             <h3 className="text-lg font-semibold text-white mb-4">Контакты</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-stone-300">
-                <MapPin className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-[#E07B00] shrink-0 mt-0.5" />
                 <span>г. Воронеж, ул. Матросова, 100</span>
               </li>
               <li className="flex flex-col gap-2">
                 <a href="tel:+79202295656" className="flex items-center gap-3 text-stone-300 hover:text-white transition-colors">
-                  <Phone className="w-5 h-5 text-amber-500 shrink-0" />
+                  <Phone className="w-5 h-5 text-[#E07B00] shrink-0" />
                   <span className="font-medium">+7 920 229-56-56</span>
                 </a>
                 <a href="tel:+74732361818" className="flex items-center gap-3 text-stone-300 hover:text-white transition-colors">
-                  <Phone className="w-5 h-5 text-amber-500 opacity-0 shrink-0" />
+                  <Phone className="w-5 h-5 text-[#E07B00] opacity-0 shrink-0" />
                   <span className="font-medium">+7 473 236-18-18</span>
                 </a>
               </li>
@@ -44,7 +44,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold text-white mb-4">Режим работы</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-stone-300">
-                <Clock className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                <Clock className="w-5 h-5 text-[#E07B00] shrink-0 mt-0.5" />
                 <div>
                   <p>Пн-Пт: 9:00 - 18:00</p>
                   <p>Сб: 10:00 - 16:00</p>
