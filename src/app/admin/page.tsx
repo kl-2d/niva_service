@@ -88,7 +88,7 @@ export default function AdminDashboard() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3 text-white">
-            <Activity className="w-8 h-8 text-orange-500" />
+            <Activity className="w-8 h-8 text-blue-500" />
             <h1 className="text-3xl font-bold tracking-tight">Панель управления (MVP)</h1>
           </div>
           <button
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
               resetForm();
               setIsAdding(true);
             }}
-            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             <Plus className="w-4 h-4" />
             Добавить услугу
@@ -112,15 +112,15 @@ export default function AdminDashboard() {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input required placeholder="Название услуги" value={title} onChange={e => setTitle(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-orange-500 border border-zinc-700" />
-              <input required type="number" placeholder="Цена (₽)" value={price} onChange={e => setPrice(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-orange-500 border border-zinc-700" />
-              <select value={category} onChange={e => setCategory(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-orange-500 border border-zinc-700">
+              <input required placeholder="Название услуги" value={title} onChange={e => setTitle(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-700" />
+              <input required type="number" placeholder="Цена (₽)" value={price} onChange={e => setPrice(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-700" />
+              <select value={category} onChange={e => setCategory(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-700">
                 <option value="engine">Двигатель</option>
                 <option value="suspension">Ходовая</option>
                 <option value="transmission">КПП / Раздатка</option>
                 <option value="electrical">Электрика</option>
               </select>
-              <input placeholder="Описание (необязательно)" value={description} onChange={e => setDescription(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-orange-500 border border-zinc-700" />
+              <input placeholder="Описание (необязательно)" value={description} onChange={e => setDescription(e.target.value)} className="bg-zinc-800 text-white rounded p-3 outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-700" />
             </div>
             <button type="submit" className="bg-white text-black font-semibold py-2 px-6 rounded hover:bg-zinc-200 self-end">
               Сохранить

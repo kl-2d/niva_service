@@ -24,7 +24,7 @@ export default function ServicesPreview() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-orange-500 mx-auto rounded-full"
+            className="h-1 bg-blue-500 mx-auto rounded-full"
           />
         </div>
 
@@ -38,12 +38,12 @@ export default function ServicesPreview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white border border-stone-200 hover:border-orange-300 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
+                className="bg-white border border-stone-200 hover:border-blue-300 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
               >
-                <div className="w-12 h-12 bg-stone-50 border border-stone-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-orange-50 transition-colors">
-                  <Icon className="w-6 h-6 text-orange-500" />
+                <div className="w-12 h-12 bg-stone-50 border border-stone-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
+                  <Icon className="w-6 h-6 text-blue-500" />
                 </div>
-                <h3 className="text-xl font-bold text-stone-900 mb-3 group-hover:text-orange-500 transition-colors">
+                <h3 className="text-xl font-bold text-stone-900 mb-3 group-hover:text-blue-500 transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-stone-700 leading-relaxed text-sm">
@@ -57,7 +57,7 @@ export default function ServicesPreview() {
         <div className="text-center">
           <Link 
             href="/services"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all bg-orange-500 border border-transparent rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 shadow-md hover:shadow-lg"
+            className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all bg-blue-500 border border-transparent rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-md hover:shadow-lg"
           >
             Перейти в полный каталог услуг
           </Link>

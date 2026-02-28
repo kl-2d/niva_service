@@ -31,7 +31,7 @@ export default function ProcessTimeline() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-orange-500 mx-auto rounded-full"
+            className="h-1 bg-blue-500 mx-auto rounded-full"
           />
         </div>
 
@@ -45,7 +45,7 @@ export default function ProcessTimeline() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
-              className="h-full bg-orange-200 origin-left"
+              className="h-full bg-blue-200 origin-left"
             />
           </div>
 
@@ -68,18 +68,18 @@ export default function ProcessTimeline() {
 
                   {/* Icon Node */}
                   <div className="relative">
-                    <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-stone-50 border-2 border-stone-200 flex items-center justify-center shrink-0 group-hover:border-orange-500 transition-colors z-20 relative shadow-sm">
-                      <Icon className="w-8 h-8 text-orange-500 group-hover:scale-110 transition-transform" />
+                    <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-stone-50 border-2 border-stone-200 flex items-center justify-center shrink-0 group-hover:border-blue-500 transition-colors z-20 relative shadow-sm">
+                      <Icon className="w-8 h-8 text-blue-500 group-hover:scale-110 transition-transform" />
                     </div>
                     
-                    <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white text-sm border-4 border-white shadow-sm">
+                    <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white text-sm border-4 border-white shadow-sm">
                       {step.id}
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="ml-6 lg:ml-0 lg:mt-6 lg:text-center pt-2 lg:pt-0">
-                    <h3 className="text-stone-900 font-bold mb-2 group-hover:text-orange-500 transition-colors">
+                    <h3 className="text-stone-900 font-bold mb-2 group-hover:text-blue-500 transition-colors">
                       {step.label}
                     </h3>
                     <p className="text-stone-700 text-sm leading-snug">

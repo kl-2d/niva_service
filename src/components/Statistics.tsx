@@ -43,7 +43,7 @@ const stats = [
     value: 100,
     suffix: "%",
     label: "гарантия качества",
-    color: "text-orange-500",
+    color: "text-blue-500",
   },
   {
     id: 2,
@@ -51,7 +51,7 @@ const stats = [
     value: 15,
     suffix: " лет",
     label: "успешной работы",
-    color: "text-orange-600",
+    color: "text-blue-600",
   },
   {
     id: 3,
@@ -85,7 +85,7 @@ export default function Statistics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center justify-center p-6 bg-stone-50 rounded-2xl border border-stone-100 hover:border-orange-200 transition-colors group shadow-sm hover:shadow"
+                className="flex flex-col items-center justify-center p-6 bg-stone-50 rounded-2xl border border-stone-100 hover:border-blue-200 transition-colors group shadow-sm hover:shadow"
               >
                 <div className={`p-4 rounded-full bg-white border border-stone-100 mb-4 group-hover:bg-stone-50 transition-colors ${stat.color}`}>
                   <IconComponent className="w-8 h-8" />

@@ -82,7 +82,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
             <div className="p-6">
               {success ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-100">
+                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-100">
                     <Check className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold text-stone-900 mb-2">Заявка отправлена!</h3>
@@ -98,7 +98,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         required
                         type="text"
                         placeholder="Иван"
-                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all placeholder:text-stone-500"
+                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-stone-500"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
@@ -113,7 +113,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         required
                         type="tel"
                         placeholder="+7 (999) 000-00-00"
-                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all placeholder:text-stone-500"
+                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-stone-500"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
@@ -126,7 +126,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
                       <input
                         type="date"
-                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-stone-500"
+                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-stone-500"
                         value={formData.date}
                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                       />
@@ -144,7 +144,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-bold py-4 rounded-xl flex items-center justify-center mt-6 transition-colors shadow-sm"
+                    className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white font-bold py-4 rounded-xl flex items-center justify-center mt-6 transition-colors shadow-sm"
                   >
                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Отправить заявку"}
                   </button>
