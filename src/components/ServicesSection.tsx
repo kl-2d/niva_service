@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Wrench, Settings, Car, Activity, Zap, Wind, PaintBucket, TrendingUp,
-  CheckCircle2, Plus, ChevronDown, Phone,
+  CheckCircle2, Plus, Phone, ChevronRight,
 } from "lucide-react";
 import { Service } from "@prisma/client";
 import { useCartStore } from "@/store/useCartStore";
@@ -28,6 +28,10 @@ const CATEGORIES: CategoryDef[] = [
   { id: 8, title: "Тюнинг", description: "Лифт-комплекты, силовые бампера, лебедки, грязевая резина.", slug: "tuning", icon: PaintBucket },
 ];
 
+/* ──────────────────────────────────────────
+   Price table – stays mounted in the right panel,
+   updates content on slug change only
+────────────────────────────────────────── */
 function PriceTable({ slug }: { slug: string }) {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,23 +48,27 @@ function PriceTable({ slug }: { slug: string }) {
 
   if (loading) {
     return (
-      <div className="py-16 text-center text-stone-500">
-        <div className="inline-block w-7 h-7 border-2 border-stone-300 border-t-[#E07B00] rounded-full animate-spin mb-4" />
-        <p className="text-base">Загружаем прайс-лист…</p>
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <div className="w-8 h-8 border-2 border-stone-200 border-t-[#E07B00] rounded-full animate-spin" />
+        <p className="text-stone-500 text-sm">Загружаем прайс-лист…</p>
       </div>
     );
   }
 
   if (services.length === 0) {
     return (
-      <div className="py-14 text-center">
-        <p className="text-stone-500 mb-5 text-base">Подробный прайс-лист скоро появится.</p>
+      <div className="flex flex-col items-center justify-center py-20 gap-4 text-center px-6">
+        <div className="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center mb-2">
+          <Phone className="w-6 h-6 text-stone-400" />
+        </div>
+        <p className="text-stone-600 font-medium">Прайс-лист появится в ближайшее время</p>
+        <p className="text-stone-400 text-sm">Уточните стоимость работ по телефону</p>
         <a
           href="tel:+79202295656"
-          className="inline-flex items-center gap-2 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold px-6 py-3 rounded-lg transition-colors text-base"
+          className="inline-flex items-center gap-2 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm mt-2"
         >
           <Phone className="w-4 h-4" />
-          Узнать цену по телефону
+          +7 (920) 229-56-56
         </a>
       </div>
     );
@@ -69,10 +77,10 @@ function PriceTable({ slug }: { slug: string }) {
   return (
     <div className="divide-y divide-stone-100">
       {/* Desktop header */}
-      <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-6 py-3 bg-stone-50 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-        <span>Услуга</span>
-        <span className="text-right pr-4">Цена</span>
-        <span className="w-28 text-center">В заказ</span>
+      <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-6 py-3 bg-stone-50 text-xs font-semibold text-stone-400 uppercase tracking-wider border-b border-stone-100">
+        <span>Наименование услуги</span>
+        <span className="text-right pr-4">Стоимость</span>
+        <span className="w-28 text-center">Добавить</span>
       </div>
 
       {services.map((item, idx) => {
@@ -80,20 +88,18 @@ function PriceTable({ slug }: { slug: string }) {
         return (
           <motion.div
             key={item.id}
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.025 }}
+            transition={{ delay: idx * 0.04, duration: 0.3, ease: "easeOut" }}
             className="flex flex-col md:grid md:grid-cols-[1fr_auto_auto] md:items-center gap-2 md:gap-4 px-4 md:px-6 py-4 hover:bg-stone-50 transition-colors group"
           >
-            {/* Title */}
             <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 text-stone-300 group-hover:text-[#E07B00] transition-colors shrink-0" />
-              <span className="text-stone-800 font-medium text-base">{item.title}</span>
+              <CheckCircle2 className={`w-4 h-4 shrink-0 transition-colors ${isAdded ? "text-[#E07B00]" : "text-stone-250 group-hover:text-[#E07B00]/50"}`} />
+              <span className="text-stone-800 font-medium text-sm md:text-base leading-snug">{item.title}</span>
             </div>
 
-            {/* Price + button row on mobile, separate cols on desktop */}
             <div className="flex items-center justify-between pl-7 md:pl-0 md:contents">
-              <span className="font-mono font-bold text-stone-900 text-lg md:text-right md:pr-4 whitespace-nowrap">
+              <span className="font-mono font-bold text-stone-900 text-base md:text-lg md:text-right md:pr-4 whitespace-nowrap">
                 {item.price.toLocaleString("ru-RU")} ₽
               </span>
               <button
@@ -103,7 +109,7 @@ function PriceTable({ slug }: { slug: string }) {
                 className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all md:w-28 ${
                   isAdded
                     ? "bg-stone-100 text-stone-400 border border-stone-200 cursor-default"
-                    : "bg-orange-100 text-[#1A1A1A] border border-orange-300 hover:bg-[#E07B00] hover:text-white hover:border-[#E07B00] cursor-pointer"
+                    : "bg-orange-50 text-[#1A1A1A] border border-orange-200 hover:bg-[#E07B00] hover:text-white hover:border-[#E07B00] cursor-pointer"
                 }`}
               >
                 {isAdded ? (
@@ -117,35 +123,71 @@ function PriceTable({ slug }: { slug: string }) {
         );
       })}
 
-      <div className="px-6 py-4 bg-stone-50 flex justify-between items-center text-sm text-stone-500">
-        <span>{services.length} позиций</span>
-        <span className="text-xs">* Окончательная стоимость после диагностики</span>
+      <div className="px-6 py-4 bg-stone-50 flex flex-wrap justify-between items-center gap-2 text-xs text-stone-400 border-t border-stone-100">
+        <span>{services.length} позиций в разделе</span>
+        <span>* Окончательная стоимость после диагностики</span>
       </div>
     </div>
   );
 }
 
+/* ──────────────────────────────────────────
+   Empty state shown inside the right panel
+   when no category is selected
+────────────────────────────────────────── */
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center h-full min-h-[320px] gap-4 text-center px-8">
+      <div className="w-16 h-16 rounded-2xl bg-stone-100 flex items-center justify-center">
+        <Wrench className="w-7 h-7 text-stone-300" />
+      </div>
+      <p className="text-stone-400 text-base font-medium">Выберите раздел слева,<br />чтобы открыть прайс-лист</p>
+      <div className="flex gap-1 items-center text-[#E07B00] text-sm font-semibold">
+        <ChevronRight className="w-4 h-4 animate-pulse" />
+        <span>Нажмите на категорию</span>
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────
+   Main Section
+────────────────────────────────────────── */
 export default function ServicesSection() {
-  const [activeSlug, setActiveSlug] = useState<string | null>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
+  // Default to first category so panel is never empty on first render
+  const [activeSlug, setActiveSlug] = useState<string>(CATEGORIES[0].slug);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
+  const tabsScrollRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
+
+  const activeCategory = CATEGORIES.find((c) => c.slug === activeSlug)!;
+
+  // Auto-scroll active tab into view in the horizontal tab bar
+  useEffect(() => {
+    if (activeTabRef.current && tabsScrollRef.current) {
+      const container = tabsScrollRef.current;
+      const tab = activeTabRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const tabRect = tab.getBoundingClientRect();
+      const scrollLeft = container.scrollLeft + (tabRect.left - containerRect.left) - 12;
+      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
+    }
+  }, [activeSlug]);
 
   const handleSelect = (slug: string) => {
-    const isClosing = activeSlug === slug;
-    setActiveSlug(isClosing ? null : slug);
-    // Scroll to panel only when opening
-    if (!isClosing) {
-      setTimeout(() => panelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
+    setActiveSlug(slug);
+    // On mobile, scroll so the panel header is just below the sticky tabs
+    if (window.innerWidth < 1024) {
+      setTimeout(() => mobilePanelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 120);
     }
   };
-
-  const activeCategory = CATEGORIES.find((c) => c.slug === activeSlug);
 
   return (
     <section className="py-24 bg-[#F5F2EC]" id="services">
       <div className="max-w-7xl mx-auto px-4">
 
-        {/* Header */}
-        <div className="text-center mb-14">
+        {/* ── Section Header ── */}
+        <div className="text-center mb-12">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -159,9 +201,9 @@ export default function ServicesSection() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="text-stone-600 text-lg"
+            className="text-stone-500 text-base md:text-lg"
           >
-            Выберите раздел, чтобы открыть прайс-лист
+            Выберите категорию, чтобы просмотреть прайс-лист
           </motion.p>
           <motion.div
             initial={{ opacity: 0, width: 0 }}
@@ -172,100 +214,111 @@ export default function ServicesSection() {
           />
         </div>
 
-        {/* Category grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {CATEGORIES.map((cat, index) => {
-            const Icon = cat.icon;
-            const isActive = activeSlug === cat.slug;
-            return (
-              <motion.button
-                key={cat.id}
-                onClick={() => handleSelect(cat.slug)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.4, delay: index * 0.06 }}
-                className={`text-left cursor-pointer rounded-xl p-5 border transition-all duration-200 flex flex-col group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E07B00] ${
-                  isActive
-                    ? "bg-[#2B3A2E] border-[#1a2a1e] shadow-lg -translate-y-0.5"
-                    : "bg-white border-[#D4CFC8] hover:border-[#E07B00]/40 hover:-translate-y-0.5 hover:shadow-md"
-                }`}
-              >
-                <div className={`w-11 h-11 rounded-lg flex items-center justify-center mb-4 transition-colors ${
-                  isActive
-                    ? "bg-[#1a2a1e]"
-                    : "bg-stone-50 border border-stone-100 group-hover:bg-orange-50"
-                }`}>
-                  <Icon className={`w-5 h-5 transition-colors ${isActive ? "text-white" : "text-[#E07B00]"}`} />
-                </div>
-                <h3 className={`font-bold text-base md:text-lg mb-2 transition-colors leading-snug ${
-                  isActive ? "text-white" : "text-stone-900"
-                }`}>
+        {/* ── Mobile: sticky scrollable tab bar ── */}
+        <div className="lg:hidden sticky top-0 z-20 -mx-4 px-4 py-2.5 bg-[#F5F2EC] border-b border-stone-200/60 shadow-sm mb-4">
+          <div ref={tabsScrollRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeSlug === cat.slug;
+              return (
+                <button
+                  key={cat.id}
+                  ref={isActive ? activeTabRef : undefined}
+                  onClick={() => handleSelect(cat.slug)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 border shrink-0 ${
+                    isActive
+                      ? "bg-[#2B3A2E] text-white border-[#1a2a1e] shadow-md"
+                      : "bg-white text-stone-600 border-stone-200"
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 transition-colors duration-300 ${isActive ? "text-orange-300" : "text-[#E07B00]"}`} />
                   {cat.title}
-                </h3>
-                <p className={`text-sm leading-relaxed transition-colors flex-1 ${
-                  isActive ? "text-stone-300" : "text-stone-500"
-                }`}>
-                  {cat.description}
-                </p>
-                <div className={`flex items-center gap-1 mt-3 text-sm font-semibold transition-colors ${
-                  isActive ? "text-orange-300" : "text-[#E07B00]"
-                }`}>
-                  {isActive ? (
-                    <>Скрыть прайс <ChevronDown className="w-4 h-4 rotate-180" /></>
-                  ) : (
-                    <>Открыть прайс <ChevronDown className="w-4 h-4" /></>
-                  )}
-                </div>
-              </motion.button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* 
-          Price table panel — CSS Grid trick for smooth height animation.
-          grid-rows-[0fr] → grid-rows-[1fr] transitions height without layout jumps.
-          The footer stays in place because height changes are contained inside.
-        */}
-        <div
-          ref={panelRef}
-          className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-            activeSlug ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-          }`}
-        >
-          <div className="overflow-hidden">
-            <AnimatePresence mode="wait">
-              {activeSlug && activeCategory && (
-                <motion.div
-                  key={activeSlug}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="pt-2 pb-4"
-                >
-                  <div className="bg-white border border-[#D4CFC8] rounded-2xl shadow-lg overflow-hidden">
-                    {/* Panel header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-stone-200 bg-stone-50">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#2B3A2E] rounded-lg flex items-center justify-center shrink-0">
-                          <activeCategory.icon className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold text-stone-900">{activeCategory.title}</h3>
-                          <p className="text-sm text-stone-500">{activeCategory.description}</p>
-                        </div>
-                      </div>
-                      <span className="text-xs text-stone-500 bg-white border border-stone-200 px-3 py-1.5 rounded-full self-start sm:self-auto whitespace-nowrap">
-                        Цены указаны за работу, в рублях
-                      </span>
-                    </div>
+        {/* ── Desktop: sidebar + panel / Mobile: panel only ── */}
+        <div className="flex gap-5 items-start">
 
-                    {/* Service rows */}
-                    <PriceTable slug={activeSlug} />
+          {/* LEFT SIDEBAR — desktop only */}
+          <div className="hidden lg:flex flex-col gap-2 w-64 xl:w-72 shrink-0 sticky top-24">
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeSlug === cat.slug;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleSelect(cat.slug)}
+                  className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-all border ${
+                    isActive
+                      ? "bg-[#2B3A2E] border-[#1a2a1e] shadow-lg"
+                      : "bg-white border-stone-200 hover:border-[#E07B00]/40 hover:shadow-sm"
+                  }`}
+                >
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                    isActive ? "bg-[#1a2a1e]" : "bg-stone-50 border border-stone-100 group-hover:bg-orange-50"
+                  }`}>
+                    <Icon className={`w-4 h-4 transition-colors ${isActive ? "text-orange-300" : "text-[#E07B00]"}`} />
                   </div>
-                </motion.div>
-              )}
+                  <span className={`font-semibold text-sm leading-tight transition-colors ${
+                    isActive ? "text-white" : "text-stone-800"
+                  }`}>
+                    {cat.title}
+                  </span>
+                  {isActive && (
+                    <ChevronRight className="w-4 h-4 text-orange-300 ml-auto shrink-0" />
+                  )}
+                </button>
+              );
+            })}
+
+            {/* Call block at sidebar bottom */}
+            <div className="mt-4 rounded-xl bg-[#2B3A2E] p-4 text-center">
+              <p className="text-stone-300 text-xs mb-3 leading-relaxed">Не нашли нужную услугу? Звоните — подскажем!</p>
+              <a
+                href="tel:+79202295656"
+                className="inline-flex items-center gap-2 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold px-4 py-2.5 rounded-lg text-sm transition-colors w-full justify-center"
+              >
+                <Phone className="w-4 h-4" />
+                Позвонить
+              </a>
+            </div>
+          </div>
+
+          {/* RIGHT PANEL — price table, stable height */}
+          <div
+            ref={mobilePanelRef}
+            className="flex-1 min-w-0 bg-white border border-[#D4CFC8] rounded-2xl shadow-lg"
+          >
+            {/* Panel header — sticky on mobile so category title stays visible while scrolling */}
+            <div className="sticky top-[52px] lg:static z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-stone-100 bg-stone-50 rounded-t-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[#2B3A2E] rounded-lg flex items-center justify-center shrink-0">
+                  <activeCategory.icon className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-stone-900 leading-tight">{activeCategory.title}</h3>
+                  <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">{activeCategory.description}</p>
+                </div>
+              </div>
+              <span className="text-xs text-stone-500 bg-white border border-stone-200 px-3 py-1.5 rounded-full self-start sm:self-auto whitespace-nowrap">
+                Цены в рублях, за работу
+              </span>
+            </div>
+
+            {/* Content area — crossfade on slug change, no height jump */}
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={activeSlug}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                <PriceTable slug={activeSlug} />
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>

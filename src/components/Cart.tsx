@@ -16,9 +16,10 @@ export default function Cart() {
 
   return (
     <>
+      {/* Mobile: compact round button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 bg-[#E07B00] text-white p-4 rounded-full shadow-lg shadow-orange-900/30 hover:bg-[#B86300] hover:-translate-y-1 transition-all flex items-center justify-center gap-2 group"
+        className="md:hidden fixed bottom-6 right-6 z-40 bg-[#E07B00] text-white p-4 rounded-full shadow-lg shadow-orange-900/30 hover:bg-[#B86300] hover:-translate-y-1 transition-all flex items-center justify-center"
       >
         <div className="relative">
           <ShoppingCart className="w-6 h-6" />
@@ -26,7 +27,24 @@ export default function Cart() {
             {items.length}
           </span>
         </div>
-        <span className="hidden group-hover:inline font-semibold pr-2">Оформить</span>
+      </button>
+
+      {/* Desktop: wide pill with label + count + total */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="hidden md:flex fixed bottom-8 right-8 z-40 items-center gap-3 bg-[#E07B00] hover:bg-[#B86300] text-white font-semibold px-5 py-4 rounded-2xl shadow-xl shadow-orange-900/30 hover:-translate-y-1 transition-all"
+      >
+        <div className="relative shrink-0">
+          <ShoppingCart className="w-6 h-6" />
+          <span className="absolute -top-2.5 -right-2.5 bg-[#1C1C1C] text-[#E07B00] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm">
+            {items.length}
+          </span>
+        </div>
+        <div className="flex flex-col items-start leading-tight">
+          <span className="text-sm font-bold">Моя корзина</span>
+          <span className="text-xs text-orange-200">{items.length} {items.length === 1 ? "услуга" : items.length < 5 ? "услуги" : "услуг"} · {totalPrice.toLocaleString("ru-RU")} ₽</span>
+        </div>
+        <ArrowRight className="w-5 h-5 ml-1 shrink-0" />
       </button>
 
       <AnimatePresence>

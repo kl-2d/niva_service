@@ -100,7 +100,11 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         placeholder="Иван"
                         className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) => {
+                          // Запрет цифр в имени
+                          const val = e.target.value.replace(/[0-9]/g, "");
+                          setFormData({ ...formData, name: val });
+                        }}
                       />
                     </div>
                   </div>
@@ -113,20 +117,49 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         required
                         type="tel"
                         placeholder="+7 (999) 000-00-00"
-                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-stone-500"
+                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) => {
+                          // Оставляем только цифры
+                          const digits = e.target.value.replace(/\D/g, "").slice(0, 11);
+                          // Форматируем: +7 (XXX) XXX-XX-XX
+                          let formatted = "";
+                          if (digits.length === 0) { formatted = ""; }
+                          else if (digits.length <= 1) { formatted = "+7"; }
+                          else if (digits.length <= 4) { formatted = `+7 (${digits.slice(1)}`; }
+                          else if (digits.length <= 7) { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`; }
+                          else if (digits.length <= 9) { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`; }
+                          else { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`; }
+                          setFormData({ ...formData, phone: formatted });
+                        }}
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1">
                     <label className="text-sm text-stone-700 font-medium">Желаемая дата (необязательно)</label>
-                    <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+                    <div
+                      className="relative flex items-center gap-2 bg-white border border-stone-300 rounded-lg px-3 py-3 focus-within:ring-2 focus-within:ring-[#E07B00] focus-within:border-[#E07B00] transition-all cursor-pointer"
+                      onClick={() => { (document.getElementById('checkout-date') as HTMLInputElement)?.showPicker?.(); }}
+                    >
+                      <Calendar className="w-5 h-5 text-stone-400 shrink-0" />
+                      <span className={`flex-1 text-sm ${formData.date ? 'text-stone-900' : 'text-stone-400'}`}>
+                        {formData.date
+                          ? new Date(formData.date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
+                          : 'дд.мм.гггг'}
+                      </span>
+                      <button
+                        type="button"
+                        className="flex items-center gap-1.5 bg-[#E07B00] hover:bg-[#B86300] text-white text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shrink-0"
+                        onClick={(ev) => { ev.stopPropagation(); (document.getElementById('checkout-date') as HTMLInputElement)?.showPicker?.(); }}
+                      >
+                        <Calendar className="w-3.5 h-3.5" />
+                        Выбрать дату
+                      </button>
                       <input
+                        id="checkout-date"
                         type="date"
-                        className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all text-stone-500"
+                        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                         value={formData.date}
                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                       />
