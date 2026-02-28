@@ -44,20 +44,20 @@ function PriceTable({ slug }: { slug: string }) {
 
   if (loading) {
     return (
-      <div className="py-12 text-center text-stone-500">
-        <div className="inline-block w-6 h-6 border-2 border-stone-300 border-t-[#E07B00] rounded-full animate-spin mb-3" />
-        <p>Загружаем прайс-лист…</p>
+      <div className="py-16 text-center text-stone-500">
+        <div className="inline-block w-7 h-7 border-2 border-stone-300 border-t-[#E07B00] rounded-full animate-spin mb-4" />
+        <p className="text-base">Загружаем прайс-лист…</p>
       </div>
     );
   }
 
   if (services.length === 0) {
     return (
-      <div className="py-10 text-center">
-        <p className="text-stone-500 mb-4">Подробный прайс-лист скоро появится.</p>
+      <div className="py-14 text-center">
+        <p className="text-stone-500 mb-5 text-base">Подробный прайс-лист скоро появится.</p>
         <a
-          href="tel:+7XXXXXXXXXX"
-          className="inline-flex items-center gap-2 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold px-5 py-2.5 rounded-lg transition-colors"
+          href="tel:+79202295656"
+          className="inline-flex items-center gap-2 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold px-6 py-3 rounded-lg transition-colors text-base"
         >
           <Phone className="w-4 h-4" />
           Узнать цену по телефону
@@ -72,7 +72,7 @@ function PriceTable({ slug }: { slug: string }) {
       <div className="hidden md:grid grid-cols-[1fr_auto_auto] gap-4 px-6 py-3 bg-stone-50 text-xs font-semibold text-stone-500 uppercase tracking-wider">
         <span>Услуга</span>
         <span className="text-right pr-4">Цена</span>
-        <span className="w-24 text-center">В заказ</span>
+        <span className="w-28 text-center">В заказ</span>
       </div>
 
       {services.map((item, idx) => {
@@ -87,23 +87,23 @@ function PriceTable({ slug }: { slug: string }) {
           >
             {/* Title */}
             <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 text-orange-200 group-hover:text-[#E07B00] transition-colors shrink-0" />
-              <span className="text-stone-800 font-medium text-sm">{item.title}</span>
+              <CheckCircle2 className="w-4 h-4 text-stone-300 group-hover:text-[#E07B00] transition-colors shrink-0" />
+              <span className="text-stone-800 font-medium text-base">{item.title}</span>
             </div>
 
             {/* Price + button row on mobile, separate cols on desktop */}
             <div className="flex items-center justify-between pl-7 md:pl-0 md:contents">
-              <span className="font-mono font-bold text-stone-900 text-base md:text-right md:pr-4 whitespace-nowrap">
+              <span className="font-mono font-bold text-stone-900 text-lg md:text-right md:pr-4 whitespace-nowrap">
                 {item.price.toLocaleString("ru-RU")} ₽
               </span>
               <button
                 onClick={() => addItem(item)}
                 disabled={isAdded}
                 title={isAdded ? "Уже в заказе" : "Добавить в заказ"}
-                className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all md:w-24 ${
+                className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all md:w-28 ${
                   isAdded
-                    ? "bg-emerald-100 text-[#E07B00] border border-emerald-200 cursor-default"
-                    : "bg-orange-100 text-[#1A1A1A] border border-orange-300 hover:bg-orange-200 cursor-pointer"
+                    ? "bg-stone-100 text-stone-400 border border-stone-200 cursor-default"
+                    : "bg-orange-100 text-[#1A1A1A] border border-orange-300 hover:bg-[#E07B00] hover:text-white hover:border-[#E07B00] cursor-pointer"
                 }`}
               >
                 {isAdded ? (
@@ -127,20 +127,21 @@ function PriceTable({ slug }: { slug: string }) {
 
 export default function ServicesSection() {
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
-  const tableRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (slug: string) => {
-    const next = activeSlug === slug ? null : slug;
-    setActiveSlug(next);
-    if (next) {
-      setTimeout(() => tableRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    const isClosing = activeSlug === slug;
+    setActiveSlug(isClosing ? null : slug);
+    // Scroll to panel only when opening
+    if (!isClosing) {
+      setTimeout(() => panelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
     }
   };
 
   const activeCategory = CATEGORIES.find((c) => c.slug === activeSlug);
 
   return (
-    <section className="py-24 bg-stone-100" id="services">
+    <section className="py-24 bg-[#F5F2EC]" id="services">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* Header */}
@@ -149,7 +150,7 @@ export default function ServicesSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold text-stone-900 mb-4 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-bold text-[#1A1A1A] mb-4 uppercase tracking-tight"
           >
             Перечень ремонтных работ
           </motion.h2>
@@ -167,7 +168,7 @@ export default function ServicesSection() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-[#2B3A2E] mx-auto rounded-full mt-5"
+            className="h-1 bg-[#E07B00] mx-auto rounded-full mt-5"
           />
         </div>
 
@@ -187,7 +188,7 @@ export default function ServicesSection() {
                 className={`text-left cursor-pointer rounded-xl p-5 border transition-all duration-200 flex flex-col group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E07B00] ${
                   isActive
                     ? "bg-[#2B3A2E] border-[#1a2a1e] shadow-lg -translate-y-0.5"
-                    : "bg-white border-stone-200 hover:border-[#E07B00]/40 hover:-translate-y-0.5 hover:shadow-md"
+                    : "bg-white border-[#D4CFC8] hover:border-[#E07B00]/40 hover:-translate-y-0.5 hover:shadow-md"
                 }`}
               >
                 <div className={`w-11 h-11 rounded-lg flex items-center justify-center mb-4 transition-colors ${
@@ -197,23 +198,23 @@ export default function ServicesSection() {
                 }`}>
                   <Icon className={`w-5 h-5 transition-colors ${isActive ? "text-white" : "text-[#E07B00]"}`} />
                 </div>
-                <h3 className={`font-bold text-base mb-1.5 transition-colors leading-snug ${
+                <h3 className={`font-bold text-base md:text-lg mb-2 transition-colors leading-snug ${
                   isActive ? "text-white" : "text-stone-900"
                 }`}>
                   {cat.title}
                 </h3>
-                <p className={`text-xs leading-relaxed transition-colors ${
-                  isActive ? "text-orange-200" : "text-stone-500"
+                <p className={`text-sm leading-relaxed transition-colors flex-1 ${
+                  isActive ? "text-stone-300" : "text-stone-500"
                 }`}>
                   {cat.description}
                 </p>
-                <div className={`flex items-center gap-1 mt-3 text-xs font-semibold transition-colors ${
+                <div className={`flex items-center gap-1 mt-3 text-sm font-semibold transition-colors ${
                   isActive ? "text-orange-300" : "text-[#E07B00]"
                 }`}>
                   {isActive ? (
-                    <>Скрыть прайс <ChevronDown className="w-3.5 h-3.5 rotate-180" /></>
+                    <>Скрыть прайс <ChevronDown className="w-4 h-4 rotate-180" /></>
                   ) : (
-                    <>Открыть прайс <ChevronDown className="w-3.5 h-3.5" /></>
+                    <>Открыть прайс <ChevronDown className="w-4 h-4" /></>
                   )}
                 </div>
               </motion.button>
@@ -221,45 +222,55 @@ export default function ServicesSection() {
           })}
         </div>
 
-        {/* Price table panel */}
-        <div ref={tableRef}>
-          <AnimatePresence mode="wait">
-            {activeSlug && activeCategory && (
-              <motion.div
-                key={activeSlug}
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <div className="bg-white border border-stone-200 rounded-2xl shadow-lg overflow-hidden">
-                  {/* Panel header */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-stone-200 bg-stone-50">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-[#2B3A2E] rounded-lg flex items-center justify-center shrink-0">
-                        <activeCategory.icon className="w-5 h-5 text-white" />
+        {/* 
+          Price table panel — CSS Grid trick for smooth height animation.
+          grid-rows-[0fr] → grid-rows-[1fr] transitions height without layout jumps.
+          The footer stays in place because height changes are contained inside.
+        */}
+        <div
+          ref={panelRef}
+          className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+            activeSlug ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait">
+              {activeSlug && activeCategory && (
+                <motion.div
+                  key={activeSlug}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="pt-2 pb-4"
+                >
+                  <div className="bg-white border border-[#D4CFC8] rounded-2xl shadow-lg overflow-hidden">
+                    {/* Panel header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-stone-200 bg-stone-50">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[#2B3A2E] rounded-lg flex items-center justify-center shrink-0">
+                          <activeCategory.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-stone-900">{activeCategory.title}</h3>
+                          <p className="text-sm text-stone-500">{activeCategory.description}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-bold text-stone-900">{activeCategory.title}</h3>
-                        <p className="text-xs text-stone-500">{activeCategory.description}</p>
-                      </div>
+                      <span className="text-xs text-stone-500 bg-white border border-stone-200 px-3 py-1.5 rounded-full self-start sm:self-auto whitespace-nowrap">
+                        Цены указаны за работу, в рублях
+                      </span>
                     </div>
-                    <span className="text-xs text-stone-500 bg-white border border-stone-200 px-3 py-1.5 rounded-full self-start sm:self-auto whitespace-nowrap">
-                      Цены указаны за работу, в рублях
-                    </span>
-                  </div>
 
-                  {/* Service rows */}
-                  <PriceTable slug={activeSlug} />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    {/* Service rows */}
+                    <PriceTable slug={activeSlug} />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
       </div>
     </section>
   );
 }
-
