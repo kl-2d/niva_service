@@ -1,5 +1,4 @@
-import Services from "@/components/Services";
-import EnginePricing from "@/components/EnginePricing";
+import ServicesSection from "@/components/ServicesSection";
 
 export const metadata = {
   title: "Услуги и цены | НИВА СЕРВИС",
@@ -9,8 +8,8 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <div className="pt-8 pb-16">
-      <Services />
-      <EnginePricing />
+      <ServicesSection />
     </div>
   );
 }
+

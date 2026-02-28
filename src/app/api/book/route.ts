@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { google } from "googleapis";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { name, phone, date, services, totalPrice } = body;
 
-    // Validate request
     if (!name || !phone || !services || services.length === 0) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -26,87 +26,58 @@ export async function POST(req: Request) {
           services: JSON.stringify(services),
           totalPrice,
           status: "NEW",
-        }
+        },
       });
     } catch (dbError) {
       console.error("Database storage failed:", dbError);
     }
 
-    // --- Email Sending Logic ---
+    // --- Email via Resend ---
     try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT) || 465,
-        secure: true,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
-        },
+      const serviceList = (services as { title: string; price: number }[])
+        .map((s) => `<li>${s.title} — <b>${s.price.toLocaleString("ru-RU")} ₽</b></li>`)
+        .join("");
+
+      const recipients = (process.env.MANAGER_EMAIL || "").split(",").map(e => e.trim()).filter(Boolean);
+
+      const { data, error } = await resend.emails.send({
+        from: "Нива Сервис <onboarding@resend.dev>",
+        to: recipients,
+        subject: `🔧 Новая заявка с сайта от: ${name}`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
+            <h2 style="color:#1a3a2a;border-bottom:2px solid #e8a000;padding-bottom:8px">
+              🔧 Новая заявка на ремонт — Нива Сервис
+            </h2>
+            <table style="width:100%;border-collapse:collapse">
+              <tr><td style="padding:6px 0;color:#666;width:140px">Клиент:</td><td><b>${name}</b></td></tr>
+              <tr><td style="padding:6px 0;color:#666">Телефон:</td><td><b>${phone}</b></td></tr>
+              <tr><td style="padding:6px 0;color:#666">Желаемая дата:</td><td>${date || "Не указана"}</td></tr>
+            </table>
+            <h3 style="margin-top:20px;color:#1a3a2a">Выбранные услуги:</h3>
+            <ul style="padding-left:20px;line-height:1.8">${serviceList}</ul>
+            <div style="margin-top:16px;padding:12px 16px;background:#f5f5f0;border-left:4px solid #e8a000;border-radius:4px">
+              <b>Итого: ${Number(totalPrice).toLocaleString("ru-RU")} ₽</b>
+            </div>
+            <p style="margin-top:20px;color:#999;font-size:12px">
+              ${new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })}
+            </p>
+          </div>
+        `,
       });
 
-      const htmlContent = `
-        <h2>Новая заявка на ремонт</h2>
-        <b>Имя:</b> ${name}<br/>
-        <b>Телефон:</b> ${phone}<br/>
-        <b>Желаемая дата:</b> ${date || "Не указана"}<br/>
-        <b>Выбранные услуги:</b>
-        <ul>
-          ${services.map((s: { title: string; price: number }) => `<li>${s.title} (${s.price} руб.)</li>`).join('')}
-        </ul>
-        <b>Итоговая сумма:</b> ${totalPrice} руб.
-      `;
-
-      await transporter.sendMail({
-        from: `"Нива Сервис" <${process.env.SMTP_USER}>`,
-        to: process.env.MANAGER_EMAIL,
-        subject: `Новая заявка с сайта от: ${name}`,
-        html: htmlContent,
-      });
-    } catch (error) {
-      console.error("Email sending failed:", error);
-    }
-
-    // --- Google Sheets Integration ---
-    const auth = new google.auth.JWT({
-      email: process.env.GOOGLE_CLIENT_EMAIL,
-      key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      scopes: ['https://www.googleapis.com/auth/spreadsheets']
-    });
-
-    const sheets = google.sheets({ version: 'v4', auth });
-    
-    // Format services into a single string, including desired date if provided
-    let formattedServicesString = services.map((s: { title: string }) => s.title).join(', ');
-    if (date) {
-      formattedServicesString += ` | Желаемая дата: ${date}`;
-    }
-
-    // Append to sheet
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: 'A:E',
-      valueInputOption: 'USER_ENTERED',
-      requestBody: {
-        values: [
-          [
-            new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' }), 
-            name, 
-            phone, 
-            formattedServicesString, 
-            totalPrice
-          ]
-        ]
+      if (error) {
+        console.error("Resend book error:", JSON.stringify(error, null, 2));
+      } else {
+        console.log("Email sent via Resend to:", recipients, "| id:", data?.id);
       }
-    });
+    } catch (emailError) {
+      console.error("Resend email failed:", emailError);
+    }
 
     return NextResponse.json({ success: true, message: "Booking received" });
   } catch (error) {
     console.error("Booking API Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

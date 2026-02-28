@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const categorySlug = searchParams.get("categorySlug");
+
     const services = await prisma.service.findMany({
-      orderBy: { createdAt: "desc" },
+      where: categorySlug
+        ? { category: { slug: categorySlug } }
+        : undefined,
+      include: { category: true },
+      orderBy: { id: "asc" },
     });
     return NextResponse.json(services);
   } catch (error) {
@@ -18,15 +23,16 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, description, price, category } = body;
+    const { title, description, price, categoryId } = body;
 
     const newService = await prisma.service.create({
       data: {
         title,
         description,
         price: parseInt(price, 10),
-        category: category || "engine",
+        categoryId: categoryId ? parseInt(categoryId, 10) : null,
       },
+      include: { category: true },
     });
 
     return NextResponse.json(newService, { status: 201 });

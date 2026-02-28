@@ -12,9 +12,17 @@ model Service {
   title       String
   description String?
   price       Int
-  category    String   @default("engine")
+  categoryId  Int?     // For relation
+  category    Category? @relation(fields: [categoryId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    // e.g. "Ремонт двигателя"
+  slug        String    @unique // e.g. "engine"
+  services    Service[] // Relation back to services
 }
 
 model Booking {

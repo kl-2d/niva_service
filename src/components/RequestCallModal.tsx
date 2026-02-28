@@ -22,17 +22,28 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
     e.preventDefault();
     setLoading(true);
 
-    // Имитация отправки данных для демо-версии
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/callback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setSuccess(true);
+        setTimeout(() => {
+          onClose();
+          setSuccess(false);
+          setFormData({ name: "", phone: "" });
+        }, 3000);
+      }
+    } catch (err) {
+      console.error("Callback request failed:", err);
+    } finally {
       setLoading(false);
-      setSuccess(true);
-      setTimeout(() => {
-        onClose();
-        setSuccess(false);
-        setFormData({ name: "", phone: "" });
-      }, 3000);
-    }, 1500);
+    }
   };
+
 
   return (
     <AnimatePresence>

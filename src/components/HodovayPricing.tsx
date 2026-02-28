@@ -1,0 +1,136 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { AlertCircle, CheckCircle2, Plus } from "lucide-react";
+import { Service } from "@prisma/client";
+import { useCartStore } from "@/store/useCartStore";
+
+const symptoms = [
+  "Стук в подвеске на кочках",
+  "Увод машины в сторону",
+  "Вибрация на руле",
+  "Скрип при повороте",
+  "Неравномерный износ шин",
+  "Тяжёлое управление (ГУР не работает)",
+];
+
+export default function HodovayPricing() {
+  const [prices, setPrices] = useState<Service[]>([]);
+  const { addItem, items } = useCartStore();
+
+  useEffect(() => {
+    fetch("/api/services?categorySlug=hodovoy")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setPrices(data);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  return (
+    <section className="py-20 bg-stone-50 border-t border-stone-200" id="hodovay-repair">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+
+          <div className="lg:w-1/3">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="sticky top-24"
+            >
+              <h2 className="text-3xl font-bold text-stone-900 mb-6 uppercase tracking-tight">
+                Ремонт ходовой части
+              </h2>
+              <p className="text-stone-700 mb-6 text-lg">
+                Диагностика и ремонт подвески, тормозов, рулевого управления. Специализируемся на НИВА 21213 / 2123.
+              </p>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-4 text-stone-900 font-bold">
+                  <AlertCircle className="w-6 h-6 text-emerald-800" />
+                  <h3>Вам нужен ремонт, если:</h3>
+                </div>
+                <ul className="space-y-3">
+                  {symptoms.map((symptom, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-stone-700 text-sm">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-800 mt-2 shrink-0" />
+                      {symptom}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="lg:w-2/3 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-lg"
+            >
+              <div className="p-6 md:p-8 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+                <h3 className="text-xl font-bold text-stone-900">Прайс-лист на работы</h3>
+                <span className="text-xs text-stone-500 bg-white border border-stone-200 px-3 py-1 rounded-full shadow-sm">
+                  Цены в рублях
+                </span>
+              </div>
+
+              <div className="p-6 md:p-8">
+                <ul className="space-y-4">
+                  {prices.map((item, idx) => {
+                    const isAdded = items.some((i) => i.id === item.id);
+                    return (
+                      <motion.li
+                        key={item.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.03 }}
+                        className="flex items-end gap-4 group"
+                      >
+                        <div className="flex items-center gap-3 shrink-0">
+                          <CheckCircle2 className="w-5 h-5 text-emerald-200 group-hover:text-emerald-800 transition-colors" />
+                          <span className="text-stone-700 group-hover:text-stone-900 font-medium transition-colors">
+                            {item.title}
+                          </span>
+                        </div>
+
+                        <div className="flex-grow border-b border-dotted border-stone-300 mb-1 opacity-50 group-hover:border-emerald-300 transition-colors" />
+
+                        <div className="flex items-center gap-4 shrink-0">
+                          <span className="font-mono text-lg font-bold text-stone-900">
+                            {item.price} ₽
+                          </span>
+                          <button
+                            onClick={() => addItem(item)}
+                            disabled={isAdded}
+                            className={`flex items-center justify-center p-2 rounded transition-colors font-bold ${
+                              isAdded
+                                ? "bg-stone-100 text-stone-500 border border-stone-200 cursor-not-allowed"
+                                : "bg-amber-100 text-stone-900 border border-amber-200 hover:bg-amber-500"
+                            }`}
+                          >
+                            {isAdded ? "Добавлено" : <Plus className="w-5 h-5" />}
+                          </button>
+                        </div>
+                      </motion.li>
+                    );
+                  })}
+                  {prices.length === 0 && (
+                    <li className="text-center text-stone-500 py-4">Загрузка прайс-листа...</li>
+                  )}
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
