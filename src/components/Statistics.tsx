@@ -43,7 +43,7 @@ const stats = [
     value: 100,
     suffix: "%",
     label: "гарантия качества",
-    color: "text-blue-500",
+    color: "text-orange-500",
   },
   {
     id: 2,
@@ -51,7 +51,7 @@ const stats = [
     value: 15,
     suffix: " лет",
     label: "успешной работы",
-    color: "text-blue-600",
+    color: "text-orange-600",
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const stats = [
     value: 10,
     suffix: "",
     label: "высококлассных специалистов",
-    color: "text-green-500",
+    color: "text-stone-600",
   },
   {
     id: 4,
@@ -67,13 +67,13 @@ const stats = [
     value: 2000,
     suffix: "+",
     label: "выполненных заказов в год",
-    color: "text-red-500",
+    color: "text-stone-800",
   },
 ];
 
 export default function Statistics() {
   return (
-    <section className="py-20 bg-white border-b border-gray-200">
+    <section className="py-20 bg-white border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => {
@@ -85,15 +85,15 @@ export default function Statistics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-blue-200 transition-colors group shadow-sm hover:shadow"
+                className="flex flex-col items-center justify-center p-6 bg-stone-50 rounded-2xl border border-stone-100 hover:border-orange-200 transition-colors group shadow-sm hover:shadow"
               >
-                <div className={`p-4 rounded-full bg-white border border-gray-100 mb-4 group-hover:bg-gray-50 transition-colors ${stat.color}`}>
+                <div className={`p-4 rounded-full bg-white border border-stone-100 mb-4 group-hover:bg-stone-50 transition-colors ${stat.color}`}>
                   <IconComponent className="w-8 h-8" />
                 </div>
-                <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 font-mono tabular-nums">
+                <h3 className="text-4xl md:text-5xl font-bold text-stone-900 mb-2 font-mono tabular-nums">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h3>
-                <p className="text-gray-500 text-center uppercase tracking-wider text-sm font-medium">
+                <p className="text-stone-500 text-center uppercase tracking-wider text-sm font-medium">
                   {stat.label}
                 </p>
               </motion.div>

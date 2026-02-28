@@ -13,7 +13,7 @@ export default function AboutPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 uppercase tracking-tight"
+            className="text-4xl md:text-5xl font-bold text-stone-900 mb-6 uppercase tracking-tight"
           >
             О компании
           </motion.h1>
@@ -21,7 +21,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: "80px" }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-blue-600 mx-auto rounded-full"
+            className="h-1 bg-orange-500 mx-auto rounded-full"
           />
         </div>
 
@@ -32,40 +32,40 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-stone-900 mb-6">
               Специализированный сервис НИВА
             </h2>
-            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+            <p className="text-lg text-stone-700 mb-6 leading-relaxed">
               Мы более 15 лет занимаемся исключительно ремонтом и тюнингом автомобилей семейства Нива. 
               За это время мы накопили колоссальный опыт решения самых нестандартных проблем и разработали 
               собственные технологические решения, подтвержденные патентами.
             </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
                   <Award className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">15 лет опыта</h4>
-                  <p className="text-gray-700 text-sm">Знаем каждую гайку в Ниве</p>
+                  <h4 className="font-semibold text-stone-900">15 лет опыта</h4>
+                  <p className="text-stone-700 text-sm">Знаем каждую гайку в Ниве</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Запатентованные технологии</h4>
-                  <p className="text-gray-700 text-sm">Уникальные решения по усилению узлов</p>
+                  <h4 className="font-semibold text-stone-900">Запатентованные технологии</h4>
+                  <p className="text-stone-700 text-sm">Уникальные решения по усилению узлов</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
                   <Wrench className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Узкая специализация</h4>
-                  <p className="text-gray-700 text-sm">Ремонтируем только Нивы и Шевроле Нива</p>
+                  <h4 className="font-semibold text-stone-900">Узкая специализация</h4>
+                  <p className="text-stone-700 text-sm">Ремонтируем только Нивы и Шевроле Нива</p>
                 </div>
               </li>
             </ul>
@@ -74,10 +74,10 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-gray-100 rounded-2xl h-80 flex items-center justify-center text-gray-500 overflow-hidden relative"
+            className="bg-stone-100 rounded-2xl h-80 flex items-center justify-center text-stone-500 overflow-hidden relative"
           >
             {/* Placeholder for an actual photo of the garage */}
-            <div className="absolute inset-0 bg-blue-900/10 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-stone-900/10 mix-blend-multiply" />
             <img 
               src="https://images.unsplash.com/photo-1611155876008-62025f191b7d?q=80&w=1000&auto=format&fit=crop" 
               alt="Ремонтная зона Нива Сервис" 
@@ -89,8 +89,8 @@ export default function AboutPage() {
         {/* Video Reviews */}
         <div className="mb-20">
           <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Видео отзывы наших клиентов</h3>
-            <p className="text-gray-700">Посмотрите, что говорят владельцы Нив о нашей работе</p>
+            <h3 className="text-2xl font-bold text-stone-900 mb-4">Видео отзывы наших клиентов</h3>
+            <p className="text-stone-700">Посмотрите, что говорят владельцы Нив о нашей работе</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((item) => (
@@ -100,7 +100,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: item * 0.1 }}
-                className="aspect-video bg-gray-200 rounded-xl overflow-hidden relative shadow-sm"
+                className="aspect-video bg-stone-200 rounded-xl overflow-hidden relative shadow-sm"
               >
                 <iframe 
                   className="w-full h-full"
@@ -116,44 +116,44 @@ export default function AboutPage() {
         </div>
 
         {/* Contacts & Map */}
-        <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden shadow-sm" id="contacts">
+        <div className="bg-stone-50 border border-stone-200 rounded-2xl overflow-hidden shadow-sm" id="contacts">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/3 p-8 lg:p-12 bg-white">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Контакты</h3>
+              <h3 className="text-2xl font-bold text-stone-900 mb-8">Контакты</h3>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                  <MapPin className="w-6 h-6 text-orange-500 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-semibold text-gray-900">Адрес</h4>
-                    <p className="text-gray-700 mt-1">г. Воронеж, ул. Матросова, 100</p>
+                    <h4 className="font-semibold text-stone-900">Адрес</h4>
+                    <p className="text-stone-700 mt-1">г. Воронеж, ул. Матросова, 100</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <Phone className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                  <Phone className="w-6 h-6 text-orange-500 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-semibold text-gray-900">Телефоны</h4>
+                    <h4 className="font-semibold text-stone-900">Телефоны</h4>
                     <div className="mt-1 space-y-1">
-                      <a href="tel:+79202295656" className="block text-gray-700 hover:text-blue-600 transition-colors">+7 920 229-56-56</a>
-                      <a href="tel:+74732361818" className="block text-gray-700 hover:text-blue-600 transition-colors">+7 473 236-18-18</a>
+                      <a href="tel:+79202295656" className="block text-stone-700 hover:text-orange-500 transition-colors">+7 920 229-56-56</a>
+                      <a href="tel:+74732361818" className="block text-stone-700 hover:text-orange-500 transition-colors">+7 473 236-18-18</a>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <Mail className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                  <Mail className="w-6 h-6 text-orange-500 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-semibold text-gray-900">Email</h4>
-                    <a href="mailto:info@niva-service.ru" className="text-gray-700 hover:text-blue-600 transition-colors mt-1 block">info@niva-service.ru</a>
+                    <h4 className="font-semibold text-stone-900">Email</h4>
+                    <a href="mailto:info@niva-service.ru" className="text-stone-700 hover:text-orange-500 transition-colors mt-1 block">info@niva-service.ru</a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Clock className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                  <Clock className="w-6 h-6 text-orange-500 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-semibold text-gray-900">Режим работы</h4>
-                    <p className="text-gray-700 mt-1">Пн-Вс: 9:00 - 20:00</p>
+                    <h4 className="font-semibold text-stone-900">Режим работы</h4>
+                    <p className="text-stone-700 mt-1">Пн-Вс: 9:00 - 20:00</p>
                   </div>
                 </div>
               </div>

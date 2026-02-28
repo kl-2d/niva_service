@@ -8,12 +8,12 @@ export default function Hero() {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
-        className="absolute inset-0 bg-gray-100 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-stone-100 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1625047509168-a7026f36de04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')`
         }}
       >
-        <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-stone-100/80 backdrop-blur-[2px]"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 w-full pt-16 pb-24 text-center">
@@ -27,11 +27,11 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="mb-6 inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full shadow-sm"
+            className="mb-6 inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-stone-800 bg-stone-200 border border-stone-300 rounded-full shadow-sm"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
             Работаем для вас с 2008 года
           </motion.div>
@@ -40,16 +40,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-6 uppercase tracking-tight leading-tight"
+            className="text-4xl md:text-5xl lg:text-7xl font-bold text-stone-900 mb-6 uppercase tracking-tight leading-tight"
           >
-            Комплексный ремонт автомобилей <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">НИВА</span> и CHEVROLET NIVA
+            Комплексный ремонт автомобилей <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">НИВА</span> и CHEVROLET NIVA
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-lg md:text-2xl text-gray-700 mb-10 max-w-2xl mx-auto font-light"
+            className="text-lg md:text-2xl text-stone-700 mb-10 max-w-2xl mx-auto font-light"
           >
             В единственном специализированном сервисе Воронежа. Качество, проверенное временем.
           </motion.p>
@@ -64,7 +64,7 @@ export default function Hero() {
               Бесплатная диагностика
               <ChevronRight className="w-5 h-5" />
             </button>
-            <a href="#services" className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 rounded-lg font-medium text-lg transition-colors border border-gray-200 shadow-sm">
+            <a href="#services" className="w-full sm:w-auto px-8 py-4 bg-stone-50 hover:bg-stone-200 text-stone-900 rounded-lg font-medium text-lg transition-colors border border-stone-300 shadow-sm">
               Наши услуги
             </a>
           </motion.div>
@@ -72,7 +72,7 @@ export default function Hero() {
       </div>
 
       {/* Decorative gradient overlay at the bottom */}
-      <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-gray-50 to-transparent z-10"></div>
+      <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-stone-50 to-transparent z-10"></div>
     </section>
   );
 }

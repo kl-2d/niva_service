@@ -5,15 +5,5 @@
 }
 
 body {
-  @apply bg-zinc-900 text-zinc-300;
   font-family: var(--font-sans), sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply text-white;
 }
