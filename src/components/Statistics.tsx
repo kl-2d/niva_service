@@ -43,7 +43,7 @@ const stats = [
     value: 100,
     suffix: "%",
     label: "гарантия качества",
-    color: "text-emerald-800",
+    color: "text-[#E07B00]",
   },
   {
     id: 2,
@@ -51,7 +51,7 @@ const stats = [
     value: 15,
     suffix: " лет",
     label: "успешной работы",
-    color: "text-emerald-700",
+    color: "text-[#E07B00]",
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const stats = [
     value: 10,
     suffix: "",
     label: "высококлассных специалистов",
-    color: "text-stone-600",
+    color: "text-[#2B3A2E]",
   },
   {
     id: 4,
@@ -67,13 +67,13 @@ const stats = [
     value: 2000,
     suffix: "+",
     label: "выполненных заказов в год",
-    color: "text-stone-800",
+    color: "text-[#2B3A2E]",
   },
 ];
 
 export default function Statistics() {
   return (
-    <section className="py-20 bg-stone-100 border-b border-stone-200">
+    <section className="py-20 bg-[#F5F2EC] border-b border-[#D4CFC8]">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => {
@@ -85,9 +85,9 @@ export default function Statistics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-stone-200 hover:border-emerald-200 transition-colors group shadow-sm hover:shadow"
+                className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-[#D4CFC8] hover:border-[#E07B00]/40 transition-colors group shadow-sm hover:shadow"
               >
-                <div className={`p-4 rounded-full bg-stone-50 border border-stone-100 mb-4 group-hover:bg-white transition-colors ${stat.color}`}>
+                <div className={`p-4 rounded-full bg-stone-50 border border-stone-100 mb-4 group-hover:bg-orange-50 transition-colors ${stat.color}`}>
                   <IconComponent className="w-8 h-8" />
                 </div>
                 <h3 className="text-4xl md:text-5xl font-bold text-stone-900 mb-2 font-mono tabular-nums">

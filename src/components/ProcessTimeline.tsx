@@ -15,14 +15,14 @@ const steps = [
 
 export default function ProcessTimeline() {
   return (
-    <section className="py-24 bg-stone-100 border-t border-stone-200 overflow-hidden">
+    <section className="py-24 bg-[#F5F2EC] border-t border-[#D4CFC8] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-3xl md:text-5xl font-bold text-stone-900 mb-6 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-bold text-[#1A1A1A] mb-6 uppercase tracking-tight"
           >
             Как мы работаем
           </motion.h2>
@@ -31,7 +31,7 @@ export default function ProcessTimeline() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-emerald-800 mx-auto rounded-full"
+            className="h-1 bg-[#E07B00] mx-auto rounded-full"
           />
         </div>
 
@@ -45,7 +45,7 @@ export default function ProcessTimeline() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
-              className="h-full bg-emerald-200 origin-left"
+              className="h-full bg-[#E07B00]/30 origin-left"
             />
           </div>
 
@@ -68,18 +68,18 @@ export default function ProcessTimeline() {
 
                   {/* Icon Node */}
                   <div className="relative">
-                    <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-white border border-stone-200 shadow-sm flex items-center justify-center shrink-0 hover:border-emerald-800 transition-colors z-20 relative">
-                      <Icon className="w-8 h-8 text-emerald-800 group-hover:scale-110 transition-transform" />
+                    <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-white border border-[#D4CFC8] shadow-sm flex items-center justify-center shrink-0 hover:border-[#E07B00] transition-colors z-20 relative">
+                      <Icon className="w-8 h-8 text-[#2B3A2E] group-hover:text-[#E07B00] group-hover:scale-110 transition-all" />
                     </div>
                     
-                    <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center font-bold text-stone-900 text-sm border-4 border-stone-100 shadow-sm">
+                    <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#E07B00] flex items-center justify-center font-bold text-white text-sm border-4 border-[#F5F2EC] shadow-sm">
                       {step.id}
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="ml-6 lg:ml-0 lg:mt-6 lg:text-center pt-2 lg:pt-0">
-                    <h3 className="text-stone-900 font-bold mb-2 group-hover:text-emerald-800 transition-colors">
+                    <h3 className="text-[#1A1A1A] font-bold mb-2 group-hover:text-[#E07B00] transition-colors">
                       {step.label}
                     </h3>
                     <p className="text-stone-700 text-sm leading-snug">
