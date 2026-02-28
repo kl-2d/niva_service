@@ -18,11 +18,11 @@ export default function Cart() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 bg-blue-600 text-white p-4 rounded-full shadow-lg shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 group"
+        className="fixed bottom-6 right-6 z-40 bg-amber-500 text-stone-900 p-4 rounded-full shadow-lg shadow-amber-500/30 hover:bg-amber-600 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 group"
       >
         <div className="relative">
           <ShoppingCart className="w-6 h-6" />
-          <span className="absolute -top-2 -right-2 bg-white text-blue-600 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm">
+          <span className="absolute -top-2 -right-2 bg-stone-900 text-amber-500 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm">
             {items.length}
           </span>
         </div>
@@ -48,7 +48,7 @@ export default function Cart() {
             >
               <div className="p-6 border-b border-stone-200 flex justify-between items-center bg-stone-50">
                 <h2 className="text-xl font-bold text-stone-900 flex items-center gap-2">
-                  <ShoppingCart className="text-blue-600"/>
+                  <ShoppingCart className="text-emerald-800"/>
                   Ваша корзина услуг
                 </h2>
                 <button 
@@ -77,7 +77,7 @@ export default function Cart() {
                         >
                           <div>
                             <h4 className="text-stone-900 font-medium mb-1">{item.title}</h4>
-                            <span className="text-blue-600 font-mono text-sm font-semibold">{item.price} ₽</span>
+                            <span className="text-emerald-800 font-mono text-sm font-semibold">{item.price} ₽</span>
                           </div>
                           <button 
                             onClick={() => removeItem(item.id)}
@@ -99,7 +99,7 @@ export default function Cart() {
                 </div>
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 shadow-sm"
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-stone-900 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 shadow-sm"
                 >
                   Оформить заявку
                   <ArrowRight className="w-5 h-5" />

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -13,6 +14,22 @@ export async function POST(req: Request) {
         { error: "Missing required fields" },
         { status: 400 }
       );
+    }
+
+    // --- Database Storage ---
+    try {
+      await prisma.booking.create({
+        data: {
+          name,
+          phone,
+          date,
+          services: JSON.stringify(services),
+          totalPrice,
+          status: "NEW",
+        }
+      });
+    } catch (dbError) {
+      console.error("Database storage failed:", dbError);
     }
 
     // --- Email Sending Logic ---

@@ -30,8 +30,8 @@ export default function Hero() {
             className="mb-6 inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-stone-800 bg-stone-200 border border-stone-300 rounded-full shadow-sm"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             Работаем для вас с 2008 года
           </motion.div>
@@ -42,7 +42,7 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-4xl md:text-5xl lg:text-7xl font-bold text-stone-900 mb-6 uppercase tracking-tight leading-tight"
           >
-            Комплексный ремонт автомобилей <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">НИВА</span> и CHEVROLET NIVA
+            Комплексный ремонт автомобилей <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-800 to-emerald-500">НИВА</span> и CHEVROLET NIVA
           </motion.h1>
 
           <motion.p 
@@ -60,7 +60,7 @@ export default function Hero() {
             transition={{ delay: 0.7, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button className="w-full sm:w-auto px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2">
+            <button className="w-full sm:w-auto px-8 py-4 bg-amber-500 hover:bg-amber-600 text-stone-900 rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2">
               Бесплатная диагностика
               <ChevronRight className="w-5 h-5" />
             </button>

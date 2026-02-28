@@ -5,7 +5,7 @@ import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock } from "lucide-react"
 
 export default function AboutPage() {
   return (
-    <div className="pt-8 pb-24 bg-white">
+    <div className="pt-8 pb-24 bg-stone-100">
       <div className="max-w-7xl mx-auto px-4">
         
         {/* Header */}
@@ -21,7 +21,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: "80px" }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-blue-500 mx-auto rounded-full"
+            className="h-1 bg-emerald-800 mx-auto rounded-full"
           />
         </div>
 
@@ -42,7 +42,7 @@ export default function AboutPage() {
             </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 shrink-0">
                   <Award className="w-4 h-4" />
                 </div>
                 <div>
@@ -51,7 +51,7 @@ export default function AboutPage() {
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 shrink-0">
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
@@ -60,7 +60,7 @@ export default function AboutPage() {
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 shrink-0">
                   <Wrench className="w-4 h-4" />
                 </div>
                 <div>
@@ -116,14 +116,14 @@ export default function AboutPage() {
         </div>
 
         {/* Contacts & Map */}
-        <div className="bg-stone-50 border border-stone-200 rounded-2xl overflow-hidden shadow-sm" id="contacts">
+        <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm" id="contacts">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/3 p-8 lg:p-12 bg-white">
               <h3 className="text-2xl font-bold text-stone-900 mb-8">Контакты</h3>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                  <MapPin className="w-6 h-6 text-emerald-800 shrink-0 mt-1" />
                   <div>
                     <h4 className="font-semibold text-stone-900">Адрес</h4>
                     <p className="text-stone-700 mt-1">г. Воронеж, ул. Матросова, 100</p>
@@ -131,26 +131,26 @@ export default function AboutPage() {
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <Phone className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                  <Phone className="w-6 h-6 text-emerald-800 shrink-0 mt-1" />
                   <div>
                     <h4 className="font-semibold text-stone-900">Телефоны</h4>
                     <div className="mt-1 space-y-1">
-                      <a href="tel:+79202295656" className="block text-stone-700 hover:text-blue-500 transition-colors">+7 920 229-56-56</a>
-                      <a href="tel:+74732361818" className="block text-stone-700 hover:text-blue-500 transition-colors">+7 473 236-18-18</a>
+                      <a href="tel:+79202295656" className="block text-stone-700 hover:text-emerald-800 transition-colors">+7 920 229-56-56</a>
+                      <a href="tel:+74732361818" className="block text-stone-700 hover:text-emerald-800 transition-colors">+7 473 236-18-18</a>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <Mail className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                  <Mail className="w-6 h-6 text-emerald-800 shrink-0 mt-1" />
                   <div>
                     <h4 className="font-semibold text-stone-900">Email</h4>
-                    <a href="mailto:info@niva-service.ru" className="text-stone-700 hover:text-blue-500 transition-colors mt-1 block">info@niva-service.ru</a>
+                    <a href="mailto:info@niva-service.ru" className="text-stone-700 hover:text-emerald-800 transition-colors mt-1 block">info@niva-service.ru</a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Clock className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                  <Clock className="w-6 h-6 text-emerald-800 shrink-0 mt-1" />
                   <div>
                     <h4 className="font-semibold text-stone-900">Режим работы</h4>
                     <p className="text-stone-700 mt-1">Пн-Вс: 9:00 - 20:00</p>
