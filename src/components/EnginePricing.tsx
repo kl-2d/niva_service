@@ -49,9 +49,9 @@ export default function EnginePricing() {
                 Капитальный и текущий ремонт двигателей ВАЗ. Точная диагностика и честные цены на работы.
               </p>
               
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 shadow-sm">
+              <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 shadow-sm">
                 <div className="flex items-center gap-3 mb-4 text-stone-900 font-bold">
-                  <AlertCircle className="w-6 h-6 text-emerald-800" />
+                  <AlertCircle className="w-6 h-6 text-[#E07B00]" />
                   <h3>Вам нужен ремонт, если:</h3>
                 </div>
                 <ul className="space-y-3">
@@ -92,11 +92,11 @@ export default function EnginePricing() {
                         className="flex items-end gap-4 group"
                       >
                         <div className="flex items-center gap-3 shrink-0">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-200 group-hover:text-emerald-800 transition-colors" />
+                          <CheckCircle2 className="w-5 h-5 text-orange-200 group-hover:text-[#E07B00] transition-colors" />
                           <span className="text-stone-700 group-hover:text-stone-900 font-medium transition-colors">{item.title}</span>
                         </div>
                         
-                        <div className="flex-grow border-b border-dotted border-stone-300 mb-1 opacity-50 group-hover:border-emerald-300 transition-colors"></div>
+                        <div className="flex-grow border-b border-dotted border-stone-300 mb-1 opacity-50 group-hover:border-[#E07B00]/40 transition-colors"></div>
                         
                         <div className="flex items-center gap-4 shrink-0">
                           <span className="font-mono text-lg font-bold text-stone-900">
@@ -108,7 +108,7 @@ export default function EnginePricing() {
                             className={`flex items-center justify-center p-2 rounded transition-colors font-bold ${
                               isAdded 
                                 ? "bg-stone-100 text-stone-500 border border-stone-200 cursor-not-allowed" 
-                                : "bg-amber-100 text-stone-900 border border-amber-200 hover:bg-amber-500"
+                                : "bg-orange-100 text-[#1A1A1A] border border-orange-200 hover:bg-[#E07B00]"
                             }`}
                           >
                             {isAdded ? "Добавлено" : <Plus className="w-5 h-5" />}
@@ -130,3 +130,4 @@ export default function EnginePricing() {
     </section>
   );
 }
+
