@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import Statistics from "@/components/Statistics";
-import Services from "@/components/Services";
-import EnginePricing from "@/components/EnginePricing";
+import ServicesPreview from "@/components/ServicesPreview";
 import ProcessTimeline from "@/components/ProcessTimeline";
 
 export default function Home() {
@@ -9,8 +8,7 @@ export default function Home() {
     <>
       <Hero />
       <Statistics />
-      <Services />
-      <EnginePricing />
+      <ServicesPreview />
       <ProcessTimeline />
     </>
   );
