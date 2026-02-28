@@ -45,7 +45,7 @@ function PriceTable({ slug }: { slug: string }) {
   if (loading) {
     return (
       <div className="py-12 text-center text-stone-500">
-        <div className="inline-block w-6 h-6 border-2 border-stone-300 border-t-emerald-800 rounded-full animate-spin mb-3" />
+        <div className="inline-block w-6 h-6 border-2 border-stone-300 border-t-[#E07B00] rounded-full animate-spin mb-3" />
         <p>Загружаем прайс-лист…</p>
       </div>
     );
@@ -57,7 +57,7 @@ function PriceTable({ slug }: { slug: string }) {
         <p className="text-stone-500 mb-4">Подробный прайс-лист скоро появится.</p>
         <a
           href="tel:+7XXXXXXXXXX"
-          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-stone-900 font-bold px-5 py-2.5 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold px-5 py-2.5 rounded-lg transition-colors"
         >
           <Phone className="w-4 h-4" />
           Узнать цену по телефону
@@ -87,7 +87,7 @@ function PriceTable({ slug }: { slug: string }) {
           >
             {/* Title */}
             <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 text-emerald-200 group-hover:text-emerald-700 transition-colors shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-orange-200 group-hover:text-[#E07B00] transition-colors shrink-0" />
               <span className="text-stone-800 font-medium text-sm">{item.title}</span>
             </div>
 
@@ -102,8 +102,8 @@ function PriceTable({ slug }: { slug: string }) {
                 title={isAdded ? "Уже в заказе" : "Добавить в заказ"}
                 className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all md:w-24 ${
                   isAdded
-                    ? "bg-emerald-100 text-emerald-700 border border-emerald-200 cursor-default"
-                    : "bg-amber-100 text-stone-900 border border-amber-300 hover:bg-amber-400 cursor-pointer"
+                    ? "bg-emerald-100 text-[#E07B00] border border-emerald-200 cursor-default"
+                    : "bg-orange-100 text-[#1A1A1A] border border-orange-300 hover:bg-orange-200 cursor-pointer"
                 }`}
               >
                 {isAdded ? (
@@ -167,7 +167,7 @@ export default function ServicesSection() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-emerald-800 mx-auto rounded-full mt-5"
+            className="h-1 bg-[#2B3A2E] mx-auto rounded-full mt-5"
           />
         </div>
 
@@ -184,18 +184,18 @@ export default function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.4, delay: index * 0.06 }}
-                className={`text-left cursor-pointer rounded-xl p-5 border transition-all duration-200 flex flex-col group focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 ${
+                className={`text-left cursor-pointer rounded-xl p-5 border transition-all duration-200 flex flex-col group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E07B00] ${
                   isActive
-                    ? "bg-emerald-800 border-emerald-700 shadow-lg -translate-y-0.5"
-                    : "bg-white border-stone-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-md"
+                    ? "bg-[#2B3A2E] border-[#1a2a1e] shadow-lg -translate-y-0.5"
+                    : "bg-white border-stone-200 hover:border-[#E07B00]/40 hover:-translate-y-0.5 hover:shadow-md"
                 }`}
               >
                 <div className={`w-11 h-11 rounded-lg flex items-center justify-center mb-4 transition-colors ${
                   isActive
-                    ? "bg-emerald-700"
-                    : "bg-stone-50 border border-stone-100 group-hover:bg-emerald-50"
+                    ? "bg-[#1a2a1e]"
+                    : "bg-stone-50 border border-stone-100 group-hover:bg-orange-50"
                 }`}>
-                  <Icon className={`w-5 h-5 transition-colors ${isActive ? "text-white" : "text-emerald-800"}`} />
+                  <Icon className={`w-5 h-5 transition-colors ${isActive ? "text-white" : "text-[#E07B00]"}`} />
                 </div>
                 <h3 className={`font-bold text-base mb-1.5 transition-colors leading-snug ${
                   isActive ? "text-white" : "text-stone-900"
@@ -203,12 +203,12 @@ export default function ServicesSection() {
                   {cat.title}
                 </h3>
                 <p className={`text-xs leading-relaxed transition-colors ${
-                  isActive ? "text-emerald-200" : "text-stone-500"
+                  isActive ? "text-orange-200" : "text-stone-500"
                 }`}>
                   {cat.description}
                 </p>
                 <div className={`flex items-center gap-1 mt-3 text-xs font-semibold transition-colors ${
-                  isActive ? "text-amber-300" : "text-emerald-700"
+                  isActive ? "text-orange-300" : "text-[#E07B00]"
                 }`}>
                   {isActive ? (
                     <>Скрыть прайс <ChevronDown className="w-3.5 h-3.5 rotate-180" /></>
@@ -237,7 +237,7 @@ export default function ServicesSection() {
                   {/* Panel header */}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-stone-200 bg-stone-50">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-emerald-800 rounded-lg flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 bg-[#2B3A2E] rounded-lg flex items-center justify-center shrink-0">
                         <activeCategory.icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -262,3 +262,4 @@ export default function ServicesSection() {
     </section>
   );
 }
+
