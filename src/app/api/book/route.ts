@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { google } from "googleapis";
 
 export async function POST(req: Request) {
   try {
@@ -30,15 +31,41 @@ export async function POST(req: Request) {
     `);
     console.log("====================================");
 
-    // --- STUB: Google Sheets Integration ---
-    console.log("====================================");
-    console.log("📊 STUB: Appending Row to Google Sheets");
-    console.log(`Data row: [${new Date().toISOString()}, ${name}, ${phone}, ${date}, ${services.length} services, ${totalPrice}]`);
-    console.log("====================================");
+    // --- Google Sheets Integration ---
+    const auth = new google.auth.JWT(
+      process.env.GOOGLE_CLIENT_EMAIL,
+      undefined,
+      process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      ['https://www.googleapis.com/auth/spreadsheets']
+    );
 
-    // If integrating for real, we'd do:
-    // 1. await sendEmail({ ... })
-    // 2. await appendToSheet([ ... ])
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    // Format services into a single string, including desired date if provided
+    let formattedServicesString = services.map((s: any) => s.title).join(', ');
+    if (date) {
+      formattedServicesString += ` | Желаемая дата: ${date}`;
+    }
+
+    // Append to sheet
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    
+    await sheets.spreadsheets.values.append({
+      spreadsheetId,
+      range: 'A:E',
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        values: [
+          [
+            new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' }), 
+            name, 
+            phone, 
+            formattedServicesString, 
+            totalPrice
+          ]
+        ]
+      }
+    });
 
     return NextResponse.json({ success: true, message: "Booking received" });
   } catch (error) {
