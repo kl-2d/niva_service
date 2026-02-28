@@ -162,7 +162,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 }
 
 // Quick inline check icon for success state
-function Check(props: any) {
+function Check(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

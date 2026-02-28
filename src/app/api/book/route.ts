@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         <b>Желаемая дата:</b> ${date || "Не указана"}<br/>
         <b>Выбранные услуги:</b>
         <ul>
-          ${services.map((s: any) => `<li>${s.title} (${s.price} руб.)</li>`).join('')}
+          ${services.map((s: { title: string; price: number }) => `<li>${s.title} (${s.price} руб.)</li>`).join('')}
         </ul>
         <b>Итоговая сумма:</b> ${totalPrice} руб.
       `;
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
     const sheets = google.sheets({ version: 'v4', auth });
     
     // Format services into a single string, including desired date if provided
-    let formattedServicesString = services.map((s: any) => s.title).join(', ');
+    let formattedServicesString = services.map((s: { title: string }) => s.title).join(', ');
     if (date) {
       formattedServicesString += ` | Желаемая дата: ${date}`;
     }
