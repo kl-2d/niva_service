@@ -37,23 +37,23 @@ export default function Cart() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50"
             />
             <motion.div
               initial={{ x: "100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white border-l border-slate-200 shadow-2xl z-50 flex flex-col"
+              className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white border-l border-gray-200 shadow-2xl z-50 flex flex-col"
             >
-              <div className="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-                <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+              <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   <ShoppingCart className="text-blue-600"/>
                   Ваша корзина услуг
                 </h2>
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="text-slate-500 hover:text-slate-800 transition-colors p-1"
+                  className="text-gray-500 hover:text-gray-900 transition-colors p-1"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -61,7 +61,7 @@ export default function Cart() {
               
               <div className="flex-grow overflow-y-auto p-6 bg-white">
                 {items.length === 0 ? (
-                  <div className="text-slate-500 text-center h-full flex items-center justify-center">
+                  <div className="text-gray-500 text-center h-full flex items-center justify-center">
                     Корзина пуста
                   </div>
                 ) : (
@@ -73,15 +73,15 @@ export default function Cart() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex justify-between items-center group shadow-sm"
+                          className="bg-gray-50 border border-gray-200 p-4 rounded-xl flex justify-between items-center group shadow-sm"
                         >
                           <div>
-                            <h4 className="text-slate-800 font-medium mb-1">{item.title}</h4>
+                            <h4 className="text-gray-900 font-medium mb-1">{item.title}</h4>
                             <span className="text-blue-600 font-mono text-sm font-semibold">{item.price} ₽</span>
                           </div>
                           <button 
                             onClick={() => removeItem(item.id)}
-                            className="text-slate-400 hover:text-red-500 p-2 transition-colors"
+                            className="text-gray-500 hover:text-red-500 p-2 transition-colors"
                           >
                             <Trash2 className="w-5 h-5" />
                           </button>
@@ -92,14 +92,14 @@ export default function Cart() {
                 )}
               </div>
 
-              <div className="p-6 border-t border-slate-200 bg-slate-50">
+              <div className="p-6 border-t border-gray-200 bg-gray-50">
                 <div className="flex justify-between items-center mb-6">
-                  <span className="text-slate-500 text-sm">Итого (предварительно)</span>
-                  <span className="text-2xl font-bold font-mono text-slate-900">{totalPrice} ₽</span>
+                  <span className="text-gray-500 text-sm">Итого (предварительно)</span>
+                  <span className="text-2xl font-bold font-mono text-gray-900">{totalPrice} ₽</span>
                 </div>
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 shadow-sm"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 shadow-sm"
                 >
                   Оформить заявку
                   <ArrowRight className="w-5 h-5" />

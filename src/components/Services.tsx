@@ -65,14 +65,14 @@ export const services = [
 
 export default function Services() {
   return (
-    <section className="py-24 bg-slate-50" id="services">
+    <section className="py-24 bg-gray-50" id="services">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 uppercase tracking-tight"
           >
             Перечень ремонтных работ
           </motion.h2>
@@ -95,15 +95,15 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
+                className="bg-white border border-gray-200 hover:border-blue-300 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
               >
-                <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
+                <div className="w-12 h-12 bg-gray-50 border border-gray-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
                   <Icon className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-slate-600 leading-relaxed text-sm">
+                <p className="text-gray-700 leading-relaxed text-sm">
                   {service.description}
                 </p>
               </motion.div>

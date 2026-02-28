@@ -8,7 +8,7 @@ export default function Hero() {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
-        className="absolute inset-0 bg-slate-100 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-gray-100 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1625047509168-a7026f36de04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')`
         }}
@@ -40,7 +40,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-bold text-slate-900 mb-6 uppercase tracking-tight leading-tight"
+            className="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mb-6 uppercase tracking-tight leading-tight"
           >
             Комплексный ремонт автомобилей <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">НИВА</span> и CHEVROLET NIVA
           </motion.h1>
@@ -49,7 +49,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-lg md:text-2xl text-slate-700 mb-10 max-w-2xl mx-auto font-light"
+            className="text-lg md:text-2xl text-gray-700 mb-10 max-w-2xl mx-auto font-light"
           >
             В единственном специализированном сервисе Воронежа. Качество, проверенное временем.
           </motion.p>
@@ -60,11 +60,11 @@ export default function Hero() {
             transition={{ delay: 0.7, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2">
+            <button className="w-full sm:w-auto px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2">
               Бесплатная диагностика
               <ChevronRight className="w-5 h-5" />
             </button>
-            <a href="#services" className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-800 rounded-lg font-medium text-lg transition-colors border border-slate-200 shadow-sm">
+            <a href="#services" className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 rounded-lg font-medium text-lg transition-colors border border-gray-200 shadow-sm">
               Наши услуги
             </a>
           </motion.div>
@@ -72,7 +72,7 @@ export default function Hero() {
       </div>
 
       {/* Decorative gradient overlay at the bottom */}
-      <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-slate-50 to-transparent z-10"></div>
+      <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-gray-50 to-transparent z-10"></div>
     </section>
   );
 }
