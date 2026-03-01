@@ -3,13 +3,15 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const basicAuth = req.headers.get("authorization");
-  
-  // Hardcoded MVP credentials: admin / niva2026
+
+  const adminUser = process.env.ADMIN_USER ?? "admin";
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "niva2026";
+
   if (basicAuth) {
     const authValue = basicAuth.split(" ")[1];
     const [user, pwd] = atob(authValue).split(":");
 
-    if (user === "admin" && pwd === "niva2026") {
+    if (user === adminUser && pwd === adminPassword) {
       return NextResponse.next();
     }
   }
