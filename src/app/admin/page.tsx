@@ -40,8 +40,11 @@ export default async function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-stone-200">
                 {bookings.map((b) => {
-                  let parsedServices = [];
-                  try { parsedServices = JSON.parse(b.services); } catch(e){}
+                  let parsedServices: {title: string}[] = [];
+                  try {
+                    const parsed = JSON.parse(b.services);
+                    parsedServices = Array.isArray(parsed) ? parsed : [];
+                  } catch(e){}
                   return (
                     <tr key={b.id} className="hover:bg-stone-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">{new Date(b.createdAt).toLocaleDateString('ru-RU')}</td>
