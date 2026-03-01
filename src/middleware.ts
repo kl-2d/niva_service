@@ -29,7 +29,9 @@ export function middleware(req: NextRequest) {
 
   // Allow login page and auth API unconditionally
   if (pathname === "/admin/login" || pathname.startsWith("/api/admin/auth")) {
-    return NextResponse.next();
+    const res = NextResponse.next();
+    res.headers.set("x-pathname", pathname);
+    return res;
   }
 
   // Check IP block
@@ -49,9 +51,11 @@ export function middleware(req: NextRequest) {
     try {
       const decoded = Buffer.from(sessionCookie.value, "base64url").toString("utf-8");
       if (decoded.includes(":")) {
-        // Valid structure — allow access and reset any failure counter
+        // Valid structure — allow access
         failedAttempts.delete(ip);
-        return NextResponse.next();
+        const res = NextResponse.next();
+        res.headers.set("x-pathname", pathname);
+        return res;
       }
     } catch {
       // Malformed cookie — fall through to redirect

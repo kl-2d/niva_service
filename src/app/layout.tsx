@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
+import { headers } from "next/headers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
@@ -96,18 +97,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") ?? "";
+  const isAdmin = pathname.startsWith("/admin");
+
   return (
     <html lang="ru" className="scroll-smooth">
       <head>
-        {/* Яндекс Вебмастер — раскомментируйте и вставьте свой код: */}
-        {/* <meta name="yandex-verification" content="ВАШ_КОД" /> */}
-        {/* Google Search Console — раскомментируйте и вставьте свой код: */}
-        {/* <meta name="google-site-verification" content="ВАШ_КОД" /> */}
         <meta name="geo.region" content="RU-VOR" />
         <meta name="geo.placename" content="Воронеж" />
         <meta name="geo.position" content="51.643812;39.154615" />
@@ -116,12 +117,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${oswald.variable} antialiased flex flex-col min-h-screen bg-[#F5F2EC] text-[#1A1A1A]`}
       >
-        <Navbar />
-        <main className="flex-grow pt-[64px]">
+        {!isAdmin && <Navbar />}
+        <main className={`flex-grow${!isAdmin ? " pt-[64px]" : ""}`}>
           {children}
         </main>
-        <Footer />
-        <Cart />
+        {!isAdmin && <Footer />}
+        {!isAdmin && <Cart />}
       </body>
     </html>
   );
