@@ -2,12 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { Trash2, Edit2, Plus, X, Check } from "lucide-react";
-import { Service } from "@prisma/client";
+
+type CategoryObj = { id: number; name: string; slug: string };
+type ServiceWithCategory = {
+  id: number;
+  title: string;
+  description: string | null;
+  price: number;
+  categoryId: number | null;
+  category: CategoryObj | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+const CATEGORY_OPTIONS: CategoryObj[] = [
+  { id: 1, name: "Ходовая", slug: "hodovoy" },
+  { id: 2, name: "Двигатель", slug: "engine" },
+  { id: 3, name: "КПП", slug: "kpp" },
+  { id: 4, name: "Раздатка", slug: "razdatka" },
+  { id: 5, name: "Редукторы", slug: "reduktory" },
+  { id: 6, name: "Выхлопная", slug: "vykhlopnaya" },
+  { id: 7, name: "Тюнинг", slug: "tuning" },
+  { id: 8, name: "Развал-схождение", slug: "rasval" },
+  { id: 9, name: "Электрика", slug: "electrics" },
+];
 
 export default function ServicesManager() {
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<ServiceWithCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Form States
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -15,7 +38,7 @@ export default function ServicesManager() {
   // Input states
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("engine");
+  const [categoryId, setCategoryId] = useState<string>("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -41,7 +64,12 @@ export default function ServicesManager() {
     await fetch("/api/services", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, price, category, description }),
+      body: JSON.stringify({
+        title,
+        price,
+        categoryId: categoryId ? parseInt(categoryId, 10) : null,
+        description,
+      }),
     });
 
     setIsAdding(false);
@@ -53,7 +81,12 @@ export default function ServicesManager() {
     await fetch(`/api/services/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, price, category, description }),
+      body: JSON.stringify({
+        title,
+        price,
+        categoryId: categoryId ? parseInt(categoryId, 10) : null,
+        description,
+      }),
     });
 
     setEditingId(null);
@@ -67,18 +100,18 @@ export default function ServicesManager() {
     fetchServices();
   };
 
-  const startEditing = (s: Service) => {
+  const startEditing = (s: ServiceWithCategory) => {
     setEditingId(s.id);
     setTitle(s.title);
     setPrice(s.price.toString());
-    setCategory(s.category);
+    setCategoryId(s.categoryId?.toString() ?? "");
     setDescription(s.description || "");
   };
 
   const resetForm = () => {
     setTitle("");
     setPrice("");
-    setCategory("engine");
+    setCategoryId("");
     setDescription("");
     setEditingId(null);
   };
@@ -110,11 +143,11 @@ export default function ServicesManager() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input required placeholder="Название услуги" value={title} onChange={e => setTitle(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300" />
             <input required type="number" placeholder="Цена (₽)" value={price} onChange={e => setPrice(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300" />
-            <select value={category} onChange={e => setCategory(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300">
-              <option value="engine">Двигатель</option>
-              <option value="suspension">Ходовая</option>
-              <option value="transmission">КПП / Раздатка</option>
-              <option value="electrical">Электрика</option>
+            <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300">
+              <option value="">— Без категории —</option>
+              {CATEGORY_OPTIONS.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
             </select>
             <input placeholder="Описание (необязательно)" value={description} onChange={e => setDescription(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300" />
           </div>
@@ -145,11 +178,11 @@ export default function ServicesManager() {
                     <td colSpan={5} className="p-4 bg-amber-50 outline outline-1 outline-amber-200">
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
                         <input value={title} onChange={e => setTitle(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500" />
-                        <select value={category} onChange={e => setCategory(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                            <option value="engine">Двигатель</option>
-                            <option value="suspension">Ходовая</option>
-                            <option value="transmission">КПП / Раздатка</option>
-                            <option value="electrical">Электрика</option>
+                        <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                          <option value="">— Без категории —</option>
+                          {CATEGORY_OPTIONS.map(c => (
+                            <option key={c.id} value={c.id}>{c.name}</option>
+                          ))}
                         </select>
                         <input value={description} onChange={e => setDescription(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500" />
                         <div className="flex items-center gap-2">
@@ -163,7 +196,9 @@ export default function ServicesManager() {
                     <>
                       <td className="px-6 py-4 font-bold text-stone-900">{s.title}</td>
                       <td className="px-6 py-4">
-                        <span className="px-2 py-1 bg-stone-100 border border-stone-300 text-xs rounded-lg text-stone-700">{s.category}</span>
+                        <span className="px-2 py-1 bg-stone-100 border border-stone-300 text-xs rounded-lg text-stone-700">
+                          {s.category?.name ?? "—"}
+                        </span>
                       </td>
                       <td className="px-6 py-4 truncate max-w-[200px]">{s.description || "-"}</td>
                       <td className="px-6 py-4 font-mono font-bold text-emerald-800">{s.price} ₽</td>
@@ -176,9 +211,7 @@ export default function ServicesManager() {
                 </tr>
               ))}
               {services.length === 0 && !loading && (
-                <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-stone-500">Услуги не найдены</td>
-                </tr>
+                <tr><td colSpan={5} className="px-6 py-12 text-center text-stone-500">Услуги не найдены</td></tr>
               )}
             </tbody>
           </table>

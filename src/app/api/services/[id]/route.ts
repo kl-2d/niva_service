@@ -10,7 +10,7 @@ export async function PUT(
   try {
     const id = parseInt((await params).id, 10);
     const body = await request.json();
-    const { title, description, price, category } = body;
+    const { title, description, price, categoryId } = body;
 
     const updatedService = await prisma.service.update({
       where: { id },
@@ -18,8 +18,9 @@ export async function PUT(
         title,
         description,
         price: parseInt(price, 10),
-        category,
+        categoryId: categoryId ? parseInt(categoryId, 10) : null,
       },
+      include: { category: true },
     });
 
     return NextResponse.json(updatedService);
