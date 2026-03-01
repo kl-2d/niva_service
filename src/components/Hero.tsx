@@ -1,10 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import RequestCallModal from "./RequestCallModal";
 
 export default function Hero() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
+    <>
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image with dark overlay */}
       <div 
@@ -60,7 +65,10 @@ export default function Hero() {
             transition={{ delay: 0.7, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button className="w-full sm:w-auto px-8 py-4 bg-[#E07B00] hover:bg-[#B86300] text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg hover:shadow-orange-900/30 flex items-center justify-center gap-2">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="w-full sm:w-auto px-8 py-4 bg-[#E07B00] hover:bg-[#B86300] text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg hover:shadow-orange-900/30 flex items-center justify-center gap-2"
+            >
               Бесплатная диагностика
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -74,5 +82,8 @@ export default function Hero() {
       {/* Gradient fade to page bg */}
       <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-[#F5F2EC] to-transparent z-10"></div>
     </section>
+    <RequestCallModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 }
+
