@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   LayoutDashboard, ClipboardList, Wrench, LogOut, Menu, X, ExternalLink,
   TrendingUp, Users, CalendarCheck, Package,
@@ -41,6 +42,12 @@ export { STATUS_LABEL };
 export default function AdminShell({ bookings, totalRevenue, newToday, servicesCount }: Props) {
   const [tab, setTab] = useState<Tab>("bookings");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/admin/auth", { method: "DELETE" });
+    router.push("/admin/login");
+  }
 
   const navItems: { id: Tab; label: string; icon: React.ElementType; count?: number }[] = [
     { id: "dashboard", label: "Дашборд",  icon: LayoutDashboard },
@@ -100,13 +107,13 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           <ExternalLink className="w-5 h-5" />
           На сайт
         </a>
-        <a
-          href="/admin"
+        <button
+          onClick={handleLogout}
           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-stone-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
         >
           <LogOut className="w-5 h-5" />
           Выйти
-        </a>
+        </button>
       </div>
     </div>
   );
@@ -131,7 +138,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
       {/* ── Main Content ── */}
       <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
         {/* Topbar */}
-        <header className="sticky top-0 z-20 bg-white border-b border-stone-200 px-6 py-4 flex items-center gap-4 shadow-sm">
+        <header className="sticky top-0 z-20 bg-white border-b border-stone-200 px-6 h-16 flex items-center gap-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-2 rounded-lg hover:bg-stone-100 text-stone-600 transition"
@@ -139,26 +146,20 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1">
-            <h1 className="text-lg font-bold text-stone-900">
+            <h1 className="text-base font-bold text-stone-900 leading-tight">
               {tab === "dashboard" ? "Дашборд" : tab === "bookings" ? "Заявки клиентов" : "Каталог услуг"}
             </h1>
-            <p className="text-xs text-stone-400">
-              {tab === "dashboard" ? "Сводка показателей" : tab === "bookings" ? "Управление заявками на ремонт" : "Добавление и редактирование услуг"}
+            <p className="text-xs text-stone-400 leading-none mt-0.5">
+              {tab === "dashboard" ? "Сводка показателей" : tab === "bookings" ? "Управление заявками" : "Редактирование услуг"}
             </p>
           </div>
-          {/* Mobile tab chips */}
-          <div className="flex lg:hidden gap-1">
-            {navItems.map(item => {
-              const Icon = item.icon;
-              return (
-                <button key={item.id} onClick={() => setTab(item.id)}
-                  className={`p-2 rounded-lg transition ${tab === item.id ? "bg-[#E07B00] text-white" : "text-stone-500 hover:bg-stone-100"}`}
-                >
-                  <Icon className="w-4 h-4" />
-                </button>
-              );
-            })}
-          </div>
+          <button
+            onClick={handleLogout}
+            className="hidden lg:flex items-center gap-2 text-xs text-stone-400 hover:text-red-500 transition px-3 py-2 rounded-lg hover:bg-red-50"
+          >
+            <LogOut className="w-4 h-4" />
+            Выйти
+          </button>
         </header>
 
         {/* Page Content */}
