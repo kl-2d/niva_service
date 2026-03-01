@@ -57,7 +57,7 @@ export default function Footer() {
           {/* Map (Small viewport preview or CTA to scroll) */}
           <div className="h-48 lg:h-auto rounded-lg overflow-hidden border border-stone-700 relative bg-stone-800 shadow-sm">
             <iframe
-              src="https://yandex.ru/map-widget/v1/?ll=39.158141%2C51.637505&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjQyMDk3NxJI0KDQvtGB0YHQuNGPLCDQktC-0YDQvtC90LXQtiwg0YPQu9C40YbQsCDQnNCw0YLRgNC-0YHQvtCy0LAsIDEwMCIKDQnQ_UEVX8BMQg%2C%2C&z=16.63"
+              src="https://yandex.ru/map-widget/v1/?ll=39.154615%2C51.643812&z=16&pt=39.154615%2C51.643812,pm2rdm&mode=poi"
               width="100%"
               height="100%"
               frameBorder="0"
