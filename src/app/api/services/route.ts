@@ -11,7 +11,7 @@ export async function GET(request: Request) {
         ? { category: { slug: categorySlug } }
         : undefined,
       include: { category: true },
-      orderBy: { id: "asc" },
+      orderBy: { title: "asc" },
     });
     return NextResponse.json(services);
   } catch (error) {

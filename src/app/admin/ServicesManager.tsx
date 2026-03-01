@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Trash2, Edit2, Plus, X, Check } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { Trash2, Pencil, Plus, X, Check, Search } from "lucide-react";
 
 type CategoryObj = { id: number; name: string; slug: string };
 type ServiceWithCategory = {
@@ -11,212 +11,305 @@ type ServiceWithCategory = {
   price: number;
   categoryId: number | null;
   category: CategoryObj | null;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
-const CATEGORY_OPTIONS: CategoryObj[] = [
-  { id: 1, name: "Ходовая", slug: "hodovoy" },
-  { id: 2, name: "Двигатель", slug: "engine" },
-  { id: 3, name: "КПП", slug: "kpp" },
-  { id: 4, name: "Раздатка", slug: "razdatka" },
-  { id: 5, name: "Редукторы", slug: "reduktory" },
-  { id: 6, name: "Выхлопная", slug: "vykhlopnaya" },
-  { id: 7, name: "Тюнинг", slug: "tuning" },
-  { id: 8, name: "Развал-схождение", slug: "rasval" },
-  { id: 9, name: "Электрика", slug: "electrics" },
+const CATEGORIES: CategoryObj[] = [
+  { id: 1,  name: "Ходовая",          slug: "hodovoy"     },
+  { id: 2,  name: "Двигатель",        slug: "engine"      },
+  { id: 3,  name: "КПП",              slug: "kpp"         },
+  { id: 4,  name: "Раздатка",         slug: "razdatka"    },
+  { id: 5,  name: "Редукторы",        slug: "reduktory"   },
+  { id: 6,  name: "Выхлопная",        slug: "vykhlopnaya" },
+  { id: 7,  name: "Тюнинг",           slug: "tuning"      },
+  { id: 8,  name: "Развал-схождение", slug: "rasval"      },
+  { id: 9,  name: "Электрика",        slug: "electrics"   },
 ];
 
 export default function ServicesManager() {
-  const [services, setServices] = useState<ServiceWithCategory[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [services, setServices]     = useState<ServiceWithCategory[]>([]);
+  const [loading, setLoading]       = useState(true);
+  const [search, setSearch]         = useState("");
+  const [catFilter, setCatFilter]   = useState<number | null>(null);
+  const [editingId, setEditingId]   = useState<number | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  // Form States
-  const [isAdding, setIsAdding] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  // Edit state
+  const [editTitle, setEditTitle] = useState("");
+  const [editPrice, setEditPrice] = useState("");
+  const [editCatId, setEditCatId] = useState<string>("");
+  const [editDesc, setEditDesc]   = useState("");
 
-  // Input states
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [categoryId, setCategoryId] = useState<string>("");
-  const [description, setDescription] = useState("");
+  // Add form state
+  const [addTitle, setAddTitle] = useState("");
+  const [addPrice, setAddPrice] = useState("");
+  const [addCatId, setAddCatId] = useState<string>("");
+  const [addDesc, setAddDesc]   = useState("");
 
-  useEffect(() => {
-    fetchServices();
-  }, []);
+  useEffect(() => { fetchServices(); }, []);
 
   const fetchServices = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/services");
       const data = await res.json();
-      setServices(data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+      setServices(Array.isArray(data) ? data : []);
+    } catch { }
+    finally { setLoading(false); }
   };
 
-  const handleAdd = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title || !price) return;
-
-    await fetch("/api/services", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        price,
-        categoryId: categoryId ? parseInt(categoryId, 10) : null,
-        description,
-      }),
-    });
-
-    setIsAdding(false);
-    resetForm();
-    fetchServices();
-  };
-
-  const handleUpdate = async (id: number) => {
-    await fetch(`/api/services/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        price,
-        categoryId: categoryId ? parseInt(categoryId, 10) : null,
-        description,
-      }),
-    });
-
-    setEditingId(null);
-    resetForm();
-    fetchServices();
-  };
-
-  const handleDelete = async (id: number) => {
-    if (!confirm("Удалить услугу?")) return;
-    await fetch(`/api/services/${id}`, { method: "DELETE" });
-    fetchServices();
-  };
-
-  const startEditing = (s: ServiceWithCategory) => {
+  const startEdit = (s: ServiceWithCategory) => {
     setEditingId(s.id);
-    setTitle(s.title);
-    setPrice(s.price.toString());
-    setCategoryId(s.categoryId?.toString() ?? "");
-    setDescription(s.description || "");
+    setEditTitle(s.title);
+    setEditPrice(s.price.toString());
+    setEditCatId(s.categoryId?.toString() ?? "");
+    setEditDesc(s.description ?? "");
   };
 
-  const resetForm = () => {
-    setTitle("");
-    setPrice("");
-    setCategoryId("");
-    setDescription("");
-    setEditingId(null);
+  const cancelEdit = () => { setEditingId(null); };
+
+  const saveEdit = (id: number) => {
+    startTransition(async () => {
+      await fetch(`/api/services/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: editTitle, price: editPrice, categoryId: editCatId ? parseInt(editCatId) : null, description: editDesc }),
+      });
+      setEditingId(null);
+      fetchServices();
+    });
   };
+
+  const deleteService = (id: number) => {
+    if (!confirm("Удалить услугу из каталога?")) return;
+    startTransition(async () => {
+      await fetch(`/api/services/${id}`, { method: "DELETE" });
+      fetchServices();
+    });
+  };
+
+  const addService = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!addTitle || !addPrice) return;
+    startTransition(async () => {
+      await fetch("/api/services", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: addTitle, price: addPrice, categoryId: addCatId ? parseInt(addCatId) : null, description: addDesc }),
+      });
+      setShowAddForm(false);
+      setAddTitle(""); setAddPrice(""); setAddCatId(""); setAddDesc("");
+      fetchServices();
+    });
+  };
+
+  const filtered = services.filter(s => {
+    const matchCat = catFilter === null ? true : s.categoryId === catFilter;
+    const matchSearch = search === "" ? true : s.title.toLowerCase().includes(search.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
+  const countByCat = (id: number) => services.filter(s => s.categoryId === id).length;
 
   return (
-    <>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold text-stone-900">Услуги в каталоге</h3>
+    <div className="space-y-5">
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        {/* Search */}
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+          <input
+            type="text"
+            placeholder="Поиск по названию…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full pl-9 pr-4 py-2.5 bg-white border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00]"
+          />
+          {search && (
+            <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700">
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Add button */}
         <button
-          onClick={() => {
-            resetForm();
-            setIsAdding(true);
-          }}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-stone-900 px-4 py-2 rounded-lg font-bold transition-colors shadow-sm"
+          onClick={() => { setShowAddForm(!showAddForm); setSearch(""); }}
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold rounded-xl transition-colors shadow-sm shrink-0"
         >
-          <Plus className="w-4 h-4" />
-          Добавить услугу
+          {showAddForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+          {showAddForm ? "Отмена" : "Добавить услугу"}
         </button>
       </div>
 
-      {isAdding && (
-        <form onSubmit={handleAdd} className="bg-white border border-stone-200 p-6 rounded-lg shadow-sm mb-6 flex flex-col gap-4">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-bold text-stone-900">Новая услуга</h2>
-            <button type="button" onClick={() => setIsAdding(false)} className="text-stone-400 hover:text-stone-900">
-              <X className="w-5 h-5" />
+      {/* Add form */}
+      {showAddForm && (
+        <form onSubmit={addService} className="bg-white border-2 border-[#E07B00]/30 rounded-2xl p-6 shadow-sm space-y-4">
+          <h3 className="font-bold text-stone-900 text-lg flex items-center gap-2">
+            <Plus className="w-5 h-5 text-[#E07B00]" />
+            Новая услуга
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              required
+              placeholder="Название услуги *"
+              value={addTitle}
+              onChange={e => setAddTitle(e.target.value)}
+              className="bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00]"
+            />
+            <input
+              required
+              type="number"
+              placeholder="Цена (₽) *"
+              value={addPrice}
+              onChange={e => setAddPrice(e.target.value)}
+              className="bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00]"
+            />
+            <select
+              value={addCatId}
+              onChange={e => setAddCatId(e.target.value)}
+              className="bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00]"
+            >
+              <option value="">— Категория —</option>
+              {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+            </select>
+            <input
+              placeholder="Описание (необязательно)"
+              value={addDesc}
+              onChange={e => setAddDesc(e.target.value)}
+              className="bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00]"
+            />
+          </div>
+          <div className="flex justify-end gap-3">
+            <button type="button" onClick={() => setShowAddForm(false)} className="px-5 py-2.5 bg-stone-100 text-stone-700 rounded-xl font-semibold text-sm hover:bg-stone-200 transition">Отмена</button>
+            <button type="submit" disabled={isPending} className="px-5 py-2.5 bg-[#E07B00] text-white rounded-xl font-bold text-sm hover:bg-[#B86300] transition disabled:opacity-60">
+              {isPending ? "Сохранение…" : "Сохранить"}
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required placeholder="Название услуги" value={title} onChange={e => setTitle(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300" />
-            <input required type="number" placeholder="Цена (₽)" value={price} onChange={e => setPrice(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300" />
-            <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300">
-              <option value="">— Без категории —</option>
-              {CATEGORY_OPTIONS.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-            <input placeholder="Описание (необязательно)" value={description} onChange={e => setDescription(e.target.value)} className="bg-stone-50 text-stone-900 rounded p-3 outline-none focus:ring-2 focus:ring-amber-500 border border-stone-300" />
-          </div>
-          <button type="submit" className="bg-emerald-800 text-white font-bold py-2 px-6 rounded hover:bg-emerald-700 self-end transition">
-            Сохранить
-          </button>
         </form>
       )}
 
-      <div className="bg-white border border-stone-200 rounded-lg shadow-sm overflow-hidden">
-        {loading ? (
-            <div className="p-8 text-center text-stone-500">Загрузка услуг...</div>
-        ) : (
-          <table className="w-full text-left text-sm text-stone-700">
-            <thead className="bg-stone-50 border-b border-stone-200 text-stone-900 uppercase">
-              <tr>
-                <th className="px-6 py-4">Название</th>
-                <th className="px-6 py-4">Категория</th>
-                <th className="px-6 py-4">Описание</th>
-                <th className="px-6 py-4">Цена</th>
-                <th className="px-6 py-4 text-right">Действия</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-200">
-              {services.map((s) => (
-                <tr key={s.id} className="hover:bg-stone-50 transition-colors">
-                  {editingId === s.id ? (
-                    <td colSpan={5} className="p-4 bg-amber-50 outline outline-1 outline-amber-200">
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                        <input value={title} onChange={e => setTitle(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500" />
-                        <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                          <option value="">— Без категории —</option>
-                          {CATEGORY_OPTIONS.map(c => (
-                            <option key={c.id} value={c.id}>{c.name}</option>
-                          ))}
-                        </select>
-                        <input value={description} onChange={e => setDescription(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500" />
-                        <div className="flex items-center gap-2">
-                          <input type="number" value={price} onChange={e => setPrice(e.target.value)} className="bg-white text-stone-900 rounded p-2 text-sm border border-stone-300 w-24 focus:outline-none focus:ring-2 focus:ring-amber-500" />
-                          <button onClick={() => handleUpdate(s.id)} className="p-2 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 rounded transition"><Check className="w-4 h-4"/></button>
-                          <button onClick={resetForm} className="p-2 bg-stone-200 text-stone-700 hover:bg-stone-300 rounded transition"><X className="w-4 h-4"/></button>
-                        </div>
-                      </div>
-                    </td>
-                  ) : (
-                    <>
-                      <td className="px-6 py-4 font-bold text-stone-900">{s.title}</td>
-                      <td className="px-6 py-4">
-                        <span className="px-2 py-1 bg-stone-100 border border-stone-300 text-xs rounded-lg text-stone-700">
-                          {s.category?.name ?? "—"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 truncate max-w-[200px]">{s.description || "-"}</td>
-                      <td className="px-6 py-4 font-mono font-bold text-emerald-800">{s.price} ₽</td>
-                      <td className="px-6 py-4 text-right">
-                        <button onClick={() => startEditing(s)} className="text-stone-500 hover:text-stone-900 mr-3 transition"><Edit2 className="w-4 h-4"/></button>
-                        <button onClick={() => handleDelete(s.id)} className="text-red-500 hover:text-red-700 transition"><Trash2 className="w-4 h-4"/></button>
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))}
-              {services.length === 0 && !loading && (
-                <tr><td colSpan={5} className="px-6 py-12 text-center text-stone-500">Услуги не найдены</td></tr>
-              )}
-            </tbody>
-          </table>
-        )}
+      {/* Category tabs */}
+      <div className="flex gap-2 flex-wrap">
+        <button
+          onClick={() => setCatFilter(null)}
+          className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${catFilter === null ? "bg-[#2B3A2E] text-white border-[#2B3A2E]" : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"}`}
+        >
+          Все <span className="ml-1 text-xs opacity-70">({services.length})</span>
+        </button>
+        {CATEGORIES.map(cat => (
+          <button
+            key={cat.id}
+            onClick={() => setCatFilter(cat.id)}
+            className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${catFilter === cat.id ? "bg-[#2B3A2E] text-white border-[#2B3A2E]" : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"}`}
+          >
+            {cat.name} <span className="ml-1 text-xs opacity-70">({countByCat(cat.id)})</span>
+          </button>
+        ))}
       </div>
-    </>
+
+      {/* Services list */}
+      {loading ? (
+        <div className="bg-white rounded-2xl border border-stone-200 p-12 text-center text-stone-400">
+          <div className="w-8 h-8 border-2 border-stone-200 border-t-[#E07B00] rounded-full animate-spin mx-auto mb-3" />
+          Загрузка…
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-stone-200 p-12 text-center text-stone-400">
+          {search ? `Услуги по запросу «${search}» не найдены` : "Услуг в этой категории нет"}
+        </div>
+      ) : (
+        <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+          {filtered.map((s, idx) => (
+            <div key={s.id} className={`${idx !== 0 ? "border-t border-stone-100" : ""}`}>
+              {editingId === s.id ? (
+                /* ── Edit mode ── */
+                <div className="p-4 bg-amber-50 border-l-4 border-[#E07B00]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+                    <div className="lg:col-span-2">
+                      <label className="text-xs font-medium text-stone-500 mb-1 block">Название</label>
+                      <input
+                        value={editTitle}
+                        onChange={e => setEditTitle(e.target.value)}
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-stone-500 mb-1 block">Цена (₽)</label>
+                      <input
+                        type="number"
+                        value={editPrice}
+                        onChange={e => setEditPrice(e.target.value)}
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-stone-500 mb-1 block">Категория</label>
+                      <select
+                        value={editCatId}
+                        onChange={e => setEditCatId(e.target.value)}
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
+                      >
+                        <option value="">— Без категории —</option>
+                        {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 mt-3 justify-end">
+                    <button onClick={cancelEdit} className="flex items-center gap-1.5 px-4 py-2 bg-white border border-stone-200 rounded-lg text-sm text-stone-600 hover:bg-stone-50 transition">
+                      <X className="w-4 h-4" /> Отмена
+                    </button>
+                    <button onClick={() => saveEdit(s.id)} disabled={isPending} className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-700 transition disabled:opacity-60">
+                      <Check className="w-4 h-4" /> Сохранить
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* ── View mode ── */
+                <div className="px-5 py-4 flex items-center gap-4 group hover:bg-stone-50 transition-colors">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-stone-900 text-sm truncate">{s.title}</div>
+                    {s.description && <div className="text-xs text-stone-400 truncate mt-0.5">{s.description}</div>}
+                  </div>
+                  <div className="shrink-0">
+                    {s.category ? (
+                      <span className="text-xs px-2.5 py-1 bg-stone-100 text-stone-600 rounded-full border border-stone-200 font-medium">
+                        {s.category.name}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-stone-300">—</span>
+                    )}
+                  </div>
+                  <div className="font-mono font-bold text-stone-900 shrink-0 w-24 text-right">
+                    {s.price.toLocaleString("ru-RU")} ₽
+                  </div>
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                    <button
+                      onClick={() => startEdit(s)}
+                      className="p-2 rounded-lg hover:bg-amber-50 text-stone-400 hover:text-amber-600 transition"
+                      title="Редактировать"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => deleteService(s.id)}
+                      className="p-2 rounded-lg hover:bg-red-50 text-stone-400 hover:text-red-500 transition"
+                      title="Удалить"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+          {/* Footer count */}
+          <div className="border-t border-stone-100 px-5 py-3 bg-stone-50 flex justify-between text-xs text-stone-400">
+            <span>Показано: {filtered.length} {filtered.length === 1 ? "позиция" : filtered.length < 5 ? "позиции" : "позиций"}</span>
+            <span>Всего в каталоге: {services.length}</span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

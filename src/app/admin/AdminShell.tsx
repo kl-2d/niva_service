@@ -12,7 +12,7 @@ type Tab = "dashboard" | "bookings" | "services";
 
 interface Booking {
   id: number;
-  createdAt: Date;
+  createdAt: string; // serialized as ISO string when passing server→client
   name: string;
   phone: string;
   date: string | null;
@@ -49,9 +49,9 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
   ];
 
   const stats = [
-    { icon: ClipboardList, label: "Всего заявок",   value: bookings.length,                   color: "text-blue-600",    bg: "bg-blue-50" },
-    { icon: CalendarCheck, label: "Новых сегодня",  value: newToday,                           color: "text-amber-600",   bg: "bg-amber-50" },
-    { icon: TrendingUp,    label: "Сумма заявок",   value: `${totalRevenue.toLocaleString("ru-RU")} ₽`, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { icon: ClipboardList, label: "Всего заявок",    value: bookings.length,                              color: "text-blue-600",    bg: "bg-blue-50" },
+    { icon: CalendarCheck, label: "Новых сегодня",   value: newToday,                                     color: "text-amber-600",   bg: "bg-amber-50" },
+    { icon: TrendingUp,    label: "Сумма заявок",    value: `${totalRevenue.toLocaleString("ru-RU")} ₽`,  color: "text-emerald-600", bg: "bg-emerald-50" },
     { icon: Package,       label: "Услуг в каталоге", value: servicesCount,                    color: "text-violet-600",  bg: "bg-violet-50" },
   ];
 
@@ -194,7 +194,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
                       <div key={b.id} className="flex items-center justify-between py-2 border-b border-stone-100 last:border-0">
                         <div>
                           <div className="font-medium text-stone-900 text-sm">{b.name}</div>
-                          <div className="text-stone-400 text-xs">{b.phone}</div>
+                          <div className="text-stone-400 text-xs">{new Date(b.createdAt).toLocaleDateString("ru-RU")}</div>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="font-mono text-sm font-bold text-stone-700">{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
