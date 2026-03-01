@@ -1,25 +1,37 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
+import { serviceSchema } from "@/lib/schemas";
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt((await params).id, 10);
-    const body = await request.json();
-    const { title, description, price, categoryId } = body;
+    const ip = getClientIp(request);
+    const { allowed } = rateLimit(ip, "services-write", 30, 60 * 1000);
+    if (!allowed) return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
 
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+
+    let body: unknown;
+    try { body = await request.json(); } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
+    const parsed = serviceSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message ?? "Validation error" },
+        { status: 400 }
+      );
+    }
+
+    const { title, description, price, categoryId } = parsed.data;
     const updatedService = await prisma.service.update({
       where: { id },
-      data: {
-        title,
-        description,
-        price: parseInt(price, 10),
-        categoryId: categoryId ? parseInt(categoryId, 10) : null,
-      },
+      data: { title, description: description ?? null, price, categoryId: categoryId ?? null },
       include: { category: true },
     });
 
@@ -35,12 +47,14 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt((await params).id, 10);
-    
-    await prisma.service.delete({
-      where: { id },
-    });
+    const ip = getClientIp(request);
+    const { allowed } = rateLimit(ip, "services-write", 30, 60 * 1000);
+    if (!allowed) return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
 
+    const id = parseInt((await params).id, 10);
+    if (isNaN(id)) return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+
+    await prisma.service.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Failed to delete service:", error);

@@ -1,19 +1,40 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
+import { callbackSchema } from "@/lib/schemas";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { name, phone, carBrand, carPlate } = body;
-
-    if (!name || !phone) {
-      return NextResponse.json({ error: "Имя и телефон обязательны" }, { status: 400 });
+    // ── Rate limiting: 3 callbacks per 10 min per IP ─────────────────────────
+    const ip = getClientIp(req);
+    const { allowed, retryAfterSeconds } = rateLimit(ip, "callback", 3, 10 * 60 * 1000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: `Слишком много запросов. Попробуйте через ${retryAfterSeconds} сек.` },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+      );
     }
 
-    // --- Database Storage ---
+    // ── Input validation (Zod) ───────────────────────────────────────────────
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Некорректный формат данных" }, { status: 400 });
+    }
+
+    const parsed = callbackSchema.safeParse(body);
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message ?? "Ошибка валидации";
+      return NextResponse.json({ error: firstError }, { status: 400 });
+    }
+
+    const { name, phone, carBrand, carPlate } = parsed.data;
+
+    // ── Database Storage ─────────────────────────────────────────────────────
     try {
       await prisma.booking.create({
         data: {
@@ -23,17 +44,20 @@ export async function POST(req: Request) {
           services: JSON.stringify("callback"),
           totalPrice: 0,
           status: "CALLBACK",
-          carBrand: carBrand || null,
-          carPlate: carPlate || null,
+          carBrand: carBrand ?? null,
+          carPlate: carPlate ?? null,
         },
       });
     } catch (dbError) {
       console.error("DB error (callback):", dbError);
     }
 
-    // --- Email via Resend ---
+    // ── Email via Resend ─────────────────────────────────────────────────────
     try {
-      const recipients = (process.env.MANAGER_EMAIL || "").split(",").map(e => e.trim()).filter(Boolean);
+      const recipients = (process.env.MANAGER_EMAIL || "")
+        .split(",")
+        .map((e) => e.trim())
+        .filter(Boolean);
       const now = new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" });
 
       const { data, error } = await resend.emails.send({

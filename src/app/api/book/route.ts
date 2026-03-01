@@ -1,46 +1,67 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
+import { bookingSchema } from "@/lib/schemas";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { name, phone, date, services, totalPrice, carBrand, carPlate } = body;
-
-    if (!name || !phone || !services || services.length === 0) {
+    // ── Rate limiting: 5 bookings per 10 min per IP ──────────────────────────
+    const ip = getClientIp(req);
+    const { allowed, retryAfterSeconds } = rateLimit(ip, "book", 5, 10 * 60 * 1000);
+    if (!allowed) {
       return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
+        { error: `Слишком много запросов. Попробуйте через ${retryAfterSeconds} сек.` },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
       );
     }
 
-    // --- Database Storage ---
+    // ── Input validation (Zod) ───────────────────────────────────────────────
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Некорректный формат данных" }, { status: 400 });
+    }
+
+    const parsed = bookingSchema.safeParse(body);
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message ?? "Ошибка валидации";
+      return NextResponse.json({ error: firstError }, { status: 400 });
+    }
+
+    const { name, phone, date, services, totalPrice, carBrand, carPlate } = parsed.data;
+
+    // ── Database Storage ─────────────────────────────────────────────────────
     try {
       await prisma.booking.create({
         data: {
           name,
           phone,
-          date,
+          date: date ?? null,
           services: JSON.stringify(services),
           totalPrice,
           status: "NEW",
-          carBrand: carBrand || null,
-          carPlate: carPlate || null,
+          carBrand: carBrand ?? null,
+          carPlate: carPlate ?? null,
         },
       });
     } catch (dbError) {
       console.error("Database storage failed:", dbError);
     }
 
-    // --- Email via Resend ---
+    // ── Email via Resend ─────────────────────────────────────────────────────
     try {
-      const serviceList = (services as { title: string; price: number }[])
+      const serviceList = services
         .map((s) => `<li>${s.title} — <b>${s.price.toLocaleString("ru-RU")} ₽</b></li>`)
         .join("");
 
-      const recipients = (process.env.MANAGER_EMAIL || "").split(",").map(e => e.trim()).filter(Boolean);
+      const recipients = (process.env.MANAGER_EMAIL || "")
+        .split(",")
+        .map((e) => e.trim())
+        .filter(Boolean);
 
       const { data, error } = await resend.emails.send({
         from: "Нива Сервис <onboarding@resend.dev>",
