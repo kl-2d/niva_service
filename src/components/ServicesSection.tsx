@@ -24,8 +24,9 @@ const CATEGORIES: CategoryDef[] = [
   { id: 4, title: "Ремонт раздатки", description: "Ремонт раздаточной коробки любой сложности.", slug: "razdatka", icon: Activity },
   { id: 5, title: "Редукторы", description: "Переборка редукторов переднего и заднего мостов.", slug: "reduktory", icon: TrendingUp },
   { id: 6, title: "Электрика", description: "Компьютерная диагностика ЭСУД, ремонт проводки.", slug: "electrics", icon: Zap },
-  { id: 7, title: "Выхлоп", description: "Замена глушителей, резонаторов, катализаторов.", slug: "exhaust", icon: Wind },
+  { id: 7, title: "Выхлоп", description: "Замена глушителей, резонаторов, катализаторов.", slug: "vykhlopnaya", icon: Wind },
   { id: 8, title: "Тюнинг", description: "Лифт-комплекты, силовые бампера, лебедки, грязевая резина.", slug: "tuning", icon: PaintBucket },
+  { id: 9, title: "Развал-схождение", description: "Регулировка углов установки колёс.", slug: "rasval", icon: TrendingUp },
 ];
 
 /* ──────────────────────────────────────────
