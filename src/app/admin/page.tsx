@@ -31,6 +31,7 @@ export default async function AdminDashboard() {
                 <tr>
                   <th className="px-6 py-4">Дата</th>
                   <th className="px-6 py-4">Имя / Телефон</th>
+                  <th className="px-6 py-4">Марка / Госномер</th>
                   <th className="px-6 py-4">Желаемая дата</th>
                   <th className="px-6 py-4">Услуги</th>
                   <th className="px-6 py-4">Сумма</th>
@@ -48,7 +49,11 @@ export default async function AdminDashboard() {
                         <div className="font-bold text-stone-900">{b.name}</div>
                         <div className="text-stone-500">{b.phone}</div>
                       </td>
-                      <td className="px-6 py-4">{b.date || "-"}</td>
+                      <td className="px-6 py-4">
+                        {b.carBrand ? <div className="font-medium text-stone-900">{b.carBrand}</div> : null}
+                        {b.carPlate ? <div className="text-stone-500 text-xs font-mono">{b.carPlate}</div> : (!b.carBrand ? <span className="text-stone-400">—</span> : null)}
+                      </td>
+                      <td className="px-6 py-4">{b.date || "—"}</td>
                       <td className="px-6 py-4 max-w-xs truncate" title={parsedServices.map((s:any)=>s.title).join(", ")}>
                         {parsedServices.map((s:any)=>s.title).join(", ") || b.services}
                       </td>
@@ -65,7 +70,7 @@ export default async function AdminDashboard() {
                   )
                 })}
                 {bookings.length === 0 && (
-                  <tr><td colSpan={6} className="px-6 py-12 text-center text-stone-500">Заявок пока нет</td></tr>
+                  <tr><td colSpan={7} className="px-6 py-12 text-center text-stone-500">Заявок пока нет</td></tr>
                 )}
               </tbody>
             </table>

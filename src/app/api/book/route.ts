@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, phone, date, services, totalPrice } = body;
+    const { name, phone, date, services, totalPrice, carBrand, carPlate } = body;
 
     if (!name || !phone || !services || services.length === 0) {
       return NextResponse.json(
@@ -26,6 +26,8 @@ export async function POST(req: Request) {
           services: JSON.stringify(services),
           totalPrice,
           status: "NEW",
+          carBrand: carBrand || null,
+          carPlate: carPlate || null,
         },
       });
     } catch (dbError) {
@@ -53,6 +55,8 @@ export async function POST(req: Request) {
               <tr><td style="padding:6px 0;color:#666;width:140px">Клиент:</td><td><b>${name}</b></td></tr>
               <tr><td style="padding:6px 0;color:#666">Телефон:</td><td><b>${phone}</b></td></tr>
               <tr><td style="padding:6px 0;color:#666">Желаемая дата:</td><td>${date || "Не указана"}</td></tr>
+              ${carBrand ? `<tr><td style="padding:6px 0;color:#666">Марка авто:</td><td><b>${carBrand}</b></td></tr>` : ""}
+              ${carPlate ? `<tr><td style="padding:6px 0;color:#666">Госномер:</td><td><b>${carPlate}</b></td></tr>` : ""}
             </table>
             <h3 style="margin-top:20px;color:#1a3a2a">Выбранные услуги:</h3>
             <ul style="padding-left:20px;line-height:1.8">${serviceList}</ul>

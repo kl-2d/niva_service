@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Phone, Loader2 } from "lucide-react";
+import { X, User, Phone, Car, Hash, Loader2 } from "lucide-react";
 
 interface RequestCallModalProps {
   isOpen: boolean;
@@ -16,6 +16,8 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    carBrand: "",
+    carPlate: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,7 +36,7 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
         setTimeout(() => {
           onClose();
           setSuccess(false);
-          setFormData({ name: "", phone: "" });
+          setFormData({ name: "", phone: "", carBrand: "", carPlate: "" });
         }, 3000);
       }
     } catch (err) {
@@ -44,6 +46,8 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
     }
   };
 
+  const inputClass =
+    "w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500";
 
   return (
     <AnimatePresence>
@@ -81,6 +85,7 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Имя */}
                   <div className="space-y-1">
                     <label className="text-sm text-stone-700 font-medium">Ваше имя *</label>
                     <div className="relative">
@@ -89,13 +94,18 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
                         required
                         type="text"
                         placeholder="Иван"
-                        className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500"
+                        className={inputClass}
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) => {
+                          // Только буквы (кириллица, латиница, дефис, пробел)
+                          const val = e.target.value.replace(/[^а-яёА-ЯЁa-zA-Z\s\-]/g, "");
+                          setFormData({ ...formData, name: val });
+                        }}
                       />
                     </div>
                   </div>
 
+                  {/* Телефон */}
                   <div className="space-y-1">
                     <label className="text-sm text-stone-700 font-medium">Ваш телефон *</label>
                     <div className="relative">
@@ -104,9 +114,51 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
                         required
                         type="tel"
                         placeholder="+7 (999) 000-00-00"
-                        className="w-full bg-stone-50 border border-stone-200 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-stone-500"
+                        className={inputClass}
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) => {
+                          const digits = e.target.value.replace(/\D/g, "").slice(0, 11);
+                          let formatted = "";
+                          if (digits.length === 0) { formatted = ""; }
+                          else if (digits.length <= 1) { formatted = "+7"; }
+                          else if (digits.length <= 4) { formatted = `+7 (${digits.slice(1)}`; }
+                          else if (digits.length <= 7) { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`; }
+                          else if (digits.length <= 9) { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`; }
+                          else { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`; }
+                          setFormData({ ...formData, phone: formatted });
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Марка автомобиля */}
+                  <div className="space-y-1">
+                    <label className="text-sm text-stone-700 font-medium">Марка автомобиля</label>
+                    <div className="relative">
+                      <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+                      <input
+                        type="text"
+                        placeholder="Lada Niva, UAZ Patriot..."
+                        className={inputClass}
+                        value={formData.carBrand}
+                        onChange={(e) => setFormData({ ...formData, carBrand: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Госномер */}
+                  <div className="space-y-1">
+                    <label className="text-sm text-stone-700 font-medium">Государственный номер</label>
+                    <div className="relative">
+                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+                      <input
+                        type="text"
+                        placeholder="А123БВ777"
+                        className={`${inputClass} uppercase`}
+                        value={formData.carPlate}
+                        onChange={(e) =>
+                          setFormData({ ...formData, carPlate: e.target.value.toUpperCase() })
+                        }
                       />
                     </div>
                   </div>
@@ -150,4 +202,3 @@ function Check(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, User, Phone, Loader2 } from "lucide-react";
+import { X, Calendar, User, Phone, Car, Hash, Loader2 } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 
 interface CheckoutModalProps {
@@ -19,6 +19,8 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     name: "",
     phone: "",
     date: "",
+    carBrand: "",
+    carPlate: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,6 +44,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
           clearCart();
           onClose();
           setSuccess(false);
+          setFormData({ name: "", phone: "", date: "", carBrand: "", carPlate: "" });
         }, 3000);
       } else {
         alert("Произошла ошибка при отправке заявки.");
@@ -132,6 +135,38 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                           else { formatted = `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`; }
                           setFormData({ ...formData, phone: formatted });
                         }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Марка автомобиля */}
+                  <div className="space-y-1">
+                    <label className="text-sm text-stone-700 font-medium">Марка автомобиля</label>
+                    <div className="relative">
+                      <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+                      <input
+                        type="text"
+                        placeholder="Lada Niva, UAZ Patriot..."
+                        className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500"
+                        value={formData.carBrand}
+                        onChange={(e) => setFormData({ ...formData, carBrand: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Госномер */}
+                  <div className="space-y-1">
+                    <label className="text-sm text-stone-700 font-medium">Государственный номер</label>
+                    <div className="relative">
+                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-500" />
+                      <input
+                        type="text"
+                        placeholder="А123БВ777"
+                        className="w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500 uppercase"
+                        value={formData.carPlate}
+                        onChange={(e) =>
+                          setFormData({ ...formData, carPlate: e.target.value.toUpperCase() })
+                        }
                       />
                     </div>
                   </div>

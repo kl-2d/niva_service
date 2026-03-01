@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, phone } = body;
+    const { name, phone, carBrand, carPlate } = body;
 
     if (!name || !phone) {
       return NextResponse.json({ error: "Имя и телефон обязательны" }, { status: 400 });
@@ -23,6 +23,8 @@ export async function POST(req: Request) {
           services: JSON.stringify("callback"),
           totalPrice: 0,
           status: "CALLBACK",
+          carBrand: carBrand || null,
+          carPlate: carPlate || null,
         },
       });
     } catch (dbError) {
@@ -46,6 +48,8 @@ export async function POST(req: Request) {
             <table style="width:100%;border-collapse:collapse">
               <tr><td style="padding:6px 0;color:#666;width:140px">Клиент:</td><td><b>${name}</b></td></tr>
               <tr><td style="padding:6px 0;color:#666">Телефон:</td><td><b><a href="tel:${phone}">${phone}</a></b></td></tr>
+              ${carBrand ? `<tr><td style="padding:6px 0;color:#666">Марка авто:</td><td><b>${carBrand}</b></td></tr>` : ""}
+              ${carPlate ? `<tr><td style="padding:6px 0;color:#666">Госномер:</td><td><b>${carPlate}</b></td></tr>` : ""}
               <tr><td style="padding:6px 0;color:#666">Время заявки:</td><td>${now}</td></tr>
             </table>
             <div style="margin-top:20px;padding:12px 16px;background:#fff8e8;border-left:4px solid #e8a000;border-radius:4px">

@@ -34,4 +34,6 @@ model Booking {
   services    String   // Store as JSON string
   totalPrice  Int
   status      String   @default("NEW")
+  carBrand    String?  // Марка автомобиля
+  carPlate    String?  // Государственный номер
 }
