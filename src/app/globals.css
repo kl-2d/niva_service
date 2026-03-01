@@ -19,12 +19,7 @@ h3 {
   letter-spacing: 0.02em;
 }
 
-/* ── Global transition defaults ── */
-*,
-*::before,
-*::after {
-  /* Keep box-sizing normal but add scroll behavior */
-}
+
 
 html {
   scroll-behavior: smooth;

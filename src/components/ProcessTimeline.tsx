@@ -58,7 +58,7 @@ export default function ProcessTimeline() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
+                  transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-row lg:flex-col items-start lg:items-center min-w-[280px] lg:min-w-0 lg:w-40 shrink-0 group"
                 >
                   {/* Vertical connecting line for mobile only */}

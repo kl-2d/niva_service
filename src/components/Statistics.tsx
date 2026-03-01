@@ -84,8 +84,8 @@ export default function Statistics() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-[#D4CFC8] hover:border-[#E07B00]/40 transition-colors group shadow-sm hover:shadow"
+                transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-[#D4CFC8] hover:border-[#E07B00]/40 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1"
               >
                 <div className={`p-4 rounded-full bg-stone-50 border border-stone-100 mb-4 group-hover:bg-orange-50 transition-colors ${stat.color}`}>
                   <IconComponent className="w-8 h-8" />
