@@ -17,6 +17,8 @@ type CategoryDef = {
   icon: React.ElementType;
 };
 
+// NOTE: These 'id' values are used as React keys only — API queries use 'slug'.
+// Category DB ids may differ; that's fine because GET /api/services?categorySlug=... ignores these ids.
 const CATEGORIES: CategoryDef[] = [
   { id: 1, title: "Ремонт ходовой", description: "Диагностика и ремонт подвески, тормозов, рулевого управления.", slug: "hodovoy", icon: Car },
   { id: 2, title: "Ремонт двигателя", description: "Капитальный ремонт, замена ГРМ, поршневой группы.", slug: "engine", icon: Settings },
@@ -36,22 +38,44 @@ const CATEGORIES: CategoryDef[] = [
 function PriceTable({ slug }: { slug: string }) {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const { addItem, items } = useCartStore();
 
-  useEffect(() => {
+  const load = () => {
     setLoading(true);
+    setFetchError(false);
     fetch(`/api/services?categorySlug=${slug}`)
       .then((r) => r.json())
       .then((data) => setServices(Array.isArray(data) ? data : []))
-      .catch(() => setServices([]))
+      .catch(() => setFetchError(true))
       .finally(() => setLoading(false));
-  }, [slug]);
+  };
+
+  useEffect(() => { load(); }, [slug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
         <div className="w-8 h-8 border-2 border-stone-200 border-t-[#E07B00] rounded-full animate-spin" />
         <p className="text-stone-500 text-sm">Загружаем прайс-лист…</p>
+      </div>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4 text-center px-6">
+        <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-2">
+          <span className="text-2xl">⚠️</span>
+        </div>
+        <p className="text-stone-700 font-medium">Не удалось загрузить прайс-лист</p>
+        <p className="text-stone-400 text-sm">Проверьте подключение к интернету</p>
+        <button
+          onClick={load}
+          className="inline-flex items-center gap-2 bg-stone-800 hover:bg-stone-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm mt-1"
+        >
+          Повторить загрузку
+        </button>
       </div>
     );
   }

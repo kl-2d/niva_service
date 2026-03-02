@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar, User, Phone, Car, Hash, Loader2 } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
+import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -60,8 +62,9 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
+    <>
+      <AnimatePresence>
+        {isOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -226,7 +229,15 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Отправить заявку"}
                   </button>
                   <p className="text-xs text-center text-stone-500 mt-4">
-                    Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.
+                    Нажимая кнопку, вы соглашаетесь с{" "}
+                    <button
+                      type="button"
+                      onClick={() => setPrivacyOpen(true)}
+                      className="underline underline-offset-2 hover:text-stone-800 transition-colors"
+                    >
+                      политикой конфиденциальности
+                    </button>
+                    .
                   </p>
                 </form>
               )}
@@ -235,6 +246,8 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
         </div>
       )}
     </AnimatePresence>
+    <PrivacyPolicyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+    </>
   );
 }
 
