@@ -1,15 +1,9 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { signToken } from "@/lib/auth";
 
 const SESSION_COOKIE = "admin_session";
 const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
-
-function generateToken(user: string): string {
-  const secret = process.env.ADMIN_PASSWORD ?? "niva2026";
-  const payload = `${user}:${Date.now()}:${secret}`;
-  // Simple deterministic token — for production use JWT or crypto.createHmac
-  return Buffer.from(payload).toString("base64url");
-}
 
 export async function POST(req: Request) {
   try {
@@ -19,17 +13,14 @@ export async function POST(req: Request) {
     const adminUser = process.env.ADMIN_USER ?? "admin";
     const adminPassword = process.env.ADMIN_PASSWORD ?? "niva2026";
 
-    // Timing-safe comparison
-    const userMatch = username === adminUser;
-    const passMatch = password === adminPassword;
-
-    if (!userMatch || !passMatch) {
-      // Small delay to slow brute-force even more
+    if (username !== adminUser || password !== adminPassword) {
+      // Slow down brute-force
       await new Promise((r) => setTimeout(r, 500));
       return NextResponse.json({ error: "Неверный логин или пароль" }, { status: 401 });
     }
 
-    const token = generateToken(adminUser);
+    // Use HMAC-signed token (not plain base64)
+    const token = signToken(`${adminUser}:${Date.now()}`);
 
     const response = NextResponse.json({ success: true });
     const cookieStore = await cookies();

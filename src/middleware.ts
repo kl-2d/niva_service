@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { Buffer } from "buffer";
+import { verifyToken } from "@/lib/auth";
 
 const SESSION_COOKIE = "admin_session";
 
@@ -43,33 +43,25 @@ export function middleware(req: NextRequest) {
     );
   }
 
-  // Check session cookie
+  // Check session cookie — validate with HMAC signature
   const sessionCookie = req.cookies.get(SESSION_COOKIE);
-
   if (sessionCookie?.value) {
-    // Cookie exists — validate it's not obviously tampered (basic check)
-    try {
-      const decoded = Buffer.from(sessionCookie.value, "base64url").toString("utf-8");
-      if (decoded.includes(":")) {
-        // Valid structure — allow access
-        failedAttempts.delete(ip);
-        const res = NextResponse.next();
-        res.headers.set("x-pathname", pathname);
-        return res;
-      }
-    } catch {
-      // Malformed cookie — fall through to redirect
+    const payload = verifyToken(sessionCookie.value);
+    if (payload) {
+      // Valid HMAC-signed session — allow access
+      failedAttempts.delete(ip);
+      const res = NextResponse.next();
+      res.headers.set("x-pathname", pathname);
+      return res;
     }
   }
 
-  // No valid session → redirect to login
+  // No valid session → increment failed count → redirect to login
   const current = failedAttempts.get(ip) ?? { count: 0, blockedUntil: null };
   current.count++;
-
   if (current.count >= MAX_ATTEMPTS) {
     current.blockedUntil = now + BLOCK_DURATION_MS;
   }
-
   failedAttempts.set(ip, current);
 
   return NextResponse.redirect(new URL("/admin/login", req.url));
