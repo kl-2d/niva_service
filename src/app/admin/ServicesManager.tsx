@@ -287,7 +287,7 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
           {/* Column header */}
           <div className="hidden md:flex items-center gap-4 px-5 py-2.5 bg-stone-50 border-b border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider">
             <span className="flex-1">Название</span>
-            <span className="w-28 text-center">Категория</span>
+            <span className="w-36 text-center">Категория</span>
             <span className="w-24 text-right">Цена</span>
             <span className="w-36 text-center">Активность на сайте</span>
             <span className="w-[72px]" />
@@ -296,44 +296,52 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
           {filtered.map((s, idx) => (
             <div key={s.id} className={`${idx !== 0 ? "border-t border-stone-100" : ""}`}>
               {editingId === s.id ? (
-                /* ── Edit mode ── */
-                <div className="p-4 bg-amber-50 border-l-4 border-[#E07B00]">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
-                    <div className="lg:col-span-2">
-                      <label className="text-xs font-medium text-stone-500 mb-1 block">Название</label>
-                      <input
-                        value={editTitle}
-                        onChange={e => setEditTitle(e.target.value)}
-                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-stone-500 mb-1 block">Цена (₽)</label>
-                      <input
-                        type="number"
-                        value={editPrice}
-                        onChange={e => setEditPrice(e.target.value)}
-                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-stone-500 mb-1 block">Категория</label>
-                      <select
-                        value={editCatId}
-                        onChange={e => setEditCatId(e.target.value)}
-                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
-                      >
-                        <option value="">— Без категории —</option>
-                        {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                      </select>
-                    </div>
+                /* ── Edit mode: same flex layout as view mode ── */
+                <div className="px-5 py-3 flex items-center gap-4 bg-amber-50 border-l-4 border-[#E07B00]">
+                  {/* Title input — flex-1 to match view mode */}
+                  <div className="flex-1 min-w-0">
+                    <label className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-1 block">Название</label>
+                    <input
+                      value={editTitle}
+                      onChange={e => setEditTitle(e.target.value)}
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
+                    />
                   </div>
-                  <div className="flex gap-2 mt-3 justify-end">
-                    <button onClick={cancelEdit} className="flex items-center gap-1.5 px-4 py-2 bg-white border border-stone-200 rounded-lg text-sm text-stone-600 hover:bg-stone-50 transition">
-                      <X className="w-4 h-4" /> Отмена
+
+                  {/* Category — w-36 matches header */}
+                  <div className="shrink-0 w-36">
+                    <label className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-1 block">Категория</label>
+                    <select
+                      value={editCatId}
+                      onChange={e => setEditCatId(e.target.value)}
+                      className="w-full bg-white border border-stone-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
+                    >
+                      <option value="">— Без категории —</option>
+                      {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                    </select>
+                  </div>
+
+                  {/* Price — w-24 matches header */}
+                  <div className="shrink-0 w-24">
+                    <label className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-1 block">Цена (₽)</label>
+                    <input
+                      type="number"
+                      value={editPrice}
+                      onChange={e => setEditPrice(e.target.value)}
+                      className="w-full bg-white border border-stone-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E07B00]"
+                    />
+                  </div>
+
+                  {/* Placeholder for toggle column — w-36 */}
+                  <div className="shrink-0 w-36" />
+
+                  {/* Save / Cancel — w-[72px] matches actions column */}
+                  <div className="flex items-center gap-1 shrink-0 w-[72px] justify-end">
+                    <button onClick={cancelEdit} className="p-2 rounded-lg hover:bg-white text-stone-400 hover:text-stone-700 transition" title="Отмена">
+                      <X className="w-4 h-4" />
                     </button>
-                    <button onClick={() => saveEdit(s.id)} disabled={isPending} className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-700 transition disabled:opacity-60">
-                      <Check className="w-4 h-4" /> Сохранить
+                    <button onClick={() => saveEdit(s.id)} disabled={isPending} className="p-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition disabled:opacity-60" title="Сохранить">
+                      <Check className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -348,10 +356,10 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
                     {s.description && <div className="text-xs text-stone-400 truncate mt-0.5">{s.description}</div>}
                   </div>
 
-                  {/* Category badge */}
-                  <div className="shrink-0 w-28 text-center">
+                  {/* Category badge — w-36 matches header, text can wrap */}
+                  <div className="shrink-0 w-36 text-center">
                     {s.category ? (
-                      <span className="text-xs px-2.5 py-1 bg-stone-100 text-stone-600 rounded-full border border-stone-200 font-medium">
+                      <span className="inline-block text-xs px-2.5 py-1 bg-stone-100 text-stone-600 rounded-lg border border-stone-200 font-medium leading-snug text-center">
                         {s.category.name}
                       </span>
                     ) : (
