@@ -8,8 +8,14 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const categorySlug = searchParams.get("categorySlug");
+    const isAdminParam = searchParams.get("admin") === "true";
 
-    const isAdmin = searchParams.get("admin") === "true";
+    // ?admin=true requires a valid admin session — otherwise treat as public
+    let isAdmin = false;
+    if (isAdminParam) {
+      const unauth = await requireAdmin();
+      isAdmin = unauth === null; // null means authorized
+    }
 
     const where: Record<string, unknown> = {};
     if (categorySlug) where.category = { slug: categorySlug };

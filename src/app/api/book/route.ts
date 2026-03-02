@@ -6,6 +6,17 @@ import { bookingSchema } from "@/lib/schemas";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+/** Escapes HTML special chars to prevent XSS in email templates. */
+function esc(str: string | null | undefined): string {
+  if (!str) return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export async function POST(req: Request) {
   try {
     // ── Rate limiting: 5 bookings per 10 min per IP ──────────────────────────
@@ -54,8 +65,9 @@ export async function POST(req: Request) {
 
     // ── Email via Resend ─────────────────────────────────────────────────────
     try {
+      // esc() sanitizes user input before embedding in HTML
       const serviceList = services
-        .map((s) => `<li>${s.title} — <b>${s.price.toLocaleString("ru-RU")} ₽</b></li>`)
+        .map((s) => `<li>${esc(s.title)} — <b>${s.price.toLocaleString("ru-RU")} ₽</b></li>`)
         .join("");
 
       const recipients = (process.env.MANAGER_EMAIL || "")
@@ -66,18 +78,18 @@ export async function POST(req: Request) {
       const { data, error } = await resend.emails.send({
         from: "Нива Сервис <onboarding@resend.dev>",
         to: recipients,
-        subject: `🔧 Новая заявка с сайта от: ${name}`,
+        subject: `🔧 Новая заявка с сайта от: ${esc(name)}`,
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto">
             <h2 style="color:#1a3a2a;border-bottom:2px solid #e8a000;padding-bottom:8px">
               🔧 Новая заявка на ремонт — Нива Сервис
             </h2>
             <table style="width:100%;border-collapse:collapse">
-              <tr><td style="padding:6px 0;color:#666;width:140px">Клиент:</td><td><b>${name}</b></td></tr>
-              <tr><td style="padding:6px 0;color:#666">Телефон:</td><td><b>${phone}</b></td></tr>
-              <tr><td style="padding:6px 0;color:#666">Желаемая дата:</td><td>${date || "Не указана"}</td></tr>
-              ${carBrand ? `<tr><td style="padding:6px 0;color:#666">Марка авто:</td><td><b>${carBrand}</b></td></tr>` : ""}
-              ${carPlate ? `<tr><td style="padding:6px 0;color:#666">Госномер:</td><td><b>${carPlate}</b></td></tr>` : ""}
+              <tr><td style="padding:6px 0;color:#666;width:140px">Клиент:</td><td><b>${esc(name)}</b></td></tr>
+              <tr><td style="padding:6px 0;color:#666">Телефон:</td><td><b>${esc(phone)}</b></td></tr>
+              <tr><td style="padding:6px 0;color:#666">Желаемая дата:</td><td>${esc(date) || "Не указана"}</td></tr>
+              ${carBrand ? `<tr><td style="padding:6px 0;color:#666">Марка авто:</td><td><b>${esc(carBrand)}</b></td></tr>` : ""}
+              ${carPlate ? `<tr><td style="padding:6px 0;color:#666">Госномер:</td><td><b>${esc(carPlate)}</b></td></tr>` : ""}
             </table>
             <h3 style="margin-top:20px;color:#1a3a2a">Выбранные услуги:</h3>
             <ul style="padding-left:20px;line-height:1.8">${serviceList}</ul>
