@@ -81,7 +81,7 @@ function ActiveToggle({
   );
 }
 
-export default function ServicesManager() {
+export default function ServicesManager({ onCountChange }: { onCountChange?: (count: number) => void }) {
   const [services, setServices]     = useState<ServiceWithCategory[]>([]);
   const [loading, setLoading]       = useState(true);
   const [search, setSearch]         = useState("");
@@ -109,7 +109,9 @@ export default function ServicesManager() {
     try {
       const res = await fetch("/api/services?admin=true");
       const data = await res.json();
-      setServices(Array.isArray(data) ? data : []);
+      const list: ServiceWithCategory[] = Array.isArray(data) ? data : [];
+      setServices(list);
+      onCountChange?.(list.length);
     } catch { }
     finally { setLoading(false); }
   };

@@ -39,9 +39,10 @@ const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
 
 export { STATUS_LABEL };
 
-export default function AdminShell({ bookings, totalRevenue, newToday, servicesCount }: Props) {
+export default function AdminShell({ bookings, totalRevenue, newToday, servicesCount: initialServicesCount }: Props) {
   const [tab, setTab] = useState<Tab>("bookings");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [servicesCount, setServicesCount] = useState(initialServicesCount);
   const router = useRouter();
 
   async function handleLogout() {
@@ -230,7 +231,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           {tab === "bookings" && <BookingsPanel initialBookings={bookings} />}
 
           {/* Services tab */}
-          {tab === "services" && <ServicesManager />}
+          {tab === "services" && <ServicesManager onCountChange={setServicesCount} />}
 
         </main>
       </div>

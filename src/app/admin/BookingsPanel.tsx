@@ -5,7 +5,7 @@ import { Phone, Trash2, ChevronDown, Car, CalendarDays, Wrench, ArrowUpDown } fr
 
 interface Booking {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   name: string;
   phone: string;
   date: string | null;
