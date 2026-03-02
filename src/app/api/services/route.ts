@@ -8,8 +8,14 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const categorySlug = searchParams.get("categorySlug");
 
+    const isAdmin = searchParams.get("admin") === "true";
+
+    const where: Record<string, unknown> = {};
+    if (categorySlug) where.category = { slug: categorySlug };
+    if (!isAdmin) where.isActive = true;
+
     const services = await prisma.service.findMany({
-      where: categorySlug ? { category: { slug: categorySlug } } : undefined,
+      where,
       include: { category: true },
       orderBy: { title: "asc" },
     });
@@ -45,9 +51,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, description, price, categoryId } = parsed.data;
+    const { title, description, price, categoryId, isActive } = parsed.data;
     const newService = await prisma.service.create({
-      data: { title, description: description ?? null, price, categoryId: categoryId ?? null },
+      data: { title, description: description ?? null, price, categoryId: categoryId ?? null, isActive: isActive ?? true },
       include: { category: true },
     });
 

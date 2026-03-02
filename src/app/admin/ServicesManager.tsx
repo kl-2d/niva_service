@@ -9,6 +9,7 @@ type ServiceWithCategory = {
   title: string;
   description: string | null;
   price: number;
+  isActive: boolean;
   categoryId: number | null;
   category: CategoryObj | null;
 };
@@ -24,6 +25,61 @@ const CATEGORIES: CategoryObj[] = [
   { id: 8,  name: "Развал-схождение", slug: "rasval"      },
   { id: 9,  name: "Электрика",        slug: "electrics"   },
 ];
+
+/* ── Toggle Switch component ───────────────────────────────────── */
+function ActiveToggle({
+  serviceId,
+  isActive,
+  onChange,
+}: {
+  serviceId: number;
+  isActive: boolean;
+  onChange: (id: number, newValue: boolean) => void;
+}) {
+  const [pending, setPending] = useState(false);
+
+  const toggle = async () => {
+    setPending(true);
+    try {
+      const res = await fetch(`/api/services/${serviceId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isActive: !isActive }),
+      });
+      if (res.ok) onChange(serviceId, !isActive);
+    } finally {
+      setPending(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-2 shrink-0">
+      <button
+        role="switch"
+        aria-checked={isActive}
+        onClick={toggle}
+        disabled={pending}
+        title={isActive ? "Скрыть на сайте" : "Показать на сайте"}
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#E07B00] disabled:opacity-50 ${
+          isActive ? "bg-emerald-500" : "bg-stone-300"
+        }`}
+      >
+        <span
+          className={`inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+            isActive ? "translate-x-6" : "translate-x-1"
+          }`}
+        />
+      </button>
+      <span
+        className={`text-xs font-semibold w-6 select-none ${
+          isActive ? "text-emerald-600" : "text-stone-400"
+        }`}
+      >
+        {isActive ? "Да" : "Нет"}
+      </span>
+    </div>
+  );
+}
 
 export default function ServicesManager() {
   const [services, setServices]     = useState<ServiceWithCategory[]>([]);
@@ -51,11 +107,17 @@ export default function ServicesManager() {
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/services");
+      const res = await fetch("/api/services?admin=true");
       const data = await res.json();
       setServices(Array.isArray(data) ? data : []);
     } catch { }
     finally { setLoading(false); }
+  };
+
+  const handleToggle = (id: number, newValue: boolean) => {
+    setServices(prev =>
+      prev.map(s => s.id === id ? { ...s, isActive: newValue } : s)
+    );
   };
 
   const startEdit = (s: ServiceWithCategory) => {
@@ -220,6 +282,15 @@ export default function ServicesManager() {
         </div>
       ) : (
         <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
+          {/* Column header */}
+          <div className="hidden md:flex items-center gap-4 px-5 py-2.5 bg-stone-50 border-b border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider">
+            <span className="flex-1">Название</span>
+            <span className="w-28 text-center">Категория</span>
+            <span className="w-24 text-right">Цена</span>
+            <span className="w-36 text-center">Активность на сайте</span>
+            <span className="w-[72px]" />
+          </div>
+
           {filtered.map((s, idx) => (
             <div key={s.id} className={`${idx !== 0 ? "border-t border-stone-100" : ""}`}>
               {editingId === s.id ? (
@@ -266,12 +337,17 @@ export default function ServicesManager() {
                 </div>
               ) : (
                 /* ── View mode ── */
-                <div className="px-5 py-4 flex items-center gap-4 group hover:bg-stone-50 transition-colors">
+                <div className={`px-5 py-3.5 flex items-center gap-4 group transition-colors ${s.isActive ? "hover:bg-stone-50" : "bg-stone-50/60 hover:bg-stone-100/60"}`}>
+                  {/* Title + description */}
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium text-stone-900 text-sm truncate">{s.title}</div>
+                    <div className={`font-medium text-sm truncate ${s.isActive ? "text-stone-900" : "text-stone-400 line-through"}`}>
+                      {s.title}
+                    </div>
                     {s.description && <div className="text-xs text-stone-400 truncate mt-0.5">{s.description}</div>}
                   </div>
-                  <div className="shrink-0">
+
+                  {/* Category badge */}
+                  <div className="shrink-0 w-28 text-center">
                     {s.category ? (
                       <span className="text-xs px-2.5 py-1 bg-stone-100 text-stone-600 rounded-full border border-stone-200 font-medium">
                         {s.category.name}
@@ -280,9 +356,22 @@ export default function ServicesManager() {
                       <span className="text-xs text-stone-300">—</span>
                     )}
                   </div>
-                  <div className="font-mono font-bold text-stone-900 shrink-0 w-24 text-right">
+
+                  {/* Price */}
+                  <div className={`font-mono font-bold shrink-0 w-24 text-right ${s.isActive ? "text-stone-900" : "text-stone-400"}`}>
                     {s.price.toLocaleString("ru-RU")} ₽
                   </div>
+
+                  {/* Active toggle */}
+                  <div className="shrink-0 w-36 flex justify-center">
+                    <ActiveToggle
+                      serviceId={s.id}
+                      isActive={s.isActive}
+                      onChange={handleToggle}
+                    />
+                  </div>
+
+                  {/* Edit / Delete */}
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                     <button
                       onClick={() => startEdit(s)}
@@ -303,9 +392,17 @@ export default function ServicesManager() {
               )}
             </div>
           ))}
+
           {/* Footer count */}
           <div className="border-t border-stone-100 px-5 py-3 bg-stone-50 flex justify-between text-xs text-stone-400">
-            <span>Показано: {filtered.length} {filtered.length === 1 ? "позиция" : filtered.length < 5 ? "позиции" : "позиций"}</span>
+            <span>
+              Показано: {filtered.length} {filtered.length === 1 ? "позиция" : filtered.length < 5 ? "позиции" : "позиций"}
+              {filtered.filter(s => !s.isActive).length > 0 && (
+                <span className="ml-2 text-amber-500">
+                  ({filtered.filter(s => !s.isActive).length} скрыто)
+                </span>
+              )}
+            </span>
             <span>Всего в каталоге: {services.length}</span>
           </div>
         </div>

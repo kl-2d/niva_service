@@ -12,6 +12,7 @@ model Service {
   title       String
   description String?
   price       Int
+  isActive    Boolean  @default(true)
   categoryId  Int?     // For relation
   category    Category? @relation(fields: [categoryId], references: [id])
   createdAt   DateTime @default(now())

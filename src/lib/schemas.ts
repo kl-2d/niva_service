@@ -55,6 +55,7 @@ export const serviceSchema = z.object({
     .pipe(z.number().min(0, "Цена не может быть отрицательной").max(10_000_000)),
   categoryId: z.number().int().positive().optional().nullable(),
   description: z.string().max(1000).optional().nullable(),
+  isActive: z.boolean().optional().default(true),
 });
 
 export type BookingInput = z.infer<typeof bookingSchema>;
