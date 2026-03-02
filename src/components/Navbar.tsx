@@ -37,24 +37,24 @@ export default function Navbar() {
             : "bg-[#1C1C1C]/95 backdrop-blur-md border-b border-white/10"
         }`}
       >
-        <div className={`max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? "h-14" : "h-16"}`}>
+        <div className={`max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? "h-16" : "h-20"}`}>
 
           {/* Logo */}
           <Link href="/" className="shrink-0 flex items-center gap-2.5 group">
             {/* Logo icon — wrench in orange circle */}
-            <div className="w-8 h-8 rounded-lg bg-[#E07B00] flex items-center justify-center shadow-sm shadow-orange-900/40 shrink-0 group-hover:bg-[#B86300] transition-colors">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-4.5 h-4.5 w-[18px] h-[18px]">
+            <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shadow-sm shadow-orange-900/40 shrink-0 group-hover:bg-[#B86300] transition-colors">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
               </svg>
             </div>
             <div className="flex flex-col leading-none">
               <span
-                className="text-lg font-bold text-white uppercase tracking-wider transition-colors group-hover:text-[#E07B00]"
+                className="text-xl font-bold text-white uppercase tracking-wider transition-colors group-hover:text-[#E07B00]"
                 style={{ fontFamily: "var(--font-oswald)" }}
               >
                 Нива Сервис
               </span>
-              <span className="text-[10px] text-stone-400 font-medium tracking-widest uppercase hidden sm:block">
+              <span className="text-[11px] text-stone-400 font-medium tracking-widest uppercase hidden sm:block">
                 Воронеж
               </span>
             </div>
@@ -68,7 +68,7 @@ export default function Navbar() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`relative px-4 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200 ${
+                    className={`relative px-4 py-2.5 rounded-lg text-base font-semibold tracking-wide transition-all duration-200 ${
                       isActive
                         ? "text-[#E07B00] bg-white/8"
                         : "text-stone-300 hover:text-white hover:bg-white/10"
@@ -95,7 +95,7 @@ export default function Navbar() {
                 <Phone className="w-3.5 h-3.5 text-[#E07B00]" />
               </span>
               <div className="flex flex-col leading-tight">
-                <span className="font-bold text-sm">+7 920 229-56-56</span>
+                <span className="font-bold text-base">+7 920 229-56-56</span>
                 <span className="text-[10px] text-stone-500">Звонок бесплатный</span>
               </div>
             </a>

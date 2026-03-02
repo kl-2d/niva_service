@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export default function AboutPage() {
+  const yearsOfWork = new Date().getFullYear() - 2008;
   return (
     <div className="pt-8 pb-24 bg-stone-100">
       <script
@@ -49,7 +50,7 @@ export default function AboutPage() {
               Специализированный сервис НИВА
             </h2>
             <p className="text-lg text-stone-700 mb-6 leading-relaxed">
-              Мы более 15 лет занимаемся исключительно ремонтом и тюнингом автомобилей семейства Нива. 
+              Мы более {yearsOfWork} лет занимаемся исключительно ремонтом и тюнингом автомобилей семейства Нива. 
               За это время мы накопили колоссальный опыт решения самых нестандартных проблем и разработали 
               собственные технологические решения, подтвержденные патентами.
             </p>
@@ -59,7 +60,7 @@ export default function AboutPage() {
                   <Award className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-stone-900">15 лет опыта</h4>
+                  <h4 className="font-semibold text-stone-900">{yearsOfWork} лет опыта</h4>
                   <p className="text-stone-700 text-sm">Знаем каждую гайку в Ниве</p>
                 </div>
               </li>

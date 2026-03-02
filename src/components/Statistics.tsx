@@ -36,42 +36,48 @@ function AnimatedCounter({ value, suffix = "", duration = 2 }: CounterProps) {
   );
 }
 
-const stats = [
-  {
-    id: 1,
-    icon: ShieldCheck,
-    value: 100,
-    suffix: "%",
-    label: "гарантия качества",
-    color: "text-[#E07B00]",
-  },
-  {
-    id: 2,
-    icon: Calendar,
-    value: 15,
-    suffix: " лет",
-    label: "успешной работы",
-    color: "text-[#E07B00]",
-  },
-  {
-    id: 3,
-    icon: Users,
-    value: 10,
-    suffix: "",
-    label: "высококлассных специалистов",
-    color: "text-[#2B3A2E]",
-  },
-  {
-    id: 4,
-    icon: Wrench,
-    value: 2000,
-    suffix: "+",
-    label: "выполненных заказов в год",
-    color: "text-[#2B3A2E]",
-  },
-];
+const FOUNDED_YEAR = 2008;
+
+function getStats() {
+  const yearsOfWork = new Date().getFullYear() - FOUNDED_YEAR;
+  return [
+    {
+      id: 1,
+      icon: ShieldCheck,
+      value: 100,
+      suffix: "%",
+      label: "гарантия качества",
+      color: "text-[#E07B00]",
+    },
+    {
+      id: 2,
+      icon: Calendar,
+      value: yearsOfWork,
+      suffix: " лет",
+      label: "успешной работы",
+      color: "text-[#E07B00]",
+    },
+    {
+      id: 3,
+      icon: Users,
+      value: 10,
+      suffix: "",
+      label: "высококлассных специалистов",
+      color: "text-[#2B3A2E]",
+    },
+    {
+      id: 4,
+      icon: Wrench,
+      value: 2000,
+      suffix: "+",
+      label: "выполненных заказов в год",
+      color: "text-[#2B3A2E]",
+    },
+  ];
+}
 
 export default function Statistics() {
+  const stats = getStats();
   return (
     <section className="py-20 bg-[#F5F2EC] border-b border-[#D4CFC8]">
       <div className="max-w-7xl mx-auto px-4">
