@@ -133,51 +133,101 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
               }`}
             >
               {/* Card header */}
-              <div className="p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-                {/* Left: name + phone */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="font-bold text-stone-900 text-lg">{b.name}</span>
-                    <span className={`text-xs px-2.5 py-1 rounded-full font-semibold border ${meta.cls}`}>
+              <div className="p-5 flex flex-col lg:flex-row lg:items-center gap-4">
+
+                {/* Left: name + badge */}
+                <div className="flex items-center gap-3 lg:w-44 shrink-0">
+                  <div>
+                    <div className="font-bold text-stone-900 text-base leading-tight">{b.name}</div>
+                    <span className={`mt-1 inline-block text-xs px-2.5 py-0.5 rounded-full font-semibold border ${meta.cls}`}>
                       {meta.label}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-sm text-stone-500">
-                    <a href={`tel:${b.phone.replace(/\D/g,"")}`} className="flex items-center gap-1.5 hover:text-[#E07B00] transition-colors font-medium">
-                      <Phone className="w-3.5 h-3.5" />
-                      {b.phone}
-                    </a>
-                    {b.carBrand && (
-                      <span className="flex items-center gap-1.5">
-                        <Car className="w-3.5 h-3.5" />
-                        {b.carBrand}{b.carPlate ? ` · ${b.carPlate}` : ""}
-                      </span>
-                    )}
-                    {b.date && (
-                      <span className="flex items-center gap-1.5">
-                        <CalendarDays className="w-3.5 h-3.5" />
-                        {new Date(b.date).toLocaleDateString("ru-RU", { day: "2-digit", month: "long" })}
-                      </span>
-                    )}
-                    <span className="text-stone-400 text-xs">
-                      {new Date(b.createdAt).toLocaleDateString("ru-RU")}
                     </span>
                   </div>
                 </div>
 
-                {/* Right: price + actions */}
-                <div className="flex items-center gap-3 shrink-0">
-                  <div className="text-right">
-                    <div className="text-xl font-bold font-mono text-stone-900">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
-                    <div className="text-xs text-stone-400">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
+                {/* Center: info fields grid */}
+                <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-x-6 gap-y-3">
+
+                  {/* Телефон */}
+                  <div>
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Телефон</div>
+                    <a
+                      href={`tel:${b.phone.replace(/\D/g, "")}`}
+                      className="text-sm font-semibold text-[#E07B00] hover:text-[#B86300] transition-colors flex items-center gap-1"
+                    >
+                      <Phone className="w-3 h-3 shrink-0" />
+                      {b.phone}
+                    </a>
                   </div>
+
+                  {/* Машина */}
+                  <div>
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Машина</div>
+                    <div className="text-sm text-stone-800 font-medium flex items-center gap-1">
+                      <Car className="w-3 h-3 text-stone-400 shrink-0" />
+                      {b.carBrand || <span className="text-stone-300 font-normal">—</span>}
+                    </div>
+                  </div>
+
+                  {/* Госномер */}
+                  <div>
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Госномер</div>
+                    <div className="text-sm font-mono font-semibold text-stone-800 tracking-widest uppercase">
+                      {b.carPlate || <span className="text-stone-300 font-normal font-sans tracking-normal">—</span>}
+                    </div>
+                  </div>
+
+                  {/* Дата заказа */}
+                  <div>
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Дата заказа</div>
+                    <div className="text-sm text-stone-700 flex items-center gap-1">
+                      <CalendarDays className="w-3 h-3 text-stone-400 shrink-0" />
+                      {new Date(b.createdAt).toLocaleString("ru-RU", {
+                        day: "2-digit", month: "2-digit", year: "numeric",
+                        hour: "2-digit", minute: "2-digit",
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Желаемая дата */}
+                  <div>
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Желаемая дата</div>
+                    <div className="text-sm text-stone-700 flex items-center gap-1">
+                      <CalendarDays className="w-3 h-3 text-stone-400 shrink-0" />
+                      {b.date
+                        ? new Date(b.date).toLocaleDateString("ru-RU", { day: "2-digit", month: "long", year: "numeric" })
+                        : <span className="text-stone-300">не указана</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: price + actions */}
+                <div className="flex items-center gap-2 shrink-0 lg:pl-4 lg:border-l lg:border-stone-100">
+                  {parsedServices.length === 0 || b.totalPrice === 0 ? (
+                    /* Callback-only request */
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="relative flex items-center gap-1.5 text-sm font-bold text-amber-700 bg-amber-50 border border-amber-300 rounded-xl px-3 py-1.5 whitespace-nowrap">
+                        <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                        </span>
+                        📞 Ждёт звонка
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="text-right mr-1">
+                      <div className="text-lg font-bold font-mono text-stone-900 whitespace-nowrap">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
+                      <div className="text-xs text-stone-400">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
+                    </div>
+                  )}
 
                   {/* Status toggle */}
                   <button
                     onClick={() => cycleStatus(b.id)}
                     disabled={isPending}
                     title={meta.next}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all hover:opacity-80 ${meta.cls}`}
+                    className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all hover:opacity-80 whitespace-nowrap ${meta.cls}`}
                   >
                     {meta.next}
                   </button>
@@ -185,7 +235,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Expand */}
                   <button
                     onClick={() => setExpanded(isExpanded ? null : b.id)}
-                    className="p-2 rounded-xl hover:bg-stone-100 text-stone-400 transition"
+                    className="p-2 rounded-xl hover:bg-stone-100 text-stone-400 transition shrink-0"
+                    title="Показать услуги"
                   >
                     <ChevronDown className={`w-5 h-5 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                   </button>
@@ -193,7 +244,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Delete */}
                   <button
                     onClick={() => deleteBooking(b.id)}
-                    className="p-2 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition"
+                    className="p-2 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition shrink-0"
+                    title="Удалить заявку"
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>
