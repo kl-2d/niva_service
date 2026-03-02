@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { serviceSchema } from "@/lib/schemas";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET(request: Request) {
   try {
@@ -27,6 +28,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const unauth = await requireAdmin();
+  if (unauth) return unauth;
+
   try {
     // Rate limit: 30 writes per minute per IP (admin actions)
     const ip = getClientIp(request);

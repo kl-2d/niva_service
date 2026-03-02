@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 const STATUS_CYCLE: Record<string, string> = {
   NEW: "IN_PROGRESS",
@@ -11,6 +12,9 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauth = await requireAdmin();
+  if (unauth) return unauth;
+
   try {
     const id = parseInt((await params).id, 10);
     const booking = await prisma.booking.findUnique({ where: { id } });
@@ -32,6 +36,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauth = await requireAdmin();
+  if (unauth) return unauth;
+
   try {
     const id = parseInt((await params).id, 10);
     await prisma.booking.delete({ where: { id } });

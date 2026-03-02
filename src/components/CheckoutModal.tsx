@@ -14,6 +14,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const { items, totalPrice, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,6 +27,7 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       const res = await fetch("/api/book", {
@@ -47,11 +49,11 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
           setFormData({ name: "", phone: "", date: "", carBrand: "", carPlate: "" });
         }, 3000);
       } else {
-        alert("Произошла ошибка при отправке заявки.");
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Произошла ошибка при отправке заявки. Попробуйте ещё раз.");
       }
-    } catch (err) {
-      console.error(err);
-      alert("Ошибка сети.");
+    } catch {
+      setError("Ошибка сети. Проверьте подключение к интернету.");
     } finally {
       setLoading(false);
     }
@@ -206,8 +208,15 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <span>Выбрано услуг: {items.length}</span>
                       <span>Сумма:</span>
                     </div>
-                    <div className="text-right text-2xl font-mono text-stone-900 font-bold">{totalPrice} ₽</div>
+                    <div className="text-right text-2xl font-mono text-stone-900 font-bold">{totalPrice.toLocaleString("ru-RU")} ₽</div>
                   </div>
+
+                  {error && (
+                    <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+                      <span className="shrink-0 mt-0.5">⚠</span>
+                      <span>{error}</span>
+                    </div>
+                  )}
 
                   <button
                     type="submit"

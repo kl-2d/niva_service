@@ -3,11 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { serviceSchema } from "@/lib/schemas";
 import { z } from "zod";
+import { requireAdmin } from "@/lib/auth";
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauth = await requireAdmin();
+  if (unauth) return unauth;
+
   try {
     const ip = getClientIp(request);
     const { allowed } = rateLimit(ip, "services-write", 30, 60 * 1000);
@@ -49,6 +53,9 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauth = await requireAdmin();
+  if (unauth) return unauth;
+
   try {
     const ip = getClientIp(request);
     const { allowed } = rateLimit(ip, "services-write", 30, 60 * 1000);
@@ -84,6 +91,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const unauth = await requireAdmin();
+  if (unauth) return unauth;
+
   try {
     const ip = getClientIp(request);
     const { allowed } = rateLimit(ip, "services-write", 30, 60 * 1000);

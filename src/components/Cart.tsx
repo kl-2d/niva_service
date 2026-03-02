@@ -95,7 +95,7 @@ export default function Cart() {
                         >
                           <div>
                             <h4 className="text-stone-900 font-medium mb-1">{item.title}</h4>
-                            <span className="text-[#E07B00] font-mono text-sm font-semibold">{item.price} ₽</span>
+                            <span className="text-[#E07B00] font-mono text-sm font-semibold">{item.price.toLocaleString("ru-RU")} ₽</span>
                           </div>
                           <button 
                             onClick={() => removeItem(item.id)}
@@ -113,7 +113,7 @@ export default function Cart() {
               <div className="p-6 border-t border-stone-200 bg-stone-50">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-stone-500 text-sm">Итого (предварительно)</span>
-                  <span className="text-2xl font-bold font-mono text-stone-900">{totalPrice} ₽</span>
+                  <span className="text-2xl font-bold font-mono text-stone-900">{totalPrice.toLocaleString("ru-RU")} ₽</span>
                 </div>
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
