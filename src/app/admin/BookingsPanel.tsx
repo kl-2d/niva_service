@@ -204,7 +204,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
                 {/* Right: price + actions */}
                 <div className="flex items-center gap-2 shrink-0 lg:pl-4 lg:border-l lg:border-stone-100">
-                  {parsedServices.length === 0 || b.totalPrice === 0 ? (
+                  {(parsedServices.length === 0 || b.totalPrice === 0) && b.status !== "DONE" ? (
                     /* Callback-only request */
                     <div className="flex flex-col items-center gap-1">
                       <span className="relative flex items-center gap-1.5 text-sm font-bold text-amber-700 bg-amber-50 border border-amber-300 rounded-xl px-3 py-1.5 whitespace-nowrap">
@@ -215,12 +215,12 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                         📞 Ждёт звонка
                       </span>
                     </div>
-                  ) : (
+                  ) : parsedServices.length > 0 ? (
                     <div className="text-right mr-1">
                       <div className="text-lg font-bold font-mono text-stone-900 whitespace-nowrap">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
                       <div className="text-xs text-stone-400">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
                     </div>
-                  )}
+                  ) : null}
 
                   {/* Status toggle */}
                   <button
