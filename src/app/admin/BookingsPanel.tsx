@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Phone, Trash2, ChevronDown, Car, CalendarDays, Wrench } from "lucide-react";
+import { Phone, Trash2, ChevronDown, Car, CalendarDays, Wrench, ArrowUpDown } from "lucide-react";
 
 interface Booking {
   id: number;
@@ -23,14 +23,25 @@ const STATUS_META: Record<string, { label: string; cls: string; next: string }> 
 };
 
 type Filter = "ALL" | "NEW" | "IN_PROGRESS" | "DONE";
+type SortKey = "date_desc" | "date_asc" | "price_desc" | "price_asc";
 
 export default function BookingsPanel({ initialBookings }: { initialBookings: Booking[] }) {
   const [bookings, setBookings] = useState(initialBookings);
   const [filter, setFilter] = useState<Filter>("ALL");
+  const [sort, setSort] = useState<SortKey>("date_desc");
   const [expanded, setExpanded] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const filtered = filter === "ALL" ? bookings : bookings.filter(b => b.status === filter);
+  const filtered = (() => {
+    const base = filter === "ALL" ? bookings : bookings.filter(b => b.status === filter);
+    return [...base].sort((a, b) => {
+      if (sort === "date_desc") return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sort === "date_asc")  return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      if (sort === "price_desc") return b.totalPrice - a.totalPrice;
+      if (sort === "price_asc")  return a.totalPrice - b.totalPrice;
+      return 0;
+    });
+  })();
 
   const cycleStatus = (id: number) => {
     startTransition(async () => {
@@ -59,24 +70,41 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
   return (
     <div className="space-y-4">
-      {/* Filter chips */}
-      <div className="flex flex-wrap gap-2">
-        {FILTERS.map(f => (
-          <button
-            key={f.id}
-            onClick={() => setFilter(f.id)}
-            className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${
-              filter === f.id
-                ? "bg-[#E07B00] text-white border-[#E07B00] shadow-sm"
-                : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
-            }`}
+      {/* Filter + Sort row */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        {/* Filter chips */}
+        <div className="flex flex-wrap gap-2 flex-1">
+          {FILTERS.map(f => (
+            <button
+              key={f.id}
+              onClick={() => setFilter(f.id)}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${
+                filter === f.id
+                  ? "bg-[#E07B00] text-white border-[#E07B00] shadow-sm"
+                  : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
+              }`}
+            >
+              {f.label}
+              <span className={`ml-2 px-1.5 py-0.5 rounded-full text-xs font-bold ${filter === f.id ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"}`}>
+                {f.count}
+              </span>
+            </button>
+          ))}
+        </div>
+        {/* Sort selector */}
+        <div className="flex items-center gap-2 shrink-0">
+          <ArrowUpDown className="w-4 h-4 text-stone-400" />
+          <select
+            value={sort}
+            onChange={e => setSort(e.target.value as SortKey)}
+            className="text-sm border border-stone-200 rounded-xl px-3 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00]"
           >
-            {f.label}
-            <span className={`ml-2 px-1.5 py-0.5 rounded-full text-xs font-bold ${filter === f.id ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"}`}>
-              {f.count}
-            </span>
-          </button>
-        ))}
+            <option value="date_desc">Сначала новые</option>
+            <option value="date_asc">Сначала старые</option>
+            <option value="price_desc">Сумма: по убыванию</option>
+            <option value="price_asc">Сумма: по возрастанию</option>
+          </select>
+        </div>
       </div>
 
       {/* Cards */}
