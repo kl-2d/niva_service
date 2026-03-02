@@ -17,26 +17,26 @@ interface Booking {
 }
 
 const STATUS_META: Record<string, { label: string; cls: string; next: string }> = {
-  NEW:         { label: "Новая",     cls: "bg-amber-100 text-amber-800 border-amber-200",   next: "Взять в работу" },
-  IN_PROGRESS: { label: "В работе", cls: "bg-blue-100 text-blue-800 border-blue-200",      next: "Отметить выполненным" },
-  DONE:        { label: "Выполнено",cls: "bg-emerald-100 text-emerald-800 border-emerald-200", next: "Вернуть в новые" },
+  NEW:         { label: "Новая",     cls: "bg-amber-100 text-amber-800 border-amber-200",       next: "Взять в работу" },
+  IN_PROGRESS: { label: "В работе", cls: "bg-blue-100 text-blue-800 border-blue-200",           next: "Отметить выполненным" },
+  DONE:        { label: "Выполнено", cls: "bg-emerald-100 text-emerald-800 border-emerald-200", next: "Вернуть в новые" },
 };
 
-type Filter = "ALL" | "NEW" | "IN_PROGRESS" | "DONE";
+type Filter  = "ALL" | "NEW" | "IN_PROGRESS" | "DONE";
 type SortKey = "date_desc" | "date_asc" | "price_desc" | "price_asc";
 
 export default function BookingsPanel({ initialBookings }: { initialBookings: Booking[] }) {
   const [bookings, setBookings] = useState(initialBookings);
-  const [filter, setFilter] = useState<Filter>("ALL");
-  const [sort, setSort] = useState<SortKey>("date_desc");
+  const [filter, setFilter]     = useState<Filter>("ALL");
+  const [sort, setSort]         = useState<SortKey>("date_desc");
   const [expanded, setExpanded] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const filtered = (() => {
     const base = filter === "ALL" ? bookings : bookings.filter(b => b.status === filter);
     return [...base].sort((a, b) => {
-      if (sort === "date_desc") return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      if (sort === "date_asc")  return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      if (sort === "date_desc")  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sort === "date_asc")   return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       if (sort === "price_desc") return b.totalPrice - a.totalPrice;
       if (sort === "price_asc")  return a.totalPrice - b.totalPrice;
       return 0;
@@ -62,17 +62,16 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
   };
 
   const FILTERS: { id: Filter; label: string; count: number }[] = [
-    { id: "ALL",         label: "Все",        count: bookings.length },
-    { id: "NEW",         label: "Новые",      count: bookings.filter(b=>b.status==="NEW").length },
-    { id: "IN_PROGRESS", label: "В работе",   count: bookings.filter(b=>b.status==="IN_PROGRESS").length },
-    { id: "DONE",        label: "Выполнено",  count: bookings.filter(b=>b.status==="DONE").length },
+    { id: "ALL",         label: "Все",       count: bookings.length },
+    { id: "NEW",         label: "Новые",     count: bookings.filter(b => b.status === "NEW").length },
+    { id: "IN_PROGRESS", label: "В работе",  count: bookings.filter(b => b.status === "IN_PROGRESS").length },
+    { id: "DONE",        label: "Выполнено", count: bookings.filter(b => b.status === "DONE").length },
   ];
 
   return (
     <div className="space-y-4">
       {/* Filter + Sort row */}
       <div className="flex flex-col sm:flex-row gap-3">
-        {/* Filter chips */}
         <div className="flex flex-wrap gap-2 flex-1">
           {FILTERS.map(f => (
             <button
@@ -91,7 +90,6 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
             </button>
           ))}
         </div>
-        {/* Sort selector */}
         <div className="flex items-center gap-2 shrink-0">
           <ArrowUpDown className="w-4 h-4 text-stone-400" />
           <select
@@ -107,13 +105,14 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
         </div>
       </div>
 
-      {/* Cards */}
+      {/* Booking cards */}
       <div className="space-y-3">
         {filtered.length === 0 && (
           <div className="bg-white rounded-2xl border border-stone-200 p-12 text-center text-stone-400">
             Заявок в этой категории нет
           </div>
         )}
+
         {filtered.map(b => {
           const meta = STATUS_META[b.status] ?? STATUS_META["NEW"];
           const isExpanded = expanded === b.id;
@@ -122,7 +121,9 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
           try {
             const p = JSON.parse(b.services);
             parsedServices = Array.isArray(p) ? p : [];
-          } catch { }
+          } catch {}
+
+          const isCallback = parsedServices.length === 0 || b.totalPrice === 0;
 
           return (
             <div
@@ -132,25 +133,23 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                 b.status === "IN_PROGRESS" ? "border-blue-200" : "border-stone-200"
               }`}
             >
-              {/* Card header */}
-              <div className="p-5 flex flex-col lg:flex-row lg:items-center gap-4">
+              {/* Card body */}
+              <div className="p-4 sm:p-5 space-y-3">
 
-                {/* Left: name + badge */}
-                <div className="flex items-center gap-3 lg:w-44 shrink-0">
-                  <div>
+                {/* ── Row 1: identity + contact fields ── */}
+                <div className="flex flex-wrap items-start gap-x-8 gap-y-3">
+
+                  {/* Name + status badge */}
+                  <div className="flex flex-col gap-1 min-w-[100px]">
                     <div className="font-bold text-stone-900 text-base leading-tight">{b.name}</div>
-                    <span className={`mt-1 inline-block text-xs px-2.5 py-0.5 rounded-full font-semibold border ${meta.cls}`}>
+                    <span className={`self-start text-xs px-2.5 py-0.5 rounded-full font-semibold border ${meta.cls}`}>
                       {meta.label}
                     </span>
                   </div>
-                </div>
-
-                {/* Center: info fields grid */}
-                <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-x-6 gap-y-3">
 
                   {/* Телефон */}
-                  <div>
-                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Телефон</div>
+                  <div className="flex flex-col gap-0.5 min-w-[130px]">
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Телефон</div>
                     <a
                       href={`tel:${b.phone.replace(/\D/g, "")}`}
                       className="text-sm font-semibold text-[#E07B00] hover:text-[#B86300] transition-colors flex items-center gap-1"
@@ -161,8 +160,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   </div>
 
                   {/* Машина */}
-                  <div>
-                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Машина</div>
+                  <div className="flex flex-col gap-0.5 min-w-[110px]">
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Машина</div>
                     <div className="text-sm text-stone-800 font-medium flex items-center gap-1">
                       <Car className="w-3 h-3 text-stone-400 shrink-0" />
                       {b.carBrand || <span className="text-stone-300 font-normal">—</span>}
@@ -170,16 +169,20 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   </div>
 
                   {/* Госномер */}
-                  <div>
-                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Госномер</div>
+                  <div className="flex flex-col gap-0.5 min-w-[110px]">
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Госномер</div>
                     <div className="text-sm font-mono font-semibold text-stone-800 tracking-widest uppercase">
                       {b.carPlate || <span className="text-stone-300 font-normal font-sans tracking-normal">—</span>}
                     </div>
                   </div>
+                </div>
+
+                {/* ── Row 2: dates + price + actions ── */}
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-2 border-t border-stone-100">
 
                   {/* Дата заказа */}
-                  <div>
-                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Дата заказа</div>
+                  <div className="flex flex-col gap-0.5 min-w-[150px]">
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Дата заказа</div>
                     <div className="text-sm text-stone-700 flex items-center gap-1">
                       <CalendarDays className="w-3 h-3 text-stone-400 shrink-0" />
                       {new Date(b.createdAt).toLocaleString("ru-RU", {
@@ -190,8 +193,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   </div>
 
                   {/* Желаемая дата */}
-                  <div>
-                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-0.5">Желаемая дата</div>
+                  <div className="flex flex-col gap-0.5 min-w-[150px]">
+                    <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Желаемая дата</div>
                     <div className="text-sm text-stone-700 flex items-center gap-1">
                       <CalendarDays className="w-3 h-3 text-stone-400 shrink-0" />
                       {b.date
@@ -200,34 +203,32 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                       }
                     </div>
                   </div>
-                </div>
 
-                {/* Right: price + actions */}
-                <div className="flex items-center gap-2 shrink-0 lg:pl-4 lg:border-l lg:border-stone-100">
-                  {(parsedServices.length === 0 || b.totalPrice === 0) && b.status !== "DONE" ? (
-                    /* Callback-only request */
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="relative flex items-center gap-1.5 text-sm font-bold text-amber-700 bg-amber-50 border border-amber-300 rounded-xl px-3 py-1.5 whitespace-nowrap">
-                        <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
-                        </span>
-                        📞 Ждёт звонка
+                  {/* Push price + actions to the right */}
+                  <div className="flex-1" />
+
+                  {/* Callback badge OR price */}
+                  {isCallback && b.status !== "DONE" ? (
+                    <span className="relative flex items-center gap-1.5 text-sm font-bold text-amber-700 bg-amber-50 border border-amber-300 rounded-xl px-3 py-1.5 whitespace-nowrap">
+                      <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
                       </span>
-                    </div>
-                  ) : parsedServices.length > 0 ? (
-                    <div className="text-right mr-1">
-                      <div className="text-lg font-bold font-mono text-stone-900 whitespace-nowrap">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
+                      📞 Ждёт звонка
+                    </span>
+                  ) : !isCallback ? (
+                    <div className="text-right shrink-0">
+                      <div className="text-base font-bold font-mono text-stone-900 whitespace-nowrap">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
                       <div className="text-xs text-stone-400">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
                     </div>
                   ) : null}
 
-                  {/* Status toggle */}
+                  {/* Status cycle button */}
                   <button
                     onClick={() => cycleStatus(b.id)}
                     disabled={isPending}
                     title={meta.next}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all hover:opacity-80 whitespace-nowrap ${meta.cls}`}
+                    className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all hover:opacity-80 whitespace-nowrap shrink-0 ${meta.cls}`}
                   >
                     {meta.next}
                   </button>
