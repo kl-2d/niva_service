@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyToken } from "@/lib/auth";
+import { verifyTokenEdge } from "@/lib/auth-edge";
 
 const SESSION_COOKIE = "admin_session";
 
@@ -22,7 +22,7 @@ function getIp(req: NextRequest): string {
   );
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const ip = getIp(req);
   const now = Date.now();
   const { pathname } = req.nextUrl;
@@ -43,12 +43,11 @@ export function middleware(req: NextRequest) {
     );
   }
 
-  // Check session cookie — validate with HMAC signature
+  // Check session cookie — validate with HMAC via Web Crypto (Edge-compatible)
   const sessionCookie = req.cookies.get(SESSION_COOKIE);
   if (sessionCookie?.value) {
-    const payload = verifyToken(sessionCookie.value);
+    const payload = await verifyTokenEdge(sessionCookie.value);
     if (payload) {
-      // Valid HMAC-signed session — allow access
       failedAttempts.delete(ip);
       const res = NextResponse.next();
       res.headers.set("x-pathname", pathname);
