@@ -49,7 +49,7 @@ export default function ProcessTimeline() {
             />
           </div>
 
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-4 relative z-10 w-full overflow-x-auto lg:overflow-visible pb-8 hide-scrollbar">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-6 lg:gap-4 relative z-10 w-full overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-hide snap-x snap-mandatory lg:snap-none">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (

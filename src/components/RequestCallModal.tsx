@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, User, Phone, Car, Hash, Loader2 } from "lucide-react";
+import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
 interface RequestCallModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface RequestCallModalProps {
 export default function RequestCallModal({ isOpen, onClose }: RequestCallModalProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -50,7 +52,8 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
     "w-full bg-white border border-stone-300 text-stone-900 rounded-lg pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-500";
 
   return (
-    <AnimatePresence>
+    <>
+      <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <motion.div
@@ -171,7 +174,15 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Перезвоните мне"}
                   </button>
                   <p className="text-xs text-center text-stone-500 mt-4">
-                    Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.
+                    Нажимая кнопку, вы соглашаетесь с{" "}
+                    <button
+                      type="button"
+                      onClick={() => setPrivacyOpen(true)}
+                      className="underline underline-offset-2 hover:text-stone-800 transition-colors"
+                    >
+                      политикой конфиденциальности
+                    </button>
+                    .
                   </p>
                 </form>
               )}
@@ -180,6 +191,8 @@ export default function RequestCallModal({ isOpen, onClose }: RequestCallModalPr
         </div>
       )}
     </AnimatePresence>
+    <PrivacyPolicyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+    </>
   );
 }
 

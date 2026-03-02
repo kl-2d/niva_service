@@ -57,10 +57,10 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
   ];
 
   const stats = [
-    { icon: ClipboardList, label: "Всего заявок",    value: bookings.length,                              color: "text-blue-600",    bg: "bg-blue-50" },
-    { icon: CalendarCheck, label: "Новых сегодня",   value: newToday,                                     color: "text-amber-600",   bg: "bg-amber-50" },
-    { icon: TrendingUp,    label: "Сумма заявок",    value: `${totalRevenue.toLocaleString("ru-RU")} ₽`,  color: "text-emerald-600", bg: "bg-emerald-50" },
-    { icon: Package,       label: "Услуг в каталоге", value: servicesCount,                    color: "text-violet-600",  bg: "bg-violet-50" },
+    { icon: ClipboardList, label: "Всего заявок",    value: bookings.length,                                                      color: "text-blue-600",    bg: "bg-blue-50" },
+    { icon: CalendarCheck, label: "Новых сегодня",   value: newToday,                                                             color: "text-amber-600",   bg: "bg-amber-50" },
+    { icon: TrendingUp,    label: "В обработке",     value: bookings.filter(b => b.status === "IN_PROGRESS").length,              color: "text-emerald-600", bg: "bg-emerald-50" },
+    { icon: Package,       label: "Услуг в каталоге", value: servicesCount,                                                       color: "text-violet-600",  bg: "bg-violet-50" },
   ];
 
   const SidebarContent = () => (
