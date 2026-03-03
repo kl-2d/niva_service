@@ -37,10 +37,11 @@ export async function verifyTokenEdge(token: string): Promise<string | null> {
     );
 
     const sigBytes = base64urlToBytes(sig);
+    const sigBuffer = sigBytes.buffer.slice(sigBytes.byteOffset, sigBytes.byteOffset + sigBytes.byteLength) as ArrayBuffer;
     const valid = await globalThis.crypto.subtle.verify(
       "HMAC",
       key,
-      sigBytes,
+      sigBuffer,
       encoder.encode(payload)
     );
 
