@@ -39,8 +39,8 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "niva-cart", // localStorage key
-      // Only persist items — totalPrice is derived, would be recalc on rehydrate
-      partialize: (state) => ({ items: state.items, totalPrice: state.totalPrice }),
+      // Only persist items — totalPrice is derived and recalculated on every mutation
+      partialize: (state) => ({ items: state.items }),
     }
   )
 );

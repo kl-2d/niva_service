@@ -54,10 +54,9 @@ export function rateLimit(
  * Extract real client IP from Next.js request headers
  */
 export function getClientIp(request: Request): string {
-  const headers = new Headers((request as any).headers);
   return (
-    headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    headers.get("x-real-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
     "unknown"
   );
 }

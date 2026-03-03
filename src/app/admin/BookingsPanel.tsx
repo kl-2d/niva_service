@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Phone, Trash2, ChevronDown, Car, CalendarDays, Wrench, ArrowUpDown } from "lucide-react";
 
 interface Booking {
@@ -17,55 +17,63 @@ interface Booking {
 }
 
 const STATUS_META: Record<string, { label: string; cls: string; next: string }> = {
-  NEW:         { label: "Новая",     cls: "bg-amber-100 text-amber-800 border-amber-200",       next: "Взять в работу" },
-  IN_PROGRESS: { label: "В работе", cls: "bg-blue-100 text-blue-800 border-blue-200",           next: "Отметить выполненным" },
-  DONE:        { label: "Выполнено", cls: "bg-emerald-100 text-emerald-800 border-emerald-200", next: "Вернуть в новые" },
+  NEW: { label: "Новая", cls: "bg-amber-100 text-amber-800 border-amber-200", next: "Взять в работу" },
+  IN_PROGRESS: { label: "В работе", cls: "bg-blue-100 text-blue-800 border-blue-200", next: "Отметить выполненным" },
+  DONE: { label: "Выполнено", cls: "bg-emerald-100 text-emerald-800 border-emerald-200", next: "Вернуть в новые" },
 };
 
-type Filter  = "ALL" | "NEW" | "IN_PROGRESS" | "DONE";
+type Filter = "ALL" | "NEW" | "IN_PROGRESS" | "DONE";
 type SortKey = "date_desc" | "date_asc" | "price_desc" | "price_asc";
 
 export default function BookingsPanel({ initialBookings }: { initialBookings: Booking[] }) {
   const [bookings, setBookings] = useState(initialBookings);
-  const [filter, setFilter]     = useState<Filter>("ALL");
-  const [sort, setSort]         = useState<SortKey>("date_desc");
+  const [filter, setFilter] = useState<Filter>("ALL");
+  const [sort, setSort] = useState<SortKey>("date_desc");
   const [expanded, setExpanded] = useState<number | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [pendingId, setPendingId] = useState<number | null>(null);
 
   const filtered = (() => {
     const base = filter === "ALL" ? bookings : bookings.filter(b => b.status === filter);
     return [...base].sort((a, b) => {
-      if (sort === "date_desc")  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      if (sort === "date_asc")   return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      if (sort === "date_desc") return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sort === "date_asc") return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       if (sort === "price_desc") return b.totalPrice - a.totalPrice;
-      if (sort === "price_asc")  return a.totalPrice - b.totalPrice;
+      if (sort === "price_asc") return a.totalPrice - b.totalPrice;
       return 0;
     });
   })();
 
-  const cycleStatus = (id: number) => {
-    startTransition(async () => {
+  const cycleStatus = async (id: number) => {
+    if (pendingId !== null) return;
+    setPendingId(id);
+    try {
       const res = await fetch(`/api/bookings/${id}`, { method: "PATCH" });
       if (res.ok) {
         const updated = await res.json();
         setBookings(prev => prev.map(b => b.id === id ? { ...b, status: updated.status } : b));
       }
-    });
+    } finally {
+      setPendingId(null);
+    }
   };
 
-  const deleteBooking = (id: number) => {
+  const deleteBooking = async (id: number) => {
     if (!confirm("Удалить заявку? Это действие необратимо.")) return;
-    startTransition(async () => {
+    if (pendingId !== null) return;
+    setPendingId(id);
+    try {
       const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
       if (res.ok) setBookings(prev => prev.filter(b => b.id !== id));
-    });
+    } finally {
+      setPendingId(null);
+    }
   };
 
   const FILTERS: { id: Filter; label: string; count: number }[] = [
-    { id: "ALL",         label: "Все",       count: bookings.length },
-    { id: "NEW",         label: "Новые",     count: bookings.filter(b => b.status === "NEW").length },
-    { id: "IN_PROGRESS", label: "В работе",  count: bookings.filter(b => b.status === "IN_PROGRESS").length },
-    { id: "DONE",        label: "Выполнено", count: bookings.filter(b => b.status === "DONE").length },
+    { id: "ALL", label: "Все", count: bookings.length },
+    { id: "NEW", label: "Новые", count: bookings.filter(b => b.status === "NEW").length },
+    { id: "IN_PROGRESS", label: "В работе", count: bookings.filter(b => b.status === "IN_PROGRESS").length },
+    { id: "DONE", label: "Выполнено", count: bookings.filter(b => b.status === "DONE").length },
   ];
 
   return (
@@ -77,11 +85,10 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
             <button
               key={f.id}
               onClick={() => setFilter(f.id)}
-              className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${
-                filter === f.id
+              className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${filter === f.id
                   ? "bg-[#E07B00] text-white border-[#E07B00] shadow-sm"
                   : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
-              }`}
+                }`}
             >
               {f.label}
               <span className={`ml-2 px-1.5 py-0.5 rounded-full text-xs font-bold ${filter === f.id ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"}`}>
@@ -121,17 +128,16 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
           try {
             const p = JSON.parse(b.services);
             parsedServices = Array.isArray(p) ? p : [];
-          } catch {}
+          } catch { }
 
           const isCallback = parsedServices.length === 0 || b.totalPrice === 0;
 
           return (
             <div
               key={b.id}
-              className={`bg-white rounded-2xl border shadow-sm transition-all ${
-                b.status === "NEW" ? "border-amber-200" :
-                b.status === "IN_PROGRESS" ? "border-blue-200" : "border-stone-200"
-              }`}
+              className={`bg-white rounded-2xl border shadow-sm transition-all ${b.status === "NEW" ? "border-amber-200" :
+                  b.status === "IN_PROGRESS" ? "border-blue-200" : "border-stone-200"
+                }`}
             >
               {/* Card body */}
               <div className="p-4 sm:p-5 space-y-3">
@@ -226,11 +232,11 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Status cycle button */}
                   <button
                     onClick={() => cycleStatus(b.id)}
-                    disabled={isPending}
+                    disabled={pendingId === b.id}
                     title={meta.next}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all hover:opacity-80 whitespace-nowrap shrink-0 ${meta.cls}`}
+                    className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all hover:opacity-80 whitespace-nowrap shrink-0 ${meta.cls} disabled:opacity-50 disabled:cursor-wait`}
                   >
-                    {meta.next}
+                    {pendingId === b.id ? "…" : meta.next}
                   </button>
 
                   {/* Expand */}
@@ -245,7 +251,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Delete */}
                   <button
                     onClick={() => deleteBooking(b.id)}
-                    className="p-2 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition shrink-0"
+                    disabled={pendingId === b.id}
+                    className="p-2 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition shrink-0 disabled:opacity-50 disabled:cursor-wait"
                     title="Удалить заявку"
                   >
                     <Trash2 className="w-5 h-5" />
