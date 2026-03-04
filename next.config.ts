@@ -10,8 +10,8 @@ const CSP = [
   "font-src 'self' https://fonts.gstatic.com",
   // Images: self + Unsplash (placeholder photos) + Yandex
   "img-src 'self' data: blob: https://images.unsplash.com https://yandex.ru https://yastatic.net",
-  // Frames: Yandex Maps + YouTube (for about page reviews)
-  "frame-src https://yandex.ru https://www.youtube.com https://www.youtube-nocookie.com",
+  // Frames: Yandex Maps + YouTube + Rutube
+  "frame-src https://yandex.ru https://www.youtube.com https://www.youtube-nocookie.com https://rutube.ru",
   // API / fetch destinations
   "connect-src 'self' https://api.resend.com",
   // Forms

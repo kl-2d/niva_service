@@ -2,24 +2,23 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 
-/** Извлекает YouTube video ID из URL */
-function extractYoutubeId(url: string): string | null {
+/** Проверяет, что ссылка — Rutube или YouTube */
+function isValidVideoUrl(url: string): boolean {
     const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
-        /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+        // Rutube
+        /rutube\.ru\/video\/[a-zA-Z0-9]+/,
+        /rutube\.ru\/play\/embed\/[a-zA-Z0-9]+/,
+        // YouTube (на случай если ссылка всё же от туда)
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
     ];
-    for (const p of patterns) {
-        const m = url.match(p);
-        if (m) return m[1];
-    }
-    return null;
+    return patterns.some((p) => p.test(url));
 }
 
 /** GET /api/reviews — публичный, сортировка по дате (от ранней к актуальной) */
 export async function GET() {
     try {
         const reviews = await prisma.videoReview.findMany({
-            orderBy: { reviewDate: "asc" },
+            orderBy: { reviewDate: "desc" },
         });
         return NextResponse.json(reviews);
     } catch (error) {
@@ -34,17 +33,17 @@ export async function POST(req: Request) {
         const authError = await requireAdmin();
         if (authError) return authError;
 
-        const { youtubeUrl, description, reviewDate } = await req.json();
+        const { videoUrl, description, reviewDate } = await req.json();
 
-        if (!youtubeUrl || !reviewDate) {
-            return NextResponse.json({ error: "youtubeUrl и reviewDate обязательны" }, { status: 400 });
+        if (!videoUrl || !reviewDate) {
+            return NextResponse.json({ error: "videoUrl и reviewDate обязательны" }, { status: 400 });
         }
-        if (!extractYoutubeId(youtubeUrl)) {
-            return NextResponse.json({ error: "Некорректная ссылка YouTube" }, { status: 400 });
+        if (!isValidVideoUrl(videoUrl)) {
+            return NextResponse.json({ error: "Некорректная ссылка. Принимаются ссылки Rutube и YouTube" }, { status: 400 });
         }
 
         const review = await prisma.videoReview.create({
-            data: { youtubeUrl, description: description || null, reviewDate },
+            data: { videoUrl, description: description || null, reviewDate },
         });
         return NextResponse.json(review, { status: 201 });
     } catch (error) {

@@ -3,22 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, ChevronRight, Zap } from "lucide-react";
+import { Menu, X, Phone, ChevronRight } from "lucide-react";
 import RequestCallModal from "./RequestCallModal";
-
-interface PromoData {
-  title: string;
-  effectiveActive: boolean;
-  eventDateStart: string | null;
-  eventDate: string | null;
-}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
-  const [promoSource, setPromoSource] = useState<string | undefined>();
   const [scrolled, setScrolled] = useState(false);
-  const [promo, setPromo] = useState<PromoData | null>(null);
 
   const openModal = (fromPromo?: string) => {
     setPromoSource(fromPromo);
@@ -34,36 +25,11 @@ export default function Navbar() {
 
   useEffect(() => { setIsOpen(false); }, [pathname]);
 
-  // Загружаем акцию
-  useEffect(() => {
-    fetch("/api/promo")
-      .then((r) => r.json())
-      .then((data: PromoData) => {
-        if (data?.effectiveActive) setPromo(data);
-      })
-      .catch(() => { });
-  }, []);
-
   const navLinks = [
     { name: "Главная", href: "/" },
     { name: "Услуги и цены", href: "/services" },
     { name: "О нас", href: "/about" },
   ];
-
-  // Форматируем диапазон дат
-  const promoDateRange = promo
-    ? (() => {
-      const fmt = (d: string) =>
-        new Date(d).toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
-      if (promo.eventDateStart && promo.eventDate)
-        return `${fmt(promo.eventDateStart)} — ${fmt(promo.eventDate)}`;
-      if (promo.eventDate)
-        return `до ${fmt(promo.eventDate)}`;
-      if (promo.eventDateStart)
-        return `с ${fmt(promo.eventDateStart)}`;
-      return null;
-    })()
-    : null;
 
   return (
     <>
@@ -116,28 +82,6 @@ export default function Navbar() {
                 </li>
               );
             })}
-
-            {/* Промо-плашка в навигации (только если акция активна) */}
-            {promo && (
-              <li>
-                <button
-                  onClick={() => openModal(promo.title)}
-                  className="ml-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#E07B00]/15 border border-[#E07B00]/30 text-[#E07B00] hover:bg-[#E07B00]/25 transition-all text-sm font-bold group"
-                >
-                  <span className="relative flex h-1.5 w-1.5 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E07B00] opacity-75" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#E07B00]" />
-                  </span>
-                  <Zap className="w-3.5 h-3.5" />
-                  <span>{promo.title}</span>
-                  {promoDateRange && (
-                    <span className="text-stone-400 font-normal text-xs hidden lg:inline">
-                      ({promoDateRange})
-                    </span>
-                  )}
-                </button>
-              </li>
-            )}
           </ul>
 
           {/* Right group */}
@@ -193,18 +137,6 @@ export default function Navbar() {
             }`}
         >
           <div className="px-4 pb-5 pt-2 border-t border-white/8 bg-[#181818] space-y-1">
-
-            {/* Промо-плашка в мобильном меню */}
-            {promo && (
-              <button
-                onClick={() => { openModal(promo.title); setIsOpen(false); }}
-                className="w-full flex items-center gap-2 py-3 px-4 rounded-xl bg-[#E07B00]/10 border border-[#E07B00]/20 text-[#E07B00] font-bold text-sm mb-1"
-              >
-                <Zap className="w-4 h-4 shrink-0" />
-                <span className="flex-1 text-left">{promo.title}</span>
-                {promoDateRange && <span className="text-xs text-stone-400 font-normal">{promoDateRange}</span>}
-              </button>
-            )}
 
             {navLinks.map((link) => {
               const isActive = pathname === link.href;

@@ -1,28 +1,55 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Trash2, Plus, Loader2, Youtube, Calendar, AlignLeft, Edit2, Check, X } from "lucide-react";
+import { Trash2, Plus, Loader2, Video, Calendar, AlignLeft, Edit2, Check, X, ExternalLink } from "lucide-react";
 
 interface VideoReview {
     id: number;
-    youtubeUrl: string;
+    videoUrl: string;
     description: string | null;
     reviewDate: string;
 }
 
+/** Извлекает ID Rutube-видео из URL */
+function extractRutubeId(url: string): string | null {
+    const m = url.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+    return m ? m[1] : null;
+}
+
+/** Извлекает ID YouTube-видео из URL */
 function extractYoutubeId(url: string): string | null {
-    const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
-        /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
-    ];
-    for (const p of patterns) {
-        const m = url.match(p);
-        if (m) return m[1];
+    const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+}
+
+/** Определяет тип видеохостинга */
+function detectPlatform(url: string): "rutube" | "youtube" | null {
+    if (/rutube\.ru/.test(url)) return "rutube";
+    if (/youtube\.com|youtu\.be/.test(url)) return "youtube";
+    return null;
+}
+
+/** Возвращает embed URL */
+function getEmbedUrl(url: string): string | null {
+    const platform = detectPlatform(url);
+    if (platform === "rutube") {
+        const id = extractRutubeId(url);
+        return id ? `https://rutube.ru/play/embed/${id}` : null;
+    }
+    if (platform === "youtube") {
+        const id = extractYoutubeId(url);
+        return id ? `https://www.youtube.com/embed/${id}` : null;
     }
     return null;
 }
 
-const inputCls = "w-full bg-white border-2 border-stone-300 text-stone-900 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400";
+/** Возвращает thumbnail URL (только для YouTube) */
+function getThumbnailUrl(url: string): string | null {
+    const id = extractYoutubeId(url);
+    return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null;
+}
+
+const inputCls = "w-full bg-white border-2 border-stone-300 text-stone-900 rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400";
 
 export default function VideoReviewsManager() {
     const [reviews, setReviews] = useState<VideoReview[]>([]);
@@ -31,8 +58,8 @@ export default function VideoReviewsManager() {
     const [editId, setEditId] = useState<number | null>(null);
     const [deletingId, setDeletingId] = useState<number | null>(null);
 
-    const [form, setForm] = useState({ youtubeUrl: "", description: "", reviewDate: "" });
-    const [editForm, setEditForm] = useState({ youtubeUrl: "", description: "", reviewDate: "" });
+    const [form, setForm] = useState({ videoUrl: "", description: "", reviewDate: "" });
+    const [editForm, setEditForm] = useState({ videoUrl: "", description: "", reviewDate: "" });
     const [error, setError] = useState<string | null>(null);
 
     const loadReviews = () => {
@@ -48,12 +75,13 @@ export default function VideoReviewsManager() {
 
     const handleAdd = async () => {
         setError(null);
-        if (!form.youtubeUrl || !form.reviewDate) {
+        if (!form.videoUrl || !form.reviewDate) {
             setError("Заполните ссылку на видео и дату отзыва");
             return;
         }
-        if (!extractYoutubeId(form.youtubeUrl)) {
-            setError("Некорректная ссылка YouTube");
+        const platform = detectPlatform(form.videoUrl);
+        if (!platform) {
+            setError("Некорректная ссылка. Принимаются ссылки Rutube или YouTube");
             return;
         }
         setAdding(true);
@@ -67,7 +95,7 @@ export default function VideoReviewsManager() {
                 const d = await res.json();
                 setError(d.error || "Ошибка");
             } else {
-                setForm({ youtubeUrl: "", description: "", reviewDate: "" });
+                setForm({ videoUrl: "", description: "", reviewDate: "" });
                 loadReviews();
             }
         } finally {
@@ -85,7 +113,7 @@ export default function VideoReviewsManager() {
 
     const startEdit = (r: VideoReview) => {
         setEditId(r.id);
-        setEditForm({ youtubeUrl: r.youtubeUrl, description: r.description ?? "", reviewDate: r.reviewDate });
+        setEditForm({ videoUrl: r.videoUrl, description: r.description ?? "", reviewDate: r.reviewDate });
     };
 
     const handleSaveEdit = async (id: number) => {
@@ -119,24 +147,32 @@ export default function VideoReviewsManager() {
                 </h3>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-stone-700 flex items-center gap-1.5">
-                        <Youtube className="w-4 h-4 text-red-500" /> Ссылка на YouTube *
+                    <label className="text-base font-bold text-stone-700 flex items-center gap-1.5">
+                        <Video className="w-5 h-5 text-[#E07B00]" /> Ссылка на видео (Rutube / YouTube) *
                     </label>
                     <input
                         type="url"
-                        placeholder="https://www.youtube.com/watch?v=..."
-                        value={form.youtubeUrl}
-                        onChange={(e) => setForm((f) => ({ ...f, youtubeUrl: e.target.value }))}
+                        placeholder="https://rutube.ru/video/..."
+                        value={form.videoUrl}
+                        onChange={(e) => setForm((f) => ({ ...f, videoUrl: e.target.value }))}
                         className={inputCls}
                     />
-                    {form.youtubeUrl && extractYoutubeId(form.youtubeUrl) && (
-                        <p className="text-xs text-emerald-600 font-medium">✓ Видео определено: {extractYoutubeId(form.youtubeUrl)}</p>
+                    {form.videoUrl && detectPlatform(form.videoUrl) && (
+                        <p className="text-xs text-emerald-600 font-medium">
+                            ✓ Распознано: {detectPlatform(form.videoUrl) === "rutube" ? "Rutube" : "YouTube"}
+                            {detectPlatform(form.videoUrl) === "rutube" && extractRutubeId(form.videoUrl)
+                                ? ` · ID: ${extractRutubeId(form.videoUrl)}`
+                                : ""}
+                        </p>
+                    )}
+                    {form.videoUrl && !detectPlatform(form.videoUrl) && (
+                        <p className="text-xs text-red-500 font-medium">⚠ Ссылка не распознана</p>
                     )}
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-stone-700 flex items-center gap-1.5">
-                        <AlignLeft className="w-4 h-4 text-stone-400" /> Описание отзыва
+                    <label className="text-base font-bold text-stone-700 flex items-center gap-1.5">
+                        <AlignLeft className="w-5 h-5 text-stone-400" /> Описание отзыва
                     </label>
                     <textarea
                         placeholder='Пример: "Отзыв от Ивана, владельца ВАЗ-21214, наш клиент с 2015 года"'
@@ -148,8 +184,8 @@ export default function VideoReviewsManager() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-stone-700 flex items-center gap-1.5">
-                        <Calendar className="w-4 h-4 text-[#E07B00]" /> Дата отзыва *
+                    <label className="text-base font-bold text-stone-700 flex items-center gap-1.5">
+                        <Calendar className="w-5 h-5 text-[#E07B00]" /> Дата отзыва *
                     </label>
                     <input
                         type="date"
@@ -157,7 +193,7 @@ export default function VideoReviewsManager() {
                         onChange={(e) => setForm((f) => ({ ...f, reviewDate: e.target.value }))}
                         className={inputCls}
                     />
-                    <p className="text-xs text-stone-400">Карточки сортируются от ранней к актуальной дате</p>
+                    <p className="text-xs text-stone-400">Карточки сортируются от свежих к старым</p>
                 </div>
 
                 {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
@@ -180,29 +216,33 @@ export default function VideoReviewsManager() {
 
                 {reviews.length === 0 && (
                     <div className="bg-stone-50 border-2 border-dashed border-stone-200 rounded-2xl py-12 text-center text-stone-400">
-                        <Youtube className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                        <Video className="w-10 h-10 mx-auto mb-3 opacity-30" />
                         <p className="font-medium">Нет добавленных отзывов</p>
-                        <p className="text-sm">Добавьте первый отзыв с YouTube</p>
+                        <p className="text-sm">Добавьте первый отзыв с Rutube</p>
                     </div>
                 )}
 
                 {reviews.map((r) => {
-                    const vidId = extractYoutubeId(r.youtubeUrl);
+                    const platform = detectPlatform(r.videoUrl);
+                    const thumb = getThumbnailUrl(r.videoUrl);
                     const isEditing = editId === r.id;
 
                     return (
                         <div key={r.id} className="bg-white border-2 border-stone-200 rounded-2xl overflow-hidden">
                             <div className="flex gap-4 p-4">
-                                {/* Thumbnail */}
-                                {vidId ? (
+                                {/* Thumbnail / Platform badge */}
+                                {thumb ? (
                                     <img
-                                        src={`https://img.youtube.com/vi/${vidId}/mqdefault.jpg`}
+                                        src={thumb}
                                         alt="Превью видео"
                                         className="w-32 h-20 object-cover rounded-xl shrink-0 bg-stone-200"
                                     />
                                 ) : (
-                                    <div className="w-32 h-20 bg-stone-200 rounded-xl shrink-0 flex items-center justify-center">
-                                        <Youtube className="w-6 h-6 text-stone-400" />
+                                    <div className="w-32 h-20 bg-stone-100 border-2 border-stone-200 rounded-xl shrink-0 flex flex-col items-center justify-center gap-1">
+                                        <Video className="w-6 h-6 text-stone-400" />
+                                        {platform === "rutube" && (
+                                            <span className="text-[10px] font-bold text-[#E07B00] uppercase">Rutube</span>
+                                        )}
                                     </div>
                                 )}
 
@@ -211,10 +251,10 @@ export default function VideoReviewsManager() {
                                         <div className="space-y-2">
                                             <input
                                                 type="url"
-                                                value={editForm.youtubeUrl}
-                                                onChange={(e) => setEditForm((f) => ({ ...f, youtubeUrl: e.target.value }))}
+                                                value={editForm.videoUrl}
+                                                onChange={(e) => setEditForm((f) => ({ ...f, videoUrl: e.target.value }))}
                                                 className="w-full border-2 border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#E07B00]"
-                                                placeholder="YouTube URL"
+                                                placeholder="Rutube / YouTube URL"
                                             />
                                             <input
                                                 type="text"
@@ -242,11 +282,22 @@ export default function VideoReviewsManager() {
                                         <>
                                             <p className="text-xs font-semibold text-[#E07B00] mb-0.5">
                                                 📅 {fmtDate(r.reviewDate)}
+                                                <span className="ml-2 text-stone-400 font-normal">
+                                                    {platform === "rutube" ? "· Rutube" : platform === "youtube" ? "· YouTube" : ""}
+                                                </span>
                                             </p>
                                             {r.description && (
                                                 <p className="text-sm text-stone-700 leading-snug line-clamp-2">{r.description}</p>
                                             )}
-                                            <p className="text-xs text-stone-400 mt-1 truncate">{r.youtubeUrl}</p>
+                                            <a
+                                                href={r.videoUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-xs text-stone-400 hover:text-[#E07B00] transition-colors mt-1 flex items-center gap-1 truncate"
+                                            >
+                                                <ExternalLink className="w-3 h-3 shrink-0" />
+                                                <span className="truncate">{r.videoUrl}</span>
+                                            </a>
                                         </>
                                     )}
                                 </div>

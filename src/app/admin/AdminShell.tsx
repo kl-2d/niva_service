@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   LayoutDashboard, ClipboardList, Wrench, LogOut, Menu, X, ExternalLink,
-  TrendingUp, Users, CalendarCheck, Package, Zap, Youtube,
+  TrendingUp, Users, CalendarCheck, Package, Zap, Video,
 } from "lucide-react";
 import BookingsPanel from "./BookingsPanel";
 import ServicesManager from "./ServicesManager";
@@ -42,6 +42,10 @@ const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
 
 export { STATUS_LABEL };
 
+// ─── Цвета сайдбара ──────────────────────────────────────────────
+const SIDEBAR_BG = "#1A2B4A";      // тёмно-синий, navy
+const SIDEBAR_ACTIVE = "#E07B00";  // оранжевый акцент
+
 export default function AdminShell({ bookings, totalRevenue, newToday, servicesCount: initialServicesCount }: Props) {
   const [tab, setTab] = useState<Tab>("bookings");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,7 +62,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
     { id: "bookings", label: "Заявки", icon: ClipboardList, count: bookings.filter(b => b.status === "NEW").length },
     { id: "services", label: "Услуги", icon: Wrench },
     { id: "promo", label: "Акции", icon: Zap },
-    { id: "reviews", label: "Отзывы", icon: Youtube },
+    { id: "reviews", label: "Отзывы", icon: Video },
   ];
 
   const stats = [
@@ -68,16 +72,31 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
     { icon: Package, label: "Услуг в каталоге", value: servicesCount, color: "text-violet-700", bg: "bg-violet-50", border: "border-violet-200" },
   ];
 
+  const PAGE_TITLE: Record<Tab, string> = {
+    dashboard: "Дашборд",
+    bookings: "Заявки клиентов",
+    services: "Каталог услуг",
+    promo: "Управление акциями",
+    reviews: "Видео отзывы",
+  };
+  const PAGE_SUB: Record<Tab, string> = {
+    dashboard: "Сводка показателей",
+    bookings: "Управление заявками",
+    services: "Редактирование услуг",
+    promo: "Промо-события на сайте",
+    reviews: "Видеоотзывы на странице «О нас»",
+  };
+
   const SidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" style={{ background: SIDEBAR_BG }}>
       {/* Logo */}
-      <div className="px-6 py-6 border-b border-white/10">
-        <span className="text-white font-black text-xl uppercase tracking-widest block">Нива Сервис</span>
-        <p className="text-stone-400 text-sm mt-1">Панель управления</p>
+      <div className="px-6 py-7 border-b border-white/10">
+        <span className="text-white font-black text-2xl uppercase tracking-widest block">Нива Сервис</span>
+        <p className="text-slate-400 text-base mt-1">Панель управления</p>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-4 py-5 space-y-2">
+      <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = tab === item.id;
@@ -85,15 +104,19 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             <button
               key={item.id}
               onClick={() => { setTab(item.id); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-5 py-4 rounded-xl text-base font-semibold transition-all ${isActive
-                ? "bg-[#E07B00] text-white shadow-lg shadow-orange-900/30"
-                : "text-stone-300 hover:bg-white/10 hover:text-white"
-                }`}
+              className="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-lg font-semibold transition-all relative"
+              style={{
+                background: isActive ? SIDEBAR_ACTIVE : "transparent",
+                color: isActive ? "white" : "#94A3B8",
+              }}
+              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "white"; }}
+              onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#94A3B8"; } }}
             >
               <Icon className="w-6 h-6 shrink-0" />
               <span className="flex-1 text-left">{item.label}</span>
               {item.count !== undefined && item.count > 0 && (
-                <span className={`text-sm font-black px-2.5 py-1 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-[#E07B00] text-white"}`}>
+                <span className="text-sm font-black px-2.5 py-1 rounded-full"
+                  style={{ background: isActive ? "rgba(255,255,255,0.25)" : SIDEBAR_ACTIVE, color: "white" }}>
                   {item.count}
                 </span>
               )}
@@ -103,18 +126,18 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-4 border-t border-white/10 space-y-2">
+      <div className="px-3 py-4 border-t border-white/10 space-y-1">
         <a
           href="/"
           target="_blank"
-          className="w-full flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-medium text-stone-400 hover:text-white hover:bg-white/10 transition-all"
+          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-slate-400 hover:text-white hover:bg-white/10 transition-all"
         >
           <ExternalLink className="w-5 h-5" />
           На сайт
         </a>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-medium text-stone-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
+          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
         >
           <LogOut className="w-5 h-5" />
           Выйти из системы
@@ -124,51 +147,51 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
   );
 
   return (
-    <div className="min-h-screen bg-stone-100 flex">
+    <div className="min-h-screen flex" style={{ background: "#F0EDE8" }}>
       {/* ── Desktop Sidebar ── */}
-      <aside className="hidden lg:flex flex-col w-72 bg-[#1C1C1C] fixed top-0 left-0 h-full z-30 shrink-0">
+      <aside className="hidden lg:flex flex-col w-[300px] fixed top-0 left-0 h-full z-30 shrink-0">
         <SidebarContent />
       </aside>
 
       {/* ── Mobile Sidebar (drawer) ── */}
       {sidebarOpen && (
         <div className="lg:hidden fixed inset-0 z-40 flex">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative w-72 bg-[#1C1C1C] h-full z-50 shadow-2xl">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+          <aside className="relative w-[300px] h-full z-50 shadow-2xl">
             <SidebarContent />
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-white/60 hover:text-white hover:bg-white/10 transition"
+            >
+              <X className="w-6 h-6" />
+            </button>
           </aside>
         </div>
       )}
 
       {/* ── Main Content ── */}
-      <div className="flex-1 lg:ml-72 flex flex-col min-h-screen">
+      <div className="flex-1 lg:ml-[300px] flex flex-col min-h-screen">
         {/* Topbar */}
-        <header className="sticky top-0 z-20 bg-white border-b border-stone-200 px-6 h-20 flex items-center gap-4 shadow-sm">
+        <header className="sticky top-0 z-20 bg-white border-b-2 border-stone-200 px-6 h-[76px] flex items-center gap-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2.5 rounded-xl hover:bg-stone-100 text-stone-600 transition"
+            className="lg:hidden p-3 rounded-xl hover:bg-stone-100 text-stone-600 transition"
           >
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex-1">
-            <h1 className="text-xl font-black text-stone-900 leading-tight">
-              {tab === "dashboard" ? "Дашборд"
-                : tab === "bookings" ? "Заявки клиентов"
-                  : tab === "services" ? "Каталог услуг"
-                    : "Управление акциями"}
+            <h1 className="text-2xl font-black text-stone-900 leading-tight">
+              {PAGE_TITLE[tab]}
             </h1>
-            <p className="text-sm text-stone-500 leading-none mt-0.5">
-              {tab === "dashboard" ? "Сводка показателей"
-                : tab === "bookings" ? "Управление заявками"
-                  : tab === "services" ? "Редактирование услуг"
-                    : "Промо-события на сайте"}
+            <p className="text-base text-stone-500 leading-none mt-0.5">
+              {PAGE_SUB[tab]}
             </p>
           </div>
           <button
             onClick={handleLogout}
-            className="hidden lg:flex items-center gap-2 text-sm text-stone-500 hover:text-red-500 transition px-4 py-2.5 rounded-xl hover:bg-red-50 font-medium"
+            className="hidden lg:flex items-center gap-2 text-base text-stone-500 hover:text-red-600 transition px-5 py-3 rounded-xl hover:bg-red-50 font-semibold border border-transparent hover:border-red-200"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-5 h-5" />
             Выйти
           </button>
         </header>
@@ -176,18 +199,18 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
         {/* Page Content */}
         <main className="flex-1 p-6 space-y-8">
 
-          {/* Stats (always visible) */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Stats — always visible */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {stats.map((s, i) => {
               const Icon = s.icon;
               return (
-                <div key={i} className={`bg-white rounded-2xl border-2 ${s.border} p-5 shadow-sm flex items-start gap-4`}>
-                  <div className={`${s.bg} ${s.color} p-3.5 rounded-xl shrink-0 border ${s.border}`}>
-                    <Icon className="w-6 h-6" />
+                <div key={i} className={`bg-white rounded-2xl border-2 ${s.border} p-6 shadow-sm flex items-start gap-4`}>
+                  <div className={`${s.bg} ${s.color} p-4 rounded-xl shrink-0 border ${s.border}`}>
+                    <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <p className="text-sm text-stone-500 mb-0.5 font-medium">{s.label}</p>
-                    <p className="text-2xl font-black text-stone-900">{s.value}</p>
+                    <p className="text-base text-stone-500 mb-1 font-medium">{s.label}</p>
+                    <p className="text-4xl font-black text-stone-900">{s.value}</p>
                   </div>
                 </div>
               );
@@ -198,41 +221,44 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           {tab === "dashboard" && (
             <div className="grid lg:grid-cols-2 gap-6">
               <div className="bg-white rounded-2xl border-2 border-stone-200 shadow-sm p-6">
-                <h2 className="font-black text-stone-900 mb-4 text-lg">Последние заявки</h2>
-                <div className="space-y-3">
+                <h2 className="font-black text-stone-900 mb-5 text-xl">Последние заявки</h2>
+                <div className="space-y-4">
                   {bookings.slice(0, 5).map(b => {
                     const st = STATUS_LABEL[b.status] ?? STATUS_LABEL["NEW"];
                     return (
-                      <div key={b.id} className="flex items-center justify-between py-2.5 border-b border-stone-100 last:border-0">
+                      <div key={b.id} className="flex items-center justify-between py-3 border-b border-stone-100 last:border-0">
                         <div>
-                          <div className="font-bold text-stone-900">{b.name}</div>
-                          <div className="text-stone-400 text-sm">{new Date(b.createdAt).toLocaleDateString("ru-RU")}</div>
+                          <div className="font-bold text-stone-900 text-base">{b.name}</div>
+                          <div className="text-stone-400 text-sm mt-0.5">{new Date(b.createdAt).toLocaleDateString("ru-RU")}</div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="font-mono text-base font-black text-stone-700">{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
-                          <span className={`text-sm px-2.5 py-1 rounded-full font-semibold ${st.cls}`}>{st.label}</span>
+                          <span className="font-mono text-lg font-black text-stone-700">{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
+                          <span className={`text-sm px-3 py-1.5 rounded-full font-semibold ${st.cls}`}>{st.label}</span>
                         </div>
                       </div>
                     );
                   })}
-                  {bookings.length === 0 && <p className="text-stone-400 text-center py-4">Заявок пока нет</p>}
+                  {bookings.length === 0 && <p className="text-stone-400 text-center py-6 text-base">Заявок пока нет</p>}
                 </div>
                 {bookings.length > 5 && (
-                  <button onClick={() => setTab("bookings")} className="mt-4 text-base text-[#E07B00] font-bold hover:underline">
+                  <button onClick={() => setTab("bookings")} className="mt-5 text-base text-[#E07B00] font-bold hover:underline">
                     Показать все заявки →
                   </button>
                 )}
               </div>
-              <div className="bg-white rounded-2xl border-2 border-stone-200 shadow-sm p-6 flex flex-col items-center justify-center gap-4 text-center">
-                <Users className="w-14 h-14 text-stone-200" />
+
+              <div className="bg-white rounded-2xl border-2 border-stone-200 shadow-sm p-8 flex flex-col items-center justify-center gap-5 text-center">
+                <Users className="w-16 h-16 text-stone-200" />
                 <div>
-                  <p className="font-black text-stone-900 text-xl">Добро пожаловать!</p>
-                  <p className="text-stone-500 text-base mt-2">Используйте меню слева для управления заявками, услугами и акциями.</p>
+                  <p className="font-black text-stone-900 text-2xl">Добро пожаловать!</p>
+                  <p className="text-stone-500 text-base mt-2 leading-relaxed">
+                    Используйте меню слева для управления заявками, услугами и акциями.
+                  </p>
                 </div>
                 <div className="flex gap-3 mt-2 flex-wrap justify-center">
-                  <button onClick={() => setTab("bookings")} className="px-5 py-2.5 bg-[#E07B00] text-white rounded-xl text-base font-bold hover:bg-[#B86300] transition">Заявки</button>
-                  <button onClick={() => setTab("services")} className="px-5 py-2.5 bg-stone-100 text-stone-800 rounded-xl text-base font-bold hover:bg-stone-200 transition">Услуги</button>
-                  <button onClick={() => setTab("promo")} className="px-5 py-2.5 bg-orange-50 text-[#E07B00] border border-[#E07B00]/30 rounded-xl text-base font-bold hover:bg-orange-100 transition">Акции</button>
+                  <button onClick={() => setTab("bookings")} className="px-6 py-3 bg-[#E07B00] text-white rounded-xl text-base font-bold hover:bg-[#B86300] transition">Заявки</button>
+                  <button onClick={() => setTab("services")} className="px-6 py-3 bg-stone-100 text-stone-800 rounded-xl text-base font-bold hover:bg-stone-200 transition">Услуги</button>
+                  <button onClick={() => setTab("promo")} className="px-6 py-3 bg-orange-50 text-[#E07B00] border border-[#E07B00]/30 rounded-xl text-base font-bold hover:bg-orange-100 transition">Акции</button>
                 </div>
               </div>
             </div>
@@ -245,7 +271,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             <div>
               <div className="mb-6">
                 <h2 className="text-2xl font-black text-stone-900">Видео отзывы</h2>
-                <p className="text-stone-500 text-sm mt-1">Управление видеоотзывами на странице «О нас»</p>
+                <p className="text-stone-500 text-base mt-1">Управление видеоотзывами на странице «О нас»</p>
               </div>
               <VideoReviewsManager />
             </div>

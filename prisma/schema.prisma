@@ -52,7 +52,7 @@ model PromoEvent {
 
 model VideoReview {
   id          Int      @id @default(autoincrement())
-  youtubeUrl  String // Ссылка на YouTube видео
+  videoUrl    String // Ссылка на видео (Rutube / YouTube)
   description String? // "Отзыв от Ивана, владельца ВАЗ-21214, клиент с 2015 года"
   reviewDate  String // Отображаемая дата ("2025-03-01"), сортировка по ней
   createdAt   DateTime @default(now())

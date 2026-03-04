@@ -30,12 +30,12 @@ export async function PUT(
         if (authError) return authError;
 
         const { id } = await params;
-        const { youtubeUrl, description, reviewDate } = await req.json();
+        const { videoUrl, description, reviewDate } = await req.json();
 
         const review = await prisma.videoReview.update({
             where: { id: Number(id) },
             data: {
-                youtubeUrl: youtubeUrl ?? undefined,
+                videoUrl: videoUrl ?? undefined,
                 description: description ?? undefined,
                 reviewDate: reviewDate ?? undefined,
             },

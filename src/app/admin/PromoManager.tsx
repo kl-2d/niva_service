@@ -58,7 +58,7 @@ export default function PromoManager() {
         }
     };
 
-    const inputCls = "w-full bg-white border-2 border-stone-300 text-stone-900 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400";
+    const inputCls = "w-full bg-white border-2 border-stone-300 text-stone-900 rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400";
 
     // Проверяем актуальность дат
     const today = new Date().toISOString().slice(0, 10);
@@ -78,8 +78,8 @@ export default function PromoManager() {
 
             {/* Status card */}
             <div className={`rounded-2xl border-2 p-6 flex items-center justify-between gap-4 transition-all ${form.isActive && !isExpired
-                    ? "border-[#E07B00]/40 bg-orange-50"
-                    : "border-stone-200 bg-stone-50"
+                ? "border-[#E07B00]/40 bg-orange-50"
+                : "border-stone-200 bg-stone-50"
                 }`}>
                 <div className="flex items-center gap-3">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${form.isActive && !isExpired ? "bg-[#E07B00]/10" : "bg-stone-200"
@@ -87,7 +87,7 @@ export default function PromoManager() {
                         <Zap className={`w-6 h-6 ${form.isActive && !isExpired ? "text-[#E07B00]" : "text-stone-400"}`} />
                     </div>
                     <div>
-                        <p className="font-bold text-stone-900 text-lg">
+                        <p className="font-bold text-stone-900 text-xl">
                             {!form.isActive
                                 ? "Акция не активна"
                                 : isExpired
@@ -96,7 +96,7 @@ export default function PromoManager() {
                                         ? "⏳ Акция ещё не началась"
                                         : "✅ Акция активна"}
                         </p>
-                        <p className="text-stone-500 text-sm">
+                        <p className="text-stone-500 text-base mt-1">
                             {form.isActive && !isExpired && !notStarted
                                 ? "Плашка отображается в шапке сайта"
                                 : "Плашка скрыта от посетителей"}
@@ -105,14 +105,14 @@ export default function PromoManager() {
                 </div>
                 <button
                     onClick={() => setForm((f) => ({ ...f, isActive: !f.isActive }))}
-                    className="shrink-0 flex items-center gap-2 font-bold text-sm"
+                    className="shrink-0 flex items-center gap-2 font-bold text-base"
                     title={form.isActive ? "Выключить акцию" : "Включить акцию"}
                 >
                     {form.isActive
-                        ? <ToggleRight className="w-10 h-10 text-[#E07B00]" />
-                        : <ToggleLeft className="w-10 h-10 text-stone-400" />
+                        ? <ToggleRight className="w-14 h-14 text-[#E07B00]" />
+                        : <ToggleLeft className="w-14 h-14 text-stone-400" />
                     }
-                    <span className={form.isActive ? "text-[#E07B00]" : "text-stone-500"}>
+                    <span className={`text-lg font-bold ${form.isActive ? "text-[#E07B00]" : "text-stone-500"}`}>
                         {form.isActive ? "Вкл" : "Выкл"}
                     </span>
                 </button>
@@ -120,11 +120,11 @@ export default function PromoManager() {
 
             {/* Form */}
             <div className="bg-white border-2 border-stone-200 rounded-2xl p-6 space-y-5">
-                <h3 className="font-bold text-stone-900 text-lg">Настройки акции</h3>
+                <h3 className="font-black text-stone-900 text-xl">Настройки акции</h3>
 
                 {/* Title */}
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-stone-700 block">Название акции *</label>
+                    <label className="text-base font-bold text-stone-700 block">Название акции *</label>
                     <input
                         type="text"
                         placeholder="Бесплатная диагностика"
@@ -136,7 +136,7 @@ export default function PromoManager() {
 
                 {/* Description */}
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-stone-700 block">Описание акции</label>
+                    <label className="text-base font-bold text-stone-700 block">Описание акции</label>
                     <textarea
                         placeholder="Краткое описание для посетителей..."
                         value={form.description}
@@ -149,8 +149,8 @@ export default function PromoManager() {
                 {/* Date range */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-stone-700 block flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4 text-[#E07B00]" /> Дата начала
+                        <label className="text-base font-bold text-stone-700 block flex items-center gap-1.5">
+                            <Calendar className="w-5 h-5 text-[#E07B00]" /> Дата начала
                         </label>
                         <input
                             type="date"
@@ -160,8 +160,8 @@ export default function PromoManager() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-stone-700 block flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4 text-stone-400" /> Дата окончания
+                        <label className="text-base font-bold text-stone-700 block flex items-center gap-1.5">
+                            <Calendar className="w-5 h-5 text-stone-400" /> Дата окончания
                         </label>
                         <input
                             type="date"
@@ -175,7 +175,7 @@ export default function PromoManager() {
 
                 {/* Date preview */}
                 {(form.eventDateStart || form.eventDate) && (
-                    <p className="text-sm text-stone-500 bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5">
+                    <p className="text-base text-stone-500 bg-stone-50 border border-stone-200 rounded-xl px-4 py-3">
                         📅 Акция действует:{" "}
                         <b>{form.eventDateStart
                             ? new Date(form.eventDateStart).toLocaleDateString("ru-RU", { day: "numeric", month: "long" })
@@ -204,7 +204,7 @@ export default function PromoManager() {
                 </button>
             </div>
 
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-stone-600">
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-5 text-base text-stone-700">
                 💡 По истечении даты окончания акция <b>автоматически отключается</b> и перестаёт показываться на сайте.
             </div>
         </div>

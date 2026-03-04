@@ -1,20 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock, Youtube } from "lucide-react";
+import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock, Video, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface VideoReview {
   id: number;
-  youtubeUrl: string;
+  videoUrl: string;
   description: string | null;
   reviewDate: string;
 }
 
-function extractYoutubeId(url: string): string | null {
-  const p = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
-  const m = url.match(p);
-  return m ? m[1] : null;
+function detectPlatform(url: string): "rutube" | "youtube" | null {
+  if (/rutube\.ru/.test(url)) return "rutube";
+  if (/youtube\.com|youtu\.be/.test(url)) return "youtube";
+  return null;
+}
+
+function getEmbedUrl(url: string): string | null {
+  const platform = detectPlatform(url);
+  if (platform === "rutube") {
+    const m = url.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+    return m ? `https://rutube.ru/play/embed/${m[1]}` : null;
+  }
+  if (platform === "youtube") {
+    const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+    return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+  }
+  return null;
 }
 
 export default function AboutPage() {
@@ -131,14 +144,14 @@ export default function AboutPage() {
 
           {reviews.length === 0 ? (
             <div className="text-center py-12 text-stone-400">
-              <Youtube className="w-12 h-12 mx-auto mb-3 opacity-30" />
+              <Video className="w-12 h-12 mx-auto mb-3 opacity-30" />
               <p className="font-medium">Отзывы скоро появятся</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {reviews.map((review, index) => {
-                const vidId = extractYoutubeId(review.youtubeUrl);
-                const embedUrl = vidId ? `https://www.youtube.com/embed/${vidId}` : null;
+                const embedUrl = getEmbedUrl(review.videoUrl);
+                const platform = detectPlatform(review.videoUrl);
                 const fmtDate = new Date(review.reviewDate).toLocaleDateString("ru-RU", {
                   day: "numeric", month: "long", year: "numeric",
                 });
@@ -164,7 +177,7 @@ export default function AboutPage() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-stone-500">
-                          <Youtube className="w-10 h-10" />
+                          <Video className="w-10 h-10" />
                         </div>
                       )}
                     </div>
@@ -175,12 +188,13 @@ export default function AboutPage() {
                         <p className="text-sm text-stone-700 leading-snug">{review.description}</p>
                       )}
                       <a
-                        href={review.youtubeUrl}
+                        href={review.videoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-stone-400 hover:text-[#E07B00] transition-colors mt-1 flex items-center gap-1"
                       >
-                        <Youtube className="w-3 h-3" /> Открыть на YouTube
+                        <ExternalLink className="w-3 h-3" />
+                        {platform === "rutube" ? "Открыть на Rutube" : platform === "youtube" ? "Открыть на YouTube" : "Открыть видео"}
                       </a>
                     </div>
                   </motion.div>
