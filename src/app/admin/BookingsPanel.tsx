@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Phone, Trash2, ChevronDown, Car, CalendarDays, Wrench, ArrowUpDown } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Phone, Trash2, ChevronDown, Car, CalendarDays, Wrench, ArrowUpDown, Bell } from "lucide-react";
 
 interface Booking {
   id: number;
@@ -33,6 +33,58 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
   const [expanded, setExpanded] = useState<number | null>(null);
   const [pendingId, setPendingId] = useState<number | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [newToast, setNewToast] = useState<Booking | null>(null);
+  const knownIds = useRef<Set<number>>(new Set(initialBookings.map(b => b.id)));
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /** Play a short "ding" using Web Audio API — no file needed */
+  const playDing = useCallback(() => {
+    try {
+      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      const gain = ctx.createGain();
+      gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+
+      const osc1 = ctx.createOscillator();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(880, ctx.currentTime);
+      osc1.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.3);
+      osc1.connect(gain);
+      osc1.start(ctx.currentTime);
+      osc1.stop(ctx.currentTime + 1.2);
+
+      setTimeout(() => ctx.close(), 1500);
+    } catch { /* AudioContext not available */ }
+  }, []);
+
+  /** Poll GET /api/bookings every 15 s */
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        const res = await fetch("/api/bookings", { cache: "no-store" });
+        if (!res.ok) return;
+        const fresh: Booking[] = await res.json();
+
+        // Find truly new entries
+        const newOnes = fresh.filter(b => !knownIds.current.has(b.id));
+        if (newOnes.length > 0) {
+          newOnes.forEach(b => knownIds.current.add(b.id));
+          setBookings(fresh);
+          // Show toast for the most recent
+          const newest = newOnes[0];
+          setNewToast(newest);
+          playDing();
+          if (toastTimer.current) clearTimeout(toastTimer.current);
+          toastTimer.current = setTimeout(() => setNewToast(null), 8000);
+        }
+      } catch { /* network error, silently ignore */ }
+    };
+
+    const interval = setInterval(poll, 15_000);
+    return () => { clearInterval(interval); if (toastTimer.current) clearTimeout(toastTimer.current); };
+  }, [playDing]);
 
   const filtered = (() => {
     const base = filter === "ALL" ? bookings : bookings.filter(b => b.status === filter);
@@ -80,6 +132,47 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
   return (
     <div className="space-y-5">
+
+      {/* ── New booking toast ── */}
+      {newToast && (
+        <div className="fixed top-5 right-5 z-[100] w-80 animate-slide-in-right">
+          <div className="relative bg-white border-2 border-[#E07B00] rounded-2xl shadow-2xl shadow-[#E07B00]/20 overflow-hidden">
+            {/* Orange top bar */}
+            <div className="h-1 bg-gradient-to-r from-[#E07B00] to-amber-400 w-full" />
+            <div className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shrink-0">
+                  <Bell className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-black text-stone-900 mb-0.5">🎉 Новая заявка!</p>
+                  <p className="text-base font-bold text-stone-800 truncate">{newToast.name}</p>
+                  <a
+                    href={`tel:${newToast.phone.replace(/\D/g, "")}`}
+                    className="text-sm text-[#E07B00] font-bold hover:text-[#B86300] transition-colors"
+                  >
+                    {newToast.phone}
+                  </a>
+                  {/* Promo tag */}
+                  {newToast.comment?.includes("[Перешёл по акции:") && (
+                    <p className="text-xs text-[#E07B00] font-bold mt-1">🎯 По акции</p>
+                  )}
+                </div>
+                <button
+                  onClick={() => setNewToast(null)}
+                  className="text-stone-300 hover:text-stone-600 transition-colors shrink-0 mt-0.5"
+                >
+                  ✕
+                </button>
+              </div>
+              {/* Progress bar */}
+              <div className="mt-3 h-1 bg-stone-100 rounded-full overflow-hidden">
+                <div className="h-full bg-[#E07B00] rounded-full animate-shrink-width" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Filter + Sort row */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-wrap gap-2 flex-1">

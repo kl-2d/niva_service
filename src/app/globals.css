@@ -183,3 +183,34 @@ h2 {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ── Admin toast animations ───────────────────────────────────── */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shrink-width {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-shrink-width {
+  animation: shrink-width 8s linear forwards;
+}
