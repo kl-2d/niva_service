@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { signToken } from "@/lib/auth";
 
 const SESSION_COOKIE = "admin_session";
-const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
+const SESSION_MAX_AGE = 60 * 60 * 8; // 8 часов
 
 export async function POST(req: Request) {
   try {
@@ -14,17 +13,14 @@ export async function POST(req: Request) {
     const adminPassword = process.env.ADMIN_PASSWORD ?? "niva2026";
 
     if (username !== adminUser || password !== adminPassword) {
-      // Slow down brute-force
       await new Promise((r) => setTimeout(r, 500));
       return NextResponse.json({ error: "Неверный логин или пароль" }, { status: 401 });
     }
 
-    // Use HMAC-signed token (not plain base64)
-    const token = signToken(`${adminUser}:${Date.now()}`);
+    const token = await signToken(`${adminUser}:${Date.now()}`);
 
     const response = NextResponse.json({ success: true });
-    const cookieStore = await cookies();
-    cookieStore.set(SESSION_COOKIE, token, {
+    response.cookies.set(SESSION_COOKIE, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -38,9 +34,9 @@ export async function POST(req: Request) {
   }
 }
 
-// Logout: clear the cookie
+// Выход: удалить куки
 export async function DELETE() {
-  const cookieStore = await cookies();
-  cookieStore.delete(SESSION_COOKIE);
-  return NextResponse.json({ success: true });
+  const response = NextResponse.json({ success: true });
+  response.cookies.delete(SESSION_COOKIE);
+  return response;
 }
