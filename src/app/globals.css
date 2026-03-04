@@ -7,11 +7,54 @@
 
 /* ── Brand tokens ─────────────────────────────────────────────── */
 :root {
-  --navy:   #1A2B4A;
+  --navy: #1A2B4A;
   --orange: #E07B00;
-  --bg:     #F5F2EC;
-  --text:   #1A1A1A;
+  --bg: #F5F2EC;
+  --text: #1A1A1A;
 }
+
+/* ── Cursor management ────────────────────────────────────────── */
+/*
+  cursor is an INHERITED property.
+  Setting it only on html/body allows children to inherit from
+  interactive ancestors (a, button) without being overridden.
+  Using * { cursor: default } was the bug — it blocked inheritance.
+*/
+html,
+body {
+  cursor: default;
+}
+
+/* Interactive elements get pointer; their children inherit it */
+a[href],
+button:not(:disabled),
+[role="button"],
+select,
+label[for],
+summary,
+input[type="checkbox"],
+input[type="radio"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"],
+input[type="range"] {
+  cursor: pointer;
+}
+
+/* Text cursor for text inputs */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="reset"]):not([type="file"]):not([type="range"]):not([type="button"]):not([type="color"]),
+textarea {
+  cursor: text;
+}
+
+/* Disabled elements */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
 
 /* ── Base ─────────────────────────────────────────────────────── */
 body {
@@ -33,7 +76,8 @@ h3 {
 
 /* Body text sizing scale — fluid approach */
 p {
-  font-size: clamp(0.9375rem, 2.5vw, 1rem); /* 15px → 16px */
+  font-size: clamp(0.9375rem, 2.5vw, 1rem);
+  /* 15px → 16px */
 }
 
 html {
@@ -52,6 +96,7 @@ button {
 /* ── Mobile Touch Targets ─────────────────────────────────────── */
 /* Ensure tap targets are at least 44px on mobile */
 @media (max-width: 768px) {
+
   button,
   a {
     min-height: 36px;
@@ -63,6 +108,7 @@ button {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -72,9 +118,11 @@ button {
   scrollbar-width: thin;
   scrollbar-color: #d6d3ce transparent;
 }
+
 .scrollbar-thin::-webkit-scrollbar {
   width: 4px;
 }
+
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background-color: #d6d3ce;
   border-radius: 9999px;
@@ -86,6 +134,7 @@ button {
     opacity: 0;
     transform: translateY(16px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -107,6 +156,7 @@ button:active:not(:disabled) {
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.25s ease;
 }
+
 .card-hover:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.12);
@@ -116,6 +166,7 @@ button:active:not(:disabled) {
 .shadow-orange-glow {
   box-shadow: 0 4px 20px -4px rgba(224, 123, 0, 0.35);
 }
+
 .shadow-orange-glow:hover {
   box-shadow: 0 6px 28px -4px rgba(224, 123, 0, 0.45);
 }

@@ -32,6 +32,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
   const [sort, setSort] = useState<SortKey>("date_desc");
   const [expanded, setExpanded] = useState<number | null>(null);
   const [pendingId, setPendingId] = useState<number | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
   const filtered = (() => {
     const base = filter === "ALL" ? bookings : bookings.filter(b => b.status === filter);
@@ -59,9 +60,9 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
   };
 
   const deleteBooking = async (id: number) => {
-    if (!confirm("Удалить заявку? Это действие необратимо.")) return;
     if (pendingId !== null) return;
     setPendingId(id);
+    setConfirmDeleteId(null);
     try {
       const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
       if (res.ok) setBookings(prev => prev.filter(b => b.id !== id));
@@ -227,21 +228,24 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Push price + actions to the right */}
                   <div className="flex-1" />
 
-                  {/* Callback badge OR price */}
-                  {isCallback && b.status !== "DONE" ? (
-                    <span className="relative flex items-center gap-2 text-base font-bold text-amber-700 bg-amber-50 border-2 border-amber-300 rounded-xl px-4 py-2.5 whitespace-nowrap">
-                      <span className="absolute -top-1.5 -right-1.5 flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                  {/* Callback badge — informational, left of actions */}
+                  {isCallback && b.status !== "DONE" && (
+                    <span className="relative flex items-center gap-2 text-sm font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 whitespace-nowrap select-none">
+                      <span className="relative flex h-2 w-2 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
                       </span>
                       📞 Ждёт звонка
                     </span>
-                  ) : !isCallback ? (
+                  )}
+
+                  {/* Price (non-callback bookings) */}
+                  {!isCallback && (
                     <div className="text-right shrink-0">
                       <div className="text-xl font-black font-mono text-stone-900 whitespace-nowrap">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
                       <div className="text-sm text-stone-400">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
                     </div>
-                  ) : null}
+                  )}
 
                   {/* Status cycle button */}
                   <button
@@ -262,15 +266,34 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                     <ChevronDown className={`w-6 h-6 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                   </button>
 
-                  {/* Delete */}
-                  <button
-                    onClick={() => deleteBooking(b.id)}
-                    disabled={pendingId === b.id}
-                    className="p-3 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition shrink-0 disabled:opacity-50 disabled:cursor-wait border-2 border-stone-200 hover:border-red-200"
-                    title="Удалить заявку"
-                  >
-                    <Trash2 className="w-6 h-6" />
-                  </button>
+                  {/* Delete — inline confirm */}
+                  {confirmDeleteId === b.id ? (
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-sm text-red-600 font-bold whitespace-nowrap">Удалить?</span>
+                      <button
+                        onClick={() => deleteBooking(b.id)}
+                        disabled={pendingId === b.id}
+                        className="px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-bold transition disabled:opacity-50"
+                      >
+                        Да
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteId(null)}
+                        className="px-3 py-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 text-sm font-bold transition"
+                      >
+                        Нет
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmDeleteId(b.id)}
+                      disabled={pendingId === b.id}
+                      className="p-3 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition shrink-0 disabled:opacity-50 disabled:cursor-wait border-2 border-stone-200 hover:border-red-200"
+                      title="Удалить заявку"
+                    >
+                      <Trash2 className="w-6 h-6" />
+                    </button>
+                  )}
                 </div>
               </div>
 

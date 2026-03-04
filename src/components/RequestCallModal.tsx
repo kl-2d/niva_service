@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Phone, Car, Hash, Loader2, MessageSquare } from "lucide-react";
+import { X, User, Phone, Car, Hash, Loader2, MessageSquare, Zap } from "lucide-react";
 import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
 interface RequestCallModalProps {
@@ -80,11 +80,20 @@ export default function RequestCallModal({ isOpen, onClose, promoSource }: Reque
               className="relative bg-white border-2 border-stone-200 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden max-h-[90vh] overflow-y-auto"
             >
               <div className="p-6 border-b-2 border-stone-200 flex justify-between items-center bg-stone-50 sticky top-0 z-10">
-                <h2 className="text-xl font-black text-stone-900">Заказ обратного звонка</h2>
+                <div>
+                  <h2 className="text-xl font-black text-stone-900">
+                    {promoSource ? "Запись по акции" : "Заказ обратного звонка"}
+                  </h2>
+                  {promoSource && (
+                    <p className="text-sm text-stone-500 mt-0.5">Обратный звонок • Мы сами перезвоним вам</p>
+                  )}
+                </div>
                 <button onClick={onClose} className="text-stone-500 hover:text-stone-900 transition-colors p-1">
                   <X className="w-6 h-6" />
                 </button>
               </div>
+
+
 
               <div className="p-6">
                 {success ? (
