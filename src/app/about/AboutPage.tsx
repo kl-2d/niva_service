@@ -42,7 +42,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="pt-8 pb-24 bg-stone-100">
+    <div className="pt-8 pb-24 bg-[#F5F2EC]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -60,10 +60,19 @@ export default function AboutPage() {
 
         {/* Header */}
         <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A2B4A]/10 border border-[#1A2B4A]/20 text-[#1A2B4A] text-sm font-bold uppercase tracking-widest mb-5"
+          >
+            <Wrench className="w-3.5 h-3.5" />
+            Нива Сервис Воронеж
+          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-stone-900 mb-6 uppercase tracking-tight"
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-black text-stone-900 mb-6 uppercase tracking-tight"
           >
             О компании
           </motion.h1>
@@ -91,31 +100,31 @@ export default function AboutPage() {
               собственные технологические решения, подтвержденные патентами.
             </p>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-[#E07B00] shrink-0">
-                  <Award className="w-4 h-4" />
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#1A2B4A] flex items-center justify-center text-[#E07B00] shrink-0">
+                  <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-stone-900">{yearsOfWork} лет опыта</h4>
-                  <p className="text-stone-700 text-sm">Знаем каждую гайку в Ниве</p>
+                  <h4 className="font-bold text-stone-900 text-base">{yearsOfWork} лет опыта</h4>
+                  <p className="text-stone-600 text-sm mt-0.5">Знаем каждую гайку в Ниве</p>
                 </div>
               </li>
-              <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-[#E07B00] shrink-0">
-                  <Shield className="w-4 h-4" />
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#1A2B4A] flex items-center justify-center text-[#E07B00] shrink-0">
+                  <Shield className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-stone-900">Запатентованные технологии</h4>
-                  <p className="text-stone-700 text-sm">Уникальные решения по усилению узлов</p>
+                  <h4 className="font-bold text-stone-900 text-base">Запатентованные технологии</h4>
+                  <p className="text-stone-600 text-sm mt-0.5">Уникальные решения по усилению узлов</p>
                 </div>
               </li>
-              <li className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-[#E07B00] shrink-0">
-                  <Wrench className="w-4 h-4" />
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#1A2B4A] flex items-center justify-center text-[#E07B00] shrink-0">
+                  <Wrench className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-stone-900">Узкая специализация</h4>
-                  <p className="text-stone-700 text-sm">Ремонтируем только Нивы и Шевроле Нива</p>
+                  <h4 className="font-bold text-stone-900 text-base">Узкая специализация</h4>
+                  <p className="text-stone-600 text-sm mt-0.5">Ремонтируем только Нивы и Шевроле Нива</p>
                 </div>
               </li>
             </ul>
@@ -138,8 +147,17 @@ export default function AboutPage() {
         {/* Video Reviews */}
         <div className="mb-20">
           <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold text-stone-900 mb-4">Видео отзывы наших клиентов</h3>
-            <p className="text-stone-700">Посмотрите, что говорят владельцы Нив о нашей работе</p>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A2B4A]/10 border border-[#1A2B4A]/20 text-[#1A2B4A] text-sm font-bold uppercase tracking-widest mb-4"
+            >
+              <Video className="w-3.5 h-3.5" />
+              Отзывы клиентов
+            </motion.div>
+            <h3 className="text-3xl font-black text-stone-900 mb-3 uppercase tracking-tight">Видео отзывы наших клиентов</h3>
+            <p className="text-stone-500 text-base">Посмотрите, что говорят владельцы Нив о нашей работе</p>
           </div>
 
           {reviews.length === 0 ? (
@@ -162,7 +180,7 @@ export default function AboutPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.08 }}
-                    className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200 flex flex-col"
+                    className="bg-white rounded-2xl overflow-hidden shadow-md border-2 border-stone-100 hover:border-[#1A2B4A]/30 hover:shadow-xl transition-all duration-300 flex flex-col group"
                   >
                     {/* Video embed */}
                     <div className="aspect-video bg-stone-900 relative">
@@ -182,10 +200,15 @@ export default function AboutPage() {
                       )}
                     </div>
                     {/* Info */}
-                    <div className="p-4 flex flex-col gap-1">
-                      <p className="text-xs font-semibold text-[#E07B00]">📅 {fmtDate}</p>
+                    <div className="p-4 flex flex-col gap-1.5 border-t border-stone-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-md bg-[#1A2B4A] flex items-center justify-center shrink-0">
+                          <Video className="w-3.5 h-3.5 text-[#E07B00]" />
+                        </div>
+                        <p className="text-sm font-bold text-stone-700">{fmtDate}</p>
+                      </div>
                       {review.description && (
-                        <p className="text-sm text-stone-700 leading-snug">{review.description}</p>
+                        <p className="text-sm text-stone-600 leading-snug">{review.description}</p>
                       )}
                       <a
                         href={review.videoUrl}
@@ -205,17 +228,19 @@ export default function AboutPage() {
         </div>
 
         {/* Contacts & Map */}
-        <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm" id="contacts">
+        <div className="bg-white border-2 border-stone-200 rounded-2xl overflow-hidden shadow-lg" id="contacts">
           <div className="flex flex-col lg:flex-row">
-            <div className="lg:w-1/3 p-8 lg:p-12 bg-white">
-              <h3 className="text-2xl font-bold text-stone-900 mb-8">Контакты</h3>
+            <div className="lg:w-1/3 p-8 lg:p-12 bg-[#1A2B4A]">
+              <h3 className="text-2xl font-black text-white mb-8">Контакты</h3>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
+                  <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shrink-0">
+                    <MapPin className="w-5 h-5 text-white" />
+                  </div>
                   <div>
-                    <h4 className="font-semibold text-stone-900">Адрес</h4>
-                    <p className="text-stone-700 mt-1">г. Воронеж, ул. Матросова, 100</p>
+                    <h4 className="font-bold text-white">Адрес</h4>
+                    <p className="text-stone-300 mt-1">г. Воронеж, ул. Матросова, 100</p>
                     <a
                       href="https://yandex.ru/maps/-/CPqZM2Il"
                       target="_blank"
@@ -228,29 +253,35 @@ export default function AboutPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Phone className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
+                  <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shrink-0">
+                    <Phone className="w-5 h-5 text-white" />
+                  </div>
                   <div>
-                    <h4 className="font-semibold text-stone-900">Телефоны</h4>
+                    <h4 className="font-bold text-white">Телефоны</h4>
                     <div className="mt-1 space-y-1">
-                      <a href="tel:+79202295656" className="block text-stone-700 hover:text-[#E07B00] transition-colors">+7 920 229-56-56</a>
-                      <a href="tel:+74732361818" className="block text-stone-700 hover:text-[#E07B00] transition-colors">+7 473 236-18-18</a>
+                      <a href="tel:+79202295656" className="block text-stone-300 hover:text-[#E07B00] transition-colors font-mono text-base">+7 920 229-56-56</a>
+                      <a href="tel:+74732361818" className="block text-stone-300 hover:text-[#E07B00] transition-colors font-mono text-base">+7 473 236-18-18</a>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Mail className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
+                  <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shrink-0">
+                    <Mail className="w-5 h-5 text-white" />
+                  </div>
                   <div>
-                    <h4 className="font-semibold text-stone-900">Email</h4>
-                    <a href="mailto:info@niva-service.ru" className="text-stone-700 hover:text-[#E07B00] transition-colors mt-1 block">info@niva-service.ru</a>
+                    <h4 className="font-bold text-white">Email</h4>
+                    <a href="mailto:info@niva-service.ru" className="text-stone-300 hover:text-[#E07B00] transition-colors mt-1 block">info@niva-service.ru</a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Clock className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
+                  <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shrink-0">
+                    <Clock className="w-5 h-5 text-white" />
+                  </div>
                   <div>
-                    <h4 className="font-semibold text-stone-900">Режим работы</h4>
-                    <p className="text-stone-700 mt-1">Пн-Вс: 9:00 - 20:00</p>
+                    <h4 className="font-bold text-white">Режим работы</h4>
+                    <p className="text-stone-300 mt-1">Пн-Вс: 9:00 - 20:00</p>
                   </div>
                 </div>
               </div>

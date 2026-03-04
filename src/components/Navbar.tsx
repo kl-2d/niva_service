@@ -11,10 +11,7 @@ export default function Navbar() {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const openModal = (fromPromo?: string) => {
-    setPromoSource(fromPromo);
-    setIsRequestModalOpen(true);
-  };
+  const openModal = () => setIsRequestModalOpen(true);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -35,49 +32,58 @@ export default function Navbar() {
     <>
       <nav
         className={`fixed w-full z-50 top-0 transition-all duration-300 ${scrolled
-          ? "bg-[#1A1A1A]/98 backdrop-blur-md shadow-lg shadow-black/20 border-b border-white/5"
-          : "bg-[#1C1C1C]/95 backdrop-blur-md border-b border-white/10"
+            ? "bg-[#1A2B4A]/98 backdrop-blur-md shadow-lg shadow-black/30 border-b border-[#E07B00]/20"
+            : "bg-[#1A2B4A]/95 backdrop-blur-md border-b border-white/8"
           }`}
       >
-        <div className={`max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? "h-16" : "h-20"}`}>
+        {/* Top orange accent line */}
+        <div className="h-[3px] w-full bg-gradient-to-r from-[#1A2B4A] via-[#E07B00] to-[#1A2B4A]" />
+
+        <div className={`max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? "h-15" : "h-19"}`}
+          style={{ height: scrolled ? "60px" : "72px" }}
+        >
 
           {/* Logo */}
-          <Link href="/" className="shrink-0 flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shadow-sm shadow-orange-900/40 shrink-0 group-hover:bg-[#B86300] transition-colors">
+          <Link href="/" className="shrink-0 flex items-center gap-3 group">
+            <div className="relative w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shadow-md shadow-[#E07B00]/30 shrink-0 group-hover:bg-[#B86300] transition-colors">
               <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
               </svg>
             </div>
             <div className="flex flex-col leading-none">
               <span
-                className="text-xl font-bold text-white uppercase tracking-wider transition-colors group-hover:text-[#E07B00]"
+                className="text-xl font-black text-white uppercase tracking-wider transition-colors group-hover:text-[#E07B00]"
                 style={{ fontFamily: "var(--font-oswald)" }}
               >
                 Нива Сервис
               </span>
-              <span className="text-[11px] text-stone-400 font-medium tracking-widest uppercase hidden sm:block">
+              <span className="text-[10px] text-[#E07B00]/70 font-bold tracking-[0.3em] uppercase hidden sm:block mt-0.5">
                 Воронеж
               </span>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden md:flex items-center gap-0.5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`relative px-4 py-2.5 rounded-lg text-base font-semibold tracking-wide transition-all duration-200 ${isActive
-                      ? "text-[#E07B00] bg-white/8"
-                      : "text-stone-300 hover:text-white hover:bg-white/10"
+                    className={`relative px-4 py-2.5 text-base font-semibold tracking-wide transition-colors duration-200 group ${isActive
+                        ? "text-[#E07B00]"
+                        : "text-stone-300 hover:text-white"
                       }`}
                   >
                     {link.name}
-                    {isActive && (
-                      <span className="absolute bottom-0.5 left-4 right-4 h-[2px] bg-[#E07B00] rounded-full" />
-                    )}
+                    {/* Slide underline */}
+                    <span
+                      className={`absolute bottom-1 left-4 right-4 h-[2px] rounded-full transition-all duration-300 ${isActive
+                          ? "bg-[#E07B00] scale-x-100"
+                          : "bg-[#E07B00] scale-x-0 group-hover:scale-x-100"
+                        }`}
+                    />
                   </Link>
                 </li>
               );
@@ -86,24 +92,25 @@ export default function Navbar() {
 
           {/* Right group */}
           <div className="flex items-center gap-2 sm:gap-3">
+
             {/* Phone — desktop only */}
             <a
               href="tel:+79202295656"
-              className="hidden lg:flex items-center gap-2 text-sm font-medium text-stone-200 hover:text-[#E07B00] transition-colors px-3 py-1.5 rounded-lg hover:bg-white/8 group"
+              className="hidden lg:flex items-center gap-2.5 text-sm font-medium text-stone-300 hover:text-white transition-colors px-3 py-1.5 rounded-xl hover:bg-white/8 group border border-transparent hover:border-white/10"
             >
-              <span className="w-7 h-7 rounded-full bg-[#E07B00]/15 flex items-center justify-center shrink-0 group-hover:bg-[#E07B00]/25 transition-colors">
-                <Phone className="w-3.5 h-3.5 text-[#E07B00]" />
+              <span className="w-8 h-8 rounded-lg bg-[#E07B00]/20 flex items-center justify-center shrink-0 group-hover:bg-[#E07B00]/30 transition-colors">
+                <Phone className="w-4 h-4 text-[#E07B00]" />
               </span>
-              <div className="flex flex-col leading-tight">
-                <span className="font-bold text-base">+7 920 229-56-56</span>
-                <span className="text-[10px] text-stone-500">Звонок бесплатный</span>
+              <div className="flex flex-col leading-none gap-0.5">
+                <span className="font-bold text-[15px] text-white">+7 920 229-56-56</span>
+                <span className="text-[10px] text-stone-500 font-medium">Звонок бесплатный</span>
               </div>
             </a>
 
             {/* Phone icon — mobile/tablet only */}
             <a
               href="tel:+79202295656"
-              className="lg:hidden w-9 h-9 rounded-xl bg-[#E07B00]/15 flex items-center justify-center text-[#E07B00] hover:bg-[#E07B00]/25 transition-colors"
+              className="lg:hidden w-9 h-9 rounded-xl bg-[#E07B00]/20 flex items-center justify-center text-[#E07B00] hover:bg-[#E07B00]/35 transition-colors border border-[#E07B00]/15"
               aria-label="Позвонить"
             >
               <Phone className="w-4 h-4" />
@@ -112,8 +119,8 @@ export default function Navbar() {
             {/* CTA button */}
             <button
               type="button"
-              onClick={() => openModal()}
-              className="hidden sm:flex items-center gap-1.5 text-white font-bold bg-[#E07B00] hover:bg-[#B86300] transition-colors rounded-xl text-sm px-4 py-2 shadow-sm shadow-orange-900/20 shrink-0"
+              onClick={openModal}
+              className="hidden sm:flex items-center gap-1.5 text-white font-bold bg-[#E07B00] hover:bg-[#C96E00] transition-all rounded-xl text-sm px-5 py-2.5 shadow-lg shadow-[#E07B00]/25 hover:shadow-[#E07B00]/40 hover:-translate-y-px shrink-0"
             >
               Заказать звонок
               <ChevronRight className="w-3.5 h-3.5" />
@@ -122,7 +129,7 @@ export default function Navbar() {
             {/* Hamburger */}
             <button
               type="button"
-              className="md:hidden w-9 h-9 rounded-xl text-stone-300 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center"
+              className="md:hidden w-9 h-9 rounded-xl text-stone-300 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center border border-white/10"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
             >
@@ -133,10 +140,10 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
             }`}
         >
-          <div className="px-4 pb-5 pt-2 border-t border-white/8 bg-[#181818] space-y-1">
+          <div className="px-4 pb-5 pt-2 border-t border-white/8 bg-[#12203A] space-y-1">
 
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -146,8 +153,8 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`flex items-center justify-between py-3 px-4 rounded-xl text-base font-semibold transition-all duration-200 ${isActive
-                    ? "text-[#E07B00] bg-[#E07B00]/10 border border-[#E07B00]/20"
-                    : "text-stone-300 hover:text-white hover:bg-white/8"
+                      ? "text-[#E07B00] bg-[#E07B00]/10 border border-[#E07B00]/25"
+                      : "text-stone-300 hover:text-white hover:bg-white/8"
                     }`}
                 >
                   {link.name}
@@ -160,7 +167,7 @@ export default function Navbar() {
             <div className="pt-3 mt-2 border-t border-white/8 grid grid-cols-2 gap-2">
               <a
                 href="tel:+79202295656"
-                className="flex flex-col items-center gap-1 py-3 px-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                className="flex flex-col items-center gap-1 py-3 px-3 rounded-xl bg-[#E07B00]/10 border border-[#E07B00]/20 hover:bg-[#E07B00]/20 transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#E07B00]" />
                 <span className="text-white text-xs font-bold">+7 920 229-56-56</span>
@@ -175,9 +182,10 @@ export default function Navbar() {
                 <span className="text-stone-500 text-[10px]">Стационарный</span>
               </a>
             </div>
+
             <button
               onClick={() => { setIsRequestModalOpen(true); setIsOpen(false); }}
-              className="w-full mt-1 text-white font-bold bg-[#E07B00] hover:bg-[#B86300] transition-colors rounded-xl py-3.5 text-sm flex items-center justify-center gap-2 shadow-md shadow-orange-900/20"
+              className="w-full mt-1 text-white font-bold bg-[#E07B00] hover:bg-[#C96E00] transition-colors rounded-xl py-3.5 text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#E07B00]/20"
             >
               Заказать обратный звонок
               <ChevronRight className="w-4 h-4" />
@@ -185,10 +193,10 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
+
       <RequestCallModal
         isOpen={isRequestModalOpen}
-        onClose={() => { setIsRequestModalOpen(false); setPromoSource(undefined); }}
-        promoSource={promoSource}
+        onClose={() => setIsRequestModalOpen(false)}
       />
     </>
   );

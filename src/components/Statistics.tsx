@@ -47,7 +47,8 @@ function getStats() {
       value: 100,
       suffix: "%",
       label: "гарантия качества",
-      color: "text-[#E07B00]",
+      iconBg: "bg-[#1A2B4A]",
+      iconColor: "text-[#E07B00]",
     },
     {
       id: 2,
@@ -55,7 +56,8 @@ function getStats() {
       value: yearsOfWork,
       suffix: " лет",
       label: "успешной работы",
-      color: "text-[#E07B00]",
+      iconBg: "bg-[#1A2B4A]",
+      iconColor: "text-[#E07B00]",
     },
     {
       id: 3,
@@ -63,7 +65,8 @@ function getStats() {
       value: 10,
       suffix: "",
       label: "высококлассных специалистов",
-      color: "text-[#2B3A2E]",
+      iconBg: "bg-[#E07B00]",
+      iconColor: "text-white",
     },
     {
       id: 4,
@@ -71,7 +74,8 @@ function getStats() {
       value: 2000,
       suffix: "+",
       label: "выполненных заказов в год",
-      color: "text-[#2B3A2E]",
+      iconBg: "bg-[#E07B00]",
+      iconColor: "text-white",
     },
   ];
 }
@@ -81,7 +85,7 @@ export default function Statistics() {
   return (
     <section className="py-20 bg-[#F5F2EC] border-b border-[#D4CFC8]">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => {
             const IconComponent = stat.icon;
             return (
@@ -91,15 +95,20 @@ export default function Statistics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-[#D4CFC8] hover:border-[#E07B00]/40 transition-all duration-300 group shadow-sm hover:shadow-lg hover:-translate-y-1"
+                className="flex flex-col items-center justify-center p-7 bg-white rounded-2xl border-2 border-stone-100 hover:border-[#1A2B4A]/30 transition-all duration-300 group shadow-sm hover:shadow-lg hover:shadow-[#1A2B4A]/10 hover:-translate-y-1"
               >
-                <div className={`p-4 rounded-full bg-stone-50 border border-stone-100 mb-4 group-hover:bg-orange-50 transition-colors ${stat.color}`}>
-                  <IconComponent className="w-8 h-8" />
+                {/* Icon */}
+                <div className={`w-14 h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center mb-5 shadow-md group-hover:scale-105 transition-transform duration-300`}>
+                  <IconComponent className={`w-7 h-7 ${stat.iconColor}`} />
                 </div>
-                <h3 className="text-4xl md:text-5xl font-bold text-stone-900 mb-2 font-mono tabular-nums">
+
+                {/* Number */}
+                <h3 className="text-5xl md:text-6xl font-black text-stone-900 mb-2 font-mono tabular-nums leading-none">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h3>
-                <p className="text-stone-500 text-center uppercase tracking-wider text-sm font-medium">
+
+                {/* Label */}
+                <p className="text-stone-500 text-center uppercase tracking-wider text-xs font-bold mt-1">
                   {stat.label}
                 </p>
               </motion.div>

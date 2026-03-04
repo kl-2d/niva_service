@@ -9,38 +9,55 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-stone-900 border-t border-stone-800 pt-12 pb-8 text-white" id="contacts">
+      <footer className="bg-[#0F1923] border-t border-white/8 pt-14 pb-8 text-white" id="contacts">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
             {/* Brand Info */}
             <div>
-              <h2 className="text-xl font-bold text-white uppercase tracking-wider mb-4">
-                Нива Сервис
-              </h2>
-              <p className="text-stone-300 mb-4 whitespace-pre-wrap">
-                Специализированный сервис по ремонту автомобилей семейства НИВА — ВАЗ-2121, Chevrolet Niva, Lada 4×4, Niva Travel. Принимаем и другие марки автомобилей.
+              {/* Logo row */}
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-9 h-9 rounded-lg bg-[#E07B00] flex items-center justify-center shrink-0">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                  </svg>
+                </div>
+                <h2 className="text-lg font-black text-white uppercase tracking-wider" style={{ fontFamily: "var(--font-oswald)" }}>
+                  Нива Сервис
+                </h2>
+              </div>
+              {/* Orange underline */}
+              <div className="h-0.5 w-12 bg-[#E07B00] rounded-full mb-4" />
+              <p className="text-stone-400 text-sm leading-relaxed mb-4">
+                Специализированный сервис по ремонту автомобилей семейства НИВА — ВАЗ-2121, Chevrolet Niva, Lada 4×4, Niva Travel. Принимаем и другие марки.
               </p>
-              <div className="text-sm text-stone-400">
+              <div className="text-xs text-stone-600">
                 <p>ОГРН 304366434500094</p>
               </div>
             </div>
 
             {/* Contacts */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Контакты</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3 text-stone-300">
-                  <MapPin className="w-5 h-5 text-[#E07B00] shrink-0 mt-0.5" />
-                  <span>г. Воронеж, ул. Матросова, 100</span>
+              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-5">Контакты</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-stone-400">
+                  <div className="w-8 h-8 rounded-lg bg-[#E07B00]/15 flex items-center justify-center shrink-0 mt-0.5">
+                    <MapPin className="w-4 h-4 text-[#E07B00]" />
+                  </div>
+                  <span className="text-sm leading-relaxed">г. Воронеж<br />ул. Матросова, 100</span>
                 </li>
                 <li className="flex flex-col gap-2">
-                  <a href="tel:+79202295656" className="flex items-center gap-3 text-stone-300 hover:text-white transition-colors">
-                    <Phone className="w-5 h-5 text-[#E07B00] shrink-0" />
-                    <span className="font-medium">+7 920 229-56-56</span>
+                  <a href="tel:+79202295656" className="flex items-center gap-3 text-stone-400 hover:text-white transition-colors group">
+                    <div className="w-8 h-8 rounded-lg bg-[#E07B00]/15 flex items-center justify-center shrink-0 group-hover:bg-[#E07B00]/30 transition-colors">
+                      <Phone className="w-4 h-4 text-[#E07B00]" />
+                    </div>
+                    <span className="font-bold text-sm">+7 920 229-56-56</span>
                   </a>
-                  <a href="tel:+74732361818" className="flex items-center gap-3 text-stone-300 hover:text-white transition-colors">
-                    <Phone className="w-5 h-5 text-[#E07B00] opacity-0 shrink-0" />
-                    <span className="font-medium">+7 473 236-18-18</span>
+                  <a href="tel:+74732361818" className="flex items-center gap-3 text-stone-400 hover:text-white transition-colors group">
+                    <div className="w-8 h-8 rounded-lg bg-transparent flex items-center justify-center shrink-0">
+                      {/* spacer */}
+                    </div>
+                    <span className="font-medium text-sm">+7 473 236-18-18</span>
                   </a>
                 </li>
               </ul>
@@ -48,21 +65,23 @@ export default function Footer() {
 
             {/* Working Hours */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Режим работы</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3 text-stone-300">
-                  <Clock className="w-5 h-5 text-[#E07B00] shrink-0 mt-0.5" />
-                  <div>
-                    <p>Пн-Пт: 9:00 - 18:00</p>
-                    <p>Сб: 10:00 - 16:00</p>
-                    <p className="text-stone-500 mt-1">Вс: Выходной</p>
+              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-5">Режим работы</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-stone-400">
+                  <div className="w-8 h-8 rounded-lg bg-[#E07B00]/15 flex items-center justify-center shrink-0 mt-0.5">
+                    <Clock className="w-4 h-4 text-[#E07B00]" />
+                  </div>
+                  <div className="text-sm space-y-1">
+                    <p className="text-stone-300 font-semibold">Пн-Пт: 9:00 — 18:00</p>
+                    <p className="text-stone-400">Сб: 10:00 — 16:00</p>
+                    <p className="text-stone-600">Вс: Выходной</p>
                   </div>
                 </li>
               </ul>
             </div>
 
             {/* Map */}
-            <div className="h-48 lg:h-auto rounded-lg overflow-hidden border border-stone-700 relative bg-stone-800 shadow-sm">
+            <div className="h-48 lg:h-auto rounded-2xl overflow-hidden border border-white/10 relative bg-stone-800 shadow-sm">
               <iframe
                 src="https://yandex.ru/map-widget/v1/?ll=39.154615%2C51.643812&z=16&pt=39.154615%2C51.643812,pm2rdm&mode=poi"
                 width="100%"
@@ -70,15 +89,16 @@ export default function Footer() {
                 frameBorder="0"
                 allowFullScreen={true}
                 className="absolute inset-0"
+                title="Нива Сервис на карте"
               ></iframe>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+          <div className="border-t border-white/8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-500">
             <p>© {new Date().getFullYear()} Нива Сервис. Все права защищены.</p>
             <button
               onClick={() => setPrivacyOpen(true)}
-              className="hover:text-white transition-colors underline underline-offset-2"
+              className="hover:text-stone-300 transition-colors underline underline-offset-2"
             >
               Политика конфиденциальности
             </button>

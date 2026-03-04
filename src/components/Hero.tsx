@@ -100,64 +100,74 @@ export default function Hero() {
               /* ── Плашка акции ── */
               <Link
                 href="/services"
-                className="group block w-full max-w-2xl mx-auto rounded-2xl overflow-hidden border border-[#E07B00]/40 hover:border-[#E07B00] transition-all duration-300 hover:shadow-[0_0_40px_rgba(224,123,0,0.25)]"
-                style={{ background: "rgba(224,123,0,0.12)", backdropFilter: "blur(12px)" }}
+                className="group block w-full max-w-2xl mx-auto rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_48px_rgba(224,123,0,0.3)] hover:-translate-y-0.5"
               >
-                {/* Верхняя строка — iконка + метка */}
-                <div className="flex items-center gap-3 px-6 pt-5 pb-3">
-                  <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#E07B00] shrink-0">
-                    <Zap className="w-5 h-5 text-white" />
-                  </span>
-                  <span className="text-sm font-bold text-[#E07B00] uppercase tracking-widest">
-                    Акция
-                  </span>
-                  <span className="ml-auto flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-2.5 w-2.5 rounded-full bg-[#E07B00] opacity-60" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#E07B00]" />
-                  </span>
-                </div>
+                <div className="flex flex-col sm:flex-row">
+                  {/* LEFT — navy badge */}
+                  <div className="flex sm:flex-col items-center sm:justify-center gap-3 sm:gap-2 px-5 py-4 sm:px-6 sm:py-6 bg-[#1A2B4A] sm:w-36 shrink-0">
+                    <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-[#E07B00] shadow-lg shadow-orange-900/30 shrink-0">
+                      <Zap className="w-5 h-5 text-white" />
+                      {/* Pulse dot */}
+                      <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E07B00] opacity-60" />
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#E07B00] border-2 border-[#1A2B4A]" />
+                      </span>
+                    </div>
+                    <span className="text-xs font-black text-[#E07B00] uppercase tracking-[0.2em] sm:text-center">
+                      Акция
+                    </span>
+                  </div>
 
-                {/* Название */}
-                <div className="px-6 pb-2">
-                  <p className="text-xl md:text-2xl font-black text-white leading-snug">
-                    {promo.title}
-                  </p>
-                </div>
-
-                {/* Описание */}
-                {promo.description && (
-                  <div className="px-6 pb-3">
-                    <p className="text-base text-stone-300 leading-snug">
-                      {promo.description}
+                  {/* RIGHT — content */}
+                  <div
+                    className="flex-1 px-5 py-4 sm:px-6 sm:py-5 flex flex-col justify-center gap-2 border border-[#E07B00]/30 border-l-0 rounded-r-2xl sm:rounded-l-none group-hover:border-[#E07B00]/60 transition-colors"
+                    style={{ background: "rgba(26,43,74,0.55)", backdropFilter: "blur(14px)" }}
+                  >
+                    {/* Title */}
+                    <p className="text-lg sm:text-xl font-black text-white leading-snug">
+                      {promo.title}
                     </p>
-                  </div>
-                )}
 
-                {/* Период */}
-                {dateRange && (
-                  <div className="px-6 pb-5 flex items-center gap-2 text-sm text-stone-400">
-                    <Calendar className="w-4 h-4 text-[#E07B00] shrink-0" />
-                    <span>{dateRange}</span>
-                    <ChevronRight className="w-4 h-4 ml-auto text-[#E07B00] group-hover:translate-x-1 transition-transform" />
+                    {/* Description */}
+                    {promo.description && (
+                      <p className="text-sm sm:text-base text-stone-300 leading-snug">
+                        {promo.description}
+                      </p>
+                    )}
+
+                    {/* Footer row */}
+                    <div className="flex items-center justify-between gap-3 mt-1">
+                      {dateRange ? (
+                        <div className="flex items-center gap-1.5 text-sm text-stone-400">
+                          <Calendar className="w-3.5 h-3.5 text-[#E07B00] shrink-0" />
+                          <span className="leading-none">{dateRange}</span>
+                        </div>
+                      ) : <span />}
+                      <span className="flex items-center gap-1 text-sm font-bold text-[#E07B00] shrink-0 group-hover:gap-2 transition-all">
+                        Подробнее
+                        <ChevronRight className="w-4 h-4" />
+                      </span>
+                    </div>
                   </div>
-                )}
+                </div>
               </Link>
             ) : (
               /* ── Кнопки (если акции нет) ── */
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-sm sm:max-w-none mx-auto">
                 <a
                   href="#services-preview"
-                  className="w-full sm:w-auto px-8 py-4 bg-[#E07B00] hover:bg-[#B86300] text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg hover:shadow-orange-900/30 flex items-center justify-center gap-2"
+                  className="px-8 py-4 bg-[#E07B00] hover:bg-[#B86300] text-white rounded-xl font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg hover:shadow-orange-900/30 flex items-center justify-center gap-2"
                 >
                   Направления ремонта
                   <ChevronRight className="w-5 h-5" />
                 </a>
-                <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium text-lg transition-colors border border-white/30 backdrop-blur-sm">
+                <Link href="/services" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium text-lg transition-colors border border-white/30 backdrop-blur-sm flex items-center justify-center">
                   Услуги и цены
                 </Link>
               </div>
             )}
           </motion.div>
+
         </motion.div>
       </div>
 

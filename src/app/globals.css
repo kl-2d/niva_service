@@ -5,6 +5,14 @@
   --font-heading: var(--font-oswald);
 }
 
+/* ── Brand tokens ─────────────────────────────────────────────── */
+:root {
+  --navy:   #1A2B4A;
+  --orange: #E07B00;
+  --bg:     #F5F2EC;
+  --text:   #1A1A1A;
+}
+
 /* ── Base ─────────────────────────────────────────────────────── */
 body {
   font-family: var(--font-sans), sans-serif;
