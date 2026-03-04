@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const { name, phone, carBrand, carPlate } = parsed.data;
+    const { name, phone, carBrand, carPlate, comment } = parsed.data;
 
     // ── Database Storage ─────────────────────────────────────────────────────
     try {
@@ -58,6 +58,7 @@ export async function POST(req: Request) {
           status: "NEW",
           carBrand: carBrand ?? null,
           carPlate: carPlate ?? null,
+          comment: comment ?? null,
         },
       });
     } catch (dbError) {

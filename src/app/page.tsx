@@ -6,17 +6,14 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 
 export const metadata: Metadata = {
-  title: "Нива Сервис — Ремонт Нивы и Шевроле Нива в Воронеже | Главная",
+  title: "Нива Сервис — Специализированный ремонт Нивы (ВАЗ-2121, Chevrolet Niva, Lada 4×4) в Воронеже",
   description:
-    "Единственный специализированный автосервис Нива в Воронеже. Ремонт ВАЗ-2121, Шевроле Нива, внедорожников. Ходовая, двигатель, КПП, раздатка, редукторы, тюнинг. Ул. Матросова, 100. ☎ +7 920 229-56-56.",
-  alternates: {
-    canonical: "https://niva-service.ru",
-  },
+    "Специализированный автосервис семейства НИВА в Воронеже. Ремонт ВАЗ-2121, Chevrolet Niva, Lada 4×4, Niva Travel и других марок. Ходовая, двигатель, КПП, раздатка, редукторы, тюнинг. Ул. Матросова, 100. ☎ +7 920 229-56-56.",
+  alternates: { canonical: "https://niva-service.ru" },
   openGraph: {
     url: "https://niva-service.ru",
-    title: "Нива Сервис — Ремонт Нивы в Воронеже",
-    description:
-      "Специализированный СТО в Воронеже. Ремонт Нивы (ВАЗ-2121), Шевроле Нива и внедорожников. 15+ лет опыта.",
+    title: "Нива Сервис — Специализированный ремонт Нивы в Воронеже",
+    description: "СТО семейства НИВА в Воронеже. Ремонт ВАЗ-2121, Chevrolet Niva, Lada 4×4, Niva Travel. 15+ лет опыта.",
   },
 };
 

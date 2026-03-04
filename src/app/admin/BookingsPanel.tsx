@@ -14,6 +14,7 @@ interface Booking {
   status: string;
   carBrand: string | null;
   carPlate: string | null;
+  comment: string | null;
 }
 
 const STATUS_META: Record<string, { label: string; cls: string; next: string }> = {
@@ -86,8 +87,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
               key={f.id}
               onClick={() => setFilter(f.id)}
               className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all ${filter === f.id
-                  ? "bg-[#E07B00] text-white border-[#E07B00] shadow-sm"
-                  : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
+                ? "bg-[#E07B00] text-white border-[#E07B00] shadow-sm"
+                : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
                 }`}
             >
               {f.label}
@@ -132,11 +133,17 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
           const isCallback = parsedServices.length === 0 || b.totalPrice === 0;
 
+          // Извлекаем метку акции из комментария
+          const promoMatch = b.comment?.match(/^\[Перешёл по акции: «(.+?)»\]/);
+          const promoName = promoMatch ? promoMatch[1] : null;
+          // Комментарий без метки акции
+          const cleanComment = b.comment?.replace(/^\[Перешёл по акции: «.+?»\](\n\n)?/, "").trim() || null;
+
           return (
             <div
               key={b.id}
               className={`bg-white rounded-2xl border shadow-sm transition-all ${b.status === "NEW" ? "border-amber-200" :
-                  b.status === "IN_PROGRESS" ? "border-blue-200" : "border-stone-200"
+                b.status === "IN_PROGRESS" ? "border-blue-200" : "border-stone-200"
                 }`}
             >
               {/* Card body */}
@@ -145,12 +152,19 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                 {/* ── Row 1: identity + contact fields ── */}
                 <div className="flex flex-wrap items-start gap-x-8 gap-y-3">
 
-                  {/* Name + status badge */}
+                  {/* Name + status badge + promo badge */}
                   <div className="flex flex-col gap-1 min-w-[100px]">
                     <div className="font-bold text-stone-900 text-base leading-tight">{b.name}</div>
-                    <span className={`self-start text-xs px-2.5 py-0.5 rounded-full font-semibold border ${meta.cls}`}>
-                      {meta.label}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className={`self-start text-xs px-2.5 py-0.5 rounded-full font-semibold border ${meta.cls}`}>
+                        {meta.label}
+                      </span>
+                      {promoName && (
+                        <span className="self-start inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#E07B00]/10 text-[#E07B00] border border-[#E07B00]/30">
+                          🎯 По акции: {promoName}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Телефон */}
@@ -278,6 +292,12 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                     </ul>
                   ) : (
                     <p className="text-stone-400 text-sm">{b.services}</p>
+                  )}
+                  {cleanComment && (
+                    <div className="mt-4 pt-3 border-t border-stone-200">
+                      <h4 className="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">💬 Комментарий клиента</h4>
+                      <p className="text-sm text-stone-700 bg-white border border-stone-200 rounded-xl px-4 py-3 leading-relaxed">{cleanComment}</p>
+                    </div>
                   )}
                 </div>
               )}

@@ -1,22 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import RequestCallModal from "./RequestCallModal";
+import Link from "next/link";
 
 export default function Hero() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
-    <>
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image with dark overlay */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
-          backgroundColor: "#1C1C1C", // Fallback if image not yet loaded
+          backgroundColor: "#1C1C1C",
         }}
       >
         <div className="absolute inset-0 bg-[#1C1C1C]/70"></div>
@@ -42,22 +38,22 @@ export default function Hero() {
             Работаем для вас с 2008 года
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 uppercase tracking-tight leading-tight"
           >
-            Комплексный ремонт автомобилей <span className="text-[#E07B00]">НИВА</span> и CHEVROLET NIVA
+            Специализированный ремонт автомобилей семейства <span className="text-[#E07B00]">НИВА</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
             className="text-lg md:text-2xl text-stone-300 mb-10 max-w-2xl mx-auto font-light"
           >
-            В единственном специализированном сервисе Воронежа. Качество, проверенное временем.
+            Единственный специализированный сервис Воронежа по семейству НИВА (ВАЗ-2121, Chevrolet Niva, Lada 4×4, Niva Travel). Ремонтируем и другие марки автомобилей.
           </motion.p>
 
           <motion.div
@@ -66,16 +62,16 @@ export default function Hero() {
             transition={{ delay: 0.7, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button
-              onClick={() => setIsModalOpen(true)}
+            <a
+              href="#services-preview"
               className="w-full sm:w-auto px-8 py-4 bg-[#E07B00] hover:bg-[#B86300] text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 hover:shadow-lg hover:shadow-orange-900/30 flex items-center justify-center gap-2"
             >
-              Бесплатная диагностика
+              Направления ремонта
               <ChevronRight className="w-5 h-5" />
-            </button>
-            <a href="#services" className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium text-lg transition-colors border border-white/30 backdrop-blur-sm">
-              Наши услуги
             </a>
+            <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium text-lg transition-colors border border-white/30 backdrop-blur-sm">
+              Услуги и цены
+            </Link>
           </motion.div>
         </motion.div>
       </div>
@@ -83,8 +79,5 @@ export default function Hero() {
       {/* Gradient fade to page bg */}
       <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-[#F5F2EC] to-transparent z-10"></div>
     </section>
-    <RequestCallModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </>
   );
 }
-

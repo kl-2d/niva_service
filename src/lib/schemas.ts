@@ -25,6 +25,7 @@ export const bookingSchema = z.object({
   totalPrice: z.number().min(0).max(100_000_000),
   carBrand: z.string().max(100).optional().nullable(),
   carPlate: z.string().max(20).optional().nullable(),
+  comment: z.string().max(2000).optional().nullable(),
 });
 
 // ── Callback (request call modal) ────────────────────────────────────────────
@@ -41,6 +42,7 @@ export const callbackSchema = z.object({
     .regex(/^[\d\s\+\-\(\)]+$/, "Некорректный формат телефона"),
   carBrand: z.string().max(100).optional().nullable(),
   carPlate: z.string().max(20).optional().nullable(),
+  comment: z.string().max(2000).optional().nullable(),
 });
 
 // ── Service (admin CRUD) ──────────────────────────────────────────────────────

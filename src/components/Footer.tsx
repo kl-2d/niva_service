@@ -18,7 +18,7 @@ export default function Footer() {
                 Нива Сервис
               </h2>
               <p className="text-stone-300 mb-4 whitespace-pre-wrap">
-                Единственный специализированный сервис НИВА и CHEVROLET NIVA в Воронеже.
+                Специализированный сервис по ремонту автомобилей семейства НИВА — ВАЗ-2121, Chevrolet Niva, Lada 4×4, Niva Travel. Принимаем и другие марки автомобилей.
               </p>
               <div className="text-sm text-stone-400">
                 <p>ОГРН 304366434500094</p>

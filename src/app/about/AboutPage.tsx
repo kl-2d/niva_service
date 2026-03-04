@@ -1,10 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock, Youtube } from "lucide-react";
+import { useEffect, useState } from "react";
+
+interface VideoReview {
+  id: number;
+  youtubeUrl: string;
+  description: string | null;
+  reviewDate: string;
+}
+
+function extractYoutubeId(url: string): string | null {
+  const p = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+  const m = url.match(p);
+  return m ? m[1] : null;
+}
 
 export default function AboutPage() {
   const yearsOfWork = new Date().getFullYear() - 2008;
+  const [reviews, setReviews] = useState<VideoReview[]>([]);
+
+  useEffect(() => {
+    fetch("/api/reviews")
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setReviews(data); })
+      .catch(() => { });
+  }, []);
+
   return (
     <div className="pt-8 pb-24 bg-stone-100">
       <script
@@ -21,17 +44,17 @@ export default function AboutPage() {
         }}
       />
       <div className="max-w-7xl mx-auto px-4">
-        
+
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-stone-900 mb-6 uppercase tracking-tight"
           >
             О компании
           </motion.h1>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: "80px" }}
             transition={{ delay: 0.3, duration: 0.5 }}
@@ -50,8 +73,8 @@ export default function AboutPage() {
               Специализированный сервис НИВА
             </h2>
             <p className="text-lg text-stone-700 mb-6 leading-relaxed">
-              Мы более {yearsOfWork} лет занимаемся исключительно ремонтом и тюнингом автомобилей семейства Нива. 
-              За это время мы накопили колоссальный опыт решения самых нестандартных проблем и разработали 
+              Мы более {yearsOfWork} лет занимаемся исключительно ремонтом и тюнингом автомобилей семейства Нива.
+              За это время мы накопили колоссальный опыт решения самых нестандартных проблем и разработали
               собственные технологические решения, подтвержденные патентами.
             </p>
             <ul className="space-y-4">
@@ -91,9 +114,9 @@ export default function AboutPage() {
             className="bg-stone-100 rounded-2xl h-80 flex items-center justify-center text-stone-500 overflow-hidden relative"
           >
             <div className="absolute inset-0 bg-stone-900/10 mix-blend-multiply" />
-            <img 
-              src="https://images.unsplash.com/photo-1611155876008-62025f191b7d?q=80&w=1000&auto=format&fit=crop" 
-              alt="Ремонтная зона автосервиса Нива Сервис в Воронеже" 
+            <img
+              src="https://images.unsplash.com/photo-1611155876008-62025f191b7d?q=80&w=1000&auto=format&fit=crop"
+              alt="Ремонтная зона автосервиса Нива Сервис в Воронеже"
               className="w-full h-full object-cover"
             />
           </motion.div>
@@ -105,27 +128,66 @@ export default function AboutPage() {
             <h3 className="text-2xl font-bold text-stone-900 mb-4">Видео отзывы наших клиентов</h3>
             <p className="text-stone-700">Посмотрите, что говорят владельцы Нив о нашей работе</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((item) => (
-              <motion.div 
-                key={item}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: item * 0.1 }}
-                className="aspect-video bg-stone-200 rounded-xl overflow-hidden relative shadow-sm"
-              >
-                <iframe 
-                  className="w-full h-full"
-                  src={`https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0`} 
-                  title="Видео отзыв клиента Нива Сервис" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                ></iframe>
-              </motion.div>
-            ))}
-          </div>
+
+          {reviews.length === 0 ? (
+            <div className="text-center py-12 text-stone-400">
+              <Youtube className="w-12 h-12 mx-auto mb-3 opacity-30" />
+              <p className="font-medium">Отзывы скоро появятся</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {reviews.map((review, index) => {
+                const vidId = extractYoutubeId(review.youtubeUrl);
+                const embedUrl = vidId ? `https://www.youtube.com/embed/${vidId}` : null;
+                const fmtDate = new Date(review.reviewDate).toLocaleDateString("ru-RU", {
+                  day: "numeric", month: "long", year: "numeric",
+                });
+                return (
+                  <motion.div
+                    key={review.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.08 }}
+                    className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200 flex flex-col"
+                  >
+                    {/* Video embed */}
+                    <div className="aspect-video bg-stone-900 relative">
+                      {embedUrl ? (
+                        <iframe
+                          className="w-full h-full"
+                          src={embedUrl}
+                          title="Видео отзыв клиента Нива Сервис"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-stone-500">
+                          <Youtube className="w-10 h-10" />
+                        </div>
+                      )}
+                    </div>
+                    {/* Info */}
+                    <div className="p-4 flex flex-col gap-1">
+                      <p className="text-xs font-semibold text-[#E07B00]">📅 {fmtDate}</p>
+                      {review.description && (
+                        <p className="text-sm text-stone-700 leading-snug">{review.description}</p>
+                      )}
+                      <a
+                        href={review.youtubeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-stone-400 hover:text-[#E07B00] transition-colors mt-1 flex items-center gap-1"
+                      >
+                        <Youtube className="w-3 h-3" /> Открыть на YouTube
+                      </a>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Contacts & Map */}
@@ -133,7 +195,7 @@ export default function AboutPage() {
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/3 p-8 lg:p-12 bg-white">
               <h3 className="text-2xl font-bold text-stone-900 mb-8">Контакты</h3>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <MapPin className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
@@ -150,7 +212,7 @@ export default function AboutPage() {
                     </a>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <Phone className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
                   <div>
@@ -161,7 +223,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <Mail className="w-6 h-6 text-[#E07B00] shrink-0 mt-1" />
                   <div>
@@ -179,12 +241,12 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="lg:w-2/3 h-[400px] lg:h-auto bg-gray-200">
-              <iframe 
+              <iframe
                 src="https://yandex.ru/map-widget/v1/?ll=39.154615%2C51.643812&z=16&pt=39.154615%2C51.643812,pm2rdm&mode=poi"
-                width="100%" 
-                height="100%" 
+                width="100%"
+                height="100%"
                 frameBorder="0"
                 title="Нива Сервис на карте — ул. Матросова, 100, Воронеж"
                 className="w-full h-full grayscale-[20%] contrast-125"

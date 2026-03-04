@@ -1,16 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, PhoneCall, Stethoscope, ClipboardList, Clock, Wrench, Key } from "lucide-react";
+import { MessageSquare, PhoneCall, Search, ClipboardList, Clock, Wrench, Key } from "lucide-react";
 
 const steps = [
   { id: 1, label: "Заявка", desc: "Оставьте заявку на сайте или по телефону", icon: MessageSquare },
   { id: 2, label: "Звонок мастера", desc: "Согласование удобного времени заезда", icon: PhoneCall },
-  { id: 3, label: "Бесплатная диагностика", desc: "Комплексный осмотр ходовой и агрегатов", icon: Stethoscope },
-  { id: 4, label: "Дефектовка", desc: "Составление списка неисправностей", icon: ClipboardList },
-  { id: 5, label: "Смета и сроки", desc: "Согласование стоимости работ и запчастей", icon: Clock },
-  { id: 6, label: "Ремонт", desc: "Профессиональное выполнение всех работ", icon: Wrench },
-  { id: 7, label: "Выдача авто", desc: "Приемка работы, оплата, возврат автомобиля", icon: Key },
+  { id: 3, label: "Комплексный осмотр и выявление неисправностей", desc: "Осмотр ходовой, агрегатов и составление списка неисправностей", icon: Search },
+  { id: 4, label: "Смета и сроки", desc: "Согласование стоимости работ и запчастей", icon: Clock },
+  { id: 5, label: "Ремонт", desc: "Профессиональное выполнение всех работ", icon: Wrench },
+  { id: 6, label: "Выдача авто", desc: "Приемка работы, оплата, возврат автомобиля", icon: Key },
 ];
 
 export default function ProcessTimeline() {
@@ -18,7 +17,7 @@ export default function ProcessTimeline() {
     <section className="py-24 bg-[#F5F2EC] border-t border-[#D4CFC8] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -26,7 +25,7 @@ export default function ProcessTimeline() {
           >
             Как мы работаем
           </motion.h2>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, width: 0 }}
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
@@ -37,10 +36,10 @@ export default function ProcessTimeline() {
 
         {/* Timeline Container */}
         <div className="relative">
-          
+
           {/* Desktop connecting line */}
           <div className="hidden lg:block absolute top-[44px] left-[5%] right-[5%] h-[2px] bg-stone-200">
-            <motion.div 
+            <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
@@ -53,13 +52,13 @@ export default function ProcessTimeline() {
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <motion.div 
+                <motion.div
                   key={step.id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-row lg:flex-col items-start lg:items-center min-w-[280px] lg:min-w-0 lg:w-40 shrink-0 group"
+                  className="flex flex-row lg:flex-col items-start lg:items-center min-w-[280px] lg:min-w-0 lg:flex-1 shrink-0 group"
                 >
                   {/* Vertical connecting line for mobile only */}
                   {index !== steps.length - 1 && (
@@ -71,7 +70,7 @@ export default function ProcessTimeline() {
                     <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-white border border-[#D4CFC8] shadow-sm flex items-center justify-center shrink-0 hover:border-[#E07B00] transition-colors z-20 relative">
                       <Icon className="w-8 h-8 text-[#2B3A2E] group-hover:text-[#E07B00] group-hover:scale-110 transition-all" />
                     </div>
-                    
+
                     <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#E07B00] flex items-center justify-center font-bold text-white text-sm border-4 border-[#F5F2EC] shadow-sm">
                       {step.id}
                     </div>
