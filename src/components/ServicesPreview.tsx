@@ -89,7 +89,7 @@ const categories = [
 
 export default function ServicesPreview() {
   return (
-    <section className="py-24 bg-[#F5F2EC]" id="services-preview">
+    <section className="py-20 md:py-28 bg-[#EAECEF]" id="services-preview">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* Header */}
@@ -98,7 +98,7 @@ export default function ServicesPreview() {
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A2B4A]/10 border border-[#1A2B4A]/20 text-[#1A2B4A] text-sm font-bold uppercase tracking-widest mb-5"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1B2636]/8 border border-[#1B2636]/15 text-[#1B2636] text-xs font-bold uppercase tracking-[0.08em] mb-5"
           >
             <Wrench className="w-3.5 h-3.5" />
             Специализация
@@ -108,7 +108,7 @@ export default function ServicesPreview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl font-black text-[#1A1A1A] mb-4 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-black text-[#1B2636] mb-4 uppercase tracking-tight"
           >
             Направления ремонта
           </motion.h2>
@@ -117,7 +117,7 @@ export default function ServicesPreview() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-stone-500 text-base md:text-lg mb-6 max-w-xl mx-auto"
+            className="text-[#5A6475] text-base md:text-lg mb-6 max-w-xl mx-auto"
           >
             Выберите направление, чтобы перейти в каталог услуг
           </motion.p>
@@ -126,7 +126,7 @@ export default function ServicesPreview() {
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.35, duration: 0.5 }}
-            className="h-1 bg-[#E07B00] mx-auto rounded-full"
+            className="h-1 bg-[#1E63A8] mx-auto rounded-full"
           />
         </div>
 
@@ -144,7 +144,7 @@ export default function ServicesPreview() {
               >
                 <Link
                   href={`/services?cat=${cat.slug}`}
-                  className={`group relative flex flex-col overflow-hidden rounded-2xl border-2 ${cat.accent} bg-[#1A2B4A] hover:shadow-2xl ${cat.shadow} transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02]`}
+                  className={`group relative flex flex-col overflow-hidden rounded-2xl border-2 ${cat.accent} bg-[#1B2636] hover:shadow-2xl ${cat.shadow} transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02]`}
                 >
                   {/* Gradient overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${cat.gradient} opacity-80 group-hover:opacity-95 transition-opacity duration-300`} />
@@ -156,12 +156,12 @@ export default function ServicesPreview() {
                   }} />
 
                   {/* Orange bottom accent line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E07B00] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1E63A8] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                   {/* Content */}
                   <div className="relative z-10 p-6 flex flex-col gap-4 h-full min-h-[190px]">
                     {/* Icon */}
-                    <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center group-hover:bg-[#E07B00] group-hover:border-[#E07B00] transition-all duration-300 shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center group-hover:bg-[#1E63A8] group-hover:border-[#1E63A8] transition-all duration-300 shrink-0">
                       <Icon className="w-6 h-6 text-white" />
                     </div>
 
@@ -175,7 +175,7 @@ export default function ServicesPreview() {
                     </div>
 
                     {/* CTA */}
-                    <div className="flex items-center gap-1.5 text-[#E07B00] text-sm font-bold mt-auto">
+                    <div className="flex items-center gap-1.5 text-[#7BB8E8] text-sm font-bold mt-auto">
                       <span>Смотреть прайс</span>
                       <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                     </div>

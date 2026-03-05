@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { 
-  Wrench, 
-  Settings, 
-  Car, 
-  Activity, 
-  Zap, 
-  Wind, 
-  PaintBucket, 
-  TrendingUp 
+import {
+  Wrench,
+  Settings,
+  Car,
+  Activity,
+  Zap,
+  Wind,
+  PaintBucket,
+  TrendingUp
 } from "lucide-react";
 
 export const services = [
@@ -65,23 +65,23 @@ export const services = [
 
 export default function Services() {
   return (
-    <section className="py-24 bg-[#F5F2EC]" id="services">
+    <section className="py-20 md:py-28 bg-[#F2F3F5]" id="services">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-3xl md:text-5xl font-bold text-[#1A1A1A] mb-6 uppercase tracking-tight"
+            className="text-3xl md:text-5xl font-bold text-[#1B2636] mb-6 uppercase tracking-tight"
           >
             Перечень ремонтных работ
           </motion.h2>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, width: 0 }}
             whileInView={{ opacity: 1, width: "80px" }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="h-1 bg-[#E07B00] mx-auto rounded-full"
+            className="h-1 bg-[#1E63A8] mx-auto rounded-full"
           />
         </div>
 
@@ -95,15 +95,15 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white border border-[#D4CFC8] hover:border-[#E07B00]/40 rounded-xl p-6 transition-all group hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-start"
+                className="bg-white border border-[#D5D9DF] hover:border-[#1E63A8]/40 rounded-2xl p-6 transition-all group hover:-translate-y-1 shadow-card hover:shadow-card-hover flex flex-col items-start"
               >
-                <div className="w-12 h-12 bg-stone-50 border border-stone-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-orange-50 transition-colors">
-                  <Icon className="w-6 h-6 text-[#2B3A2E] group-hover:text-[#E07B00] transition-colors" />
+                <div className="w-12 h-12 bg-[#EAECEF] border border-[#D5D9DF] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#E8F1FA] transition-colors">
+                  <Icon className="w-6 h-6 text-[#1B2636] group-hover:text-[#1E63A8] transition-colors" />
                 </div>
-                <h3 className="text-xl font-bold text-[#1A1A1A] mb-3 group-hover:text-[#E07B00] transition-colors">
+                <h3 className="text-lg font-bold text-[#1B2636] mb-2 group-hover:text-[#1E63A8] transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-stone-700 leading-relaxed text-sm">
+                <p className="text-[#5A6475] leading-relaxed text-sm">
                   {service.description}
                 </p>
               </motion.div>

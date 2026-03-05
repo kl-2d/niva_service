@@ -113,7 +113,7 @@ export default async function RootLayout({
         <meta name="ICBM" content="51.643812, 39.154615" />
       </head>
       <body
-        className={`${inter.variable} ${oswald.variable} antialiased flex flex-col min-h-screen bg-[#F5F2EC] text-[#1A1A1A]`}
+        className={`${inter.variable} ${oswald.variable} antialiased flex flex-col min-h-screen bg-[#F2F3F5] text-[#1B2636]`}
       >
         {!isAdmin && <Navbar />}
         <main className={`flex-grow${!isAdmin ? " pt-[64px]" : ""}`}>

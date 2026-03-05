@@ -93,7 +93,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: Props) {
                 <p>
                   Вы вправе в любое время запросить удаление ваших персональных данных,
                   направив обращение по телефону{" "}
-                  <a href="tel:+79202295656" className="text-[#E07B00] hover:underline font-medium">
+                  <a href="tel:+79202295656" className="text-orange-600 hover:underline font-medium">
                     +7 920 229-56-56
                   </a>{" "}
                   или по адресу: г. Воронеж, ул. Матросова, 100.
@@ -115,7 +115,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: Props) {
             <div className="shrink-0 px-6 py-4 border-t border-stone-100 bg-stone-50">
               <button
                 onClick={onClose}
-                className="w-full bg-[#E07B00] hover:bg-[#B86300] text-white font-bold py-3 rounded-xl transition-colors text-sm"
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-orange-600/20 hover:shadow-lg hover:shadow-orange-600/30 text-sm"
               >
                 Понятно
               </button>

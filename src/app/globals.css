@@ -5,27 +5,65 @@
   --font-heading: var(--font-oswald);
 }
 
-/* ── Brand tokens ─────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   DESIGN SYSTEM — Нива Сервис
+   Аудитория: мужчины 30-60, автолюбители
+   Принципы: строгость, доверие, читаемость, без перегруза
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Цветовые токены ──────────────────────────────────── */
 :root {
-  --navy: #1A2B4A;
-  --orange: #E07B00;
-  --bg: #F5F2EC;
-  --text: #1A1A1A;
+  /* Тёмные (хедер, футер, активные элементы) */
+  --col-ink: #1B2636;
+  /* самый тёмный: хедер/футер/осн. текст */
+  --col-ink-alt: #263448;
+  /* чуть светлее: активные вкладки */
+
+  /* Единственный акцентный цвет — глубокий корпоративный синий */
+  --col-blue: #1E63A8;
+  /* кнопки, иконки, активные состояния */
+  --col-blue-dark: #175495;
+  /* hover/press */
+  --col-blue-subtle: #E8F1FA;
+  /* очень лёгкий — badge-подложки */
+  --col-blue-tint: #C5D8EE;
+  /* синеватые бордеры акцентных элементов */
+
+  /* Фоны (нейтральный серый — не белый, не голубой) */
+  --col-bg: #F2F3F5;
+  /* основной фон страниц */
+  --col-bg-alt: #EAECEF;
+  /* чередование секций */
+  --col-surface: #FFFFFF;
+  /* карточки, панели */
+
+  /* Бордеры */
+  --col-border: #D5D9DF;
+  /* обычные границы */
+  --col-border-light: #E5E8EC;
+  /* лёгкие разделители */
+
+  /* Текст */
+  --col-text: #1B2636;
+  /* основной (хорошая контрастность на светлом) */
+  --col-text-muted: #5A6475;
+  /* вторичный (описания, подписи) */
+  --col-text-faint: #8E99A8;
+  /* третичный (плейсхолдер, дата, caption) */
+
+  /* Текст на тёмном фоне */
+  --col-on-dark: #D0DCE8;
+  /* основной на тёмном */
+  --col-on-dark-muted: #8A9DB5;
+  /* вторичный на тёмном */
 }
 
-/* ── Cursor management ────────────────────────────────────────── */
-/*
-  cursor is an INHERITED property.
-  Setting it only on html/body allows children to inherit from
-  interactive ancestors (a, button) without being overridden.
-  Using * { cursor: default } was the bug — it blocked inheritance.
-*/
+/* ── Cursor management ────────────────────────────────── */
 html,
 body {
   cursor: default;
 }
 
-/* Interactive elements get pointer; their children inherit it */
 a[href],
 button:not(:disabled),
 [role="button"],
@@ -41,13 +79,11 @@ input[type="range"] {
   cursor: pointer;
 }
 
-/* Text cursor for text inputs */
 input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="reset"]):not([type="file"]):not([type="range"]):not([type="button"]):not([type="color"]),
 textarea {
   cursor: text;
 }
 
-/* Disabled elements */
 button:disabled,
 input:disabled,
 select:disabled,
@@ -56,45 +92,112 @@ textarea:disabled {
 }
 
 
-/* ── Base ─────────────────────────────────────────────────────── */
-body {
-  font-family: var(--font-sans), sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Slightly tighter line-height for Russian text */
-  line-height: 1.6;
-}
-
-/* ── Headings ─────────────────────────────────────────────────── */
-h1,
-h2,
-h3 {
-  font-family: var(--font-oswald), var(--font-sans), sans-serif;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
-}
-
-/* Body text sizing scale — fluid approach */
-p {
-  font-size: clamp(0.9375rem, 2.5vw, 1rem);
-  /* 15px → 16px */
-}
-
+/* ── Базовые стили ────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
-/* ── Transitions ──────────────────────────────────────────────── */
-a,
-button {
-  transition-property:
-    color, background-color, border-color, opacity, transform, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.65;
+  /* комфортнее для русского и зрелой аудитории */
+  color: var(--col-text);
+  background-color: var(--col-bg);
 }
 
-/* ── Mobile Touch Targets ─────────────────────────────────────── */
-/* Ensure tap targets are at least 44px on mobile */
+/* ── Типографическая шкала ────────────────────────────── */
+h1,
+h2,
+h3 {
+  font-family: var(--font-oswald), var(--font-sans), sans-serif;
+  letter-spacing: 0.015em;
+  /* Oswald немного сжатый — раздвигаем */
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  /* 32–60px */
+  font-weight: 700;
+}
+
+h2 {
+  font-size: clamp(1.625rem, 3.5vw, 2.625rem);
+  /* 26–42px */
+  font-weight: 700;
+}
+
+h3 {
+  font-family: var(--font-sans), sans-serif;
+  /* h3 — Inter, не Oswald */
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  /* 18–22px */
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+p {
+  font-size: clamp(0.9375rem, 2.5vw, 1rem);
+  /* 15–16px */
+  line-height: 1.65;
+}
+
+/* ── Переходы ─────────────────────────────────────────── */
+a,
+button {
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 180ms;
+}
+
+/* ── Тени — 3 уровня ─────────────────────────────────── */
+/* Уровень 1: карточки в покое */
+.shadow-card {
+  box-shadow: 0 1px 3px rgba(27, 38, 54, 0.07),
+    0 1px 2px rgba(27, 38, 54, 0.05);
+}
+
+/* Уровень 2: карточки при hover */
+.shadow-card-hover {
+  box-shadow: 0 6px 20px rgba(27, 38, 54, 0.11),
+    0 2px 6px rgba(27, 38, 54, 0.07);
+}
+
+/* Уровень 3: плавающие панели / правая панель */
+.shadow-panel {
+  box-shadow: 0 8px 32px rgba(27, 38, 54, 0.13),
+    0 2px 8px rgba(27, 38, 54, 0.08);
+}
+
+/* Кнопка с синей тенью (тень = цвет кнопки) */
+.shadow-btn {
+  box-shadow: 0 2px 8px rgba(30, 99, 168, 0.28);
+}
+
+.shadow-btn:hover {
+  box-shadow: 0 4px 16px rgba(30, 99, 168, 0.38);
+}
+
+/* ── Card hover lift ──────────────────────────────────── */
+.card-hover {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.22s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(27, 38, 54, 0.11), 0 2px 6px rgba(27, 38, 54, 0.07);
+}
+
+/* ── Micro-interactions ───────────────────────────────── */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ── Mobile Touch Targets ────────────────────────────── */
 @media (max-width: 768px) {
 
   button,
@@ -103,7 +206,7 @@ button {
   }
 }
 
-/* ── Scrollbar Hide Utility ───────────────────────────────────── */
+/* ── Scrollbar утилиты ───────────────────────────────── */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -113,10 +216,9 @@ button {
   display: none;
 }
 
-/* ── Thin styled scrollbar for modals/panels ──────────────────── */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: #d6d3ce transparent;
+  scrollbar-color: var(--col-border) transparent;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -124,11 +226,11 @@ button {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #d6d3ce;
+  background-color: var(--col-border);
   border-radius: 9999px;
 }
 
-/* ── Page-load fade-in ────────────────────────────────────────── */
+/* ── Page-load fade-in ───────────────────────────────── */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -142,49 +244,17 @@ button {
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ── Micro-interactions ───────────────────────────────────────── */
-button:active:not(:disabled) {
-  transform: scale(0.97);
-}
-
-/* ── Card hover lift ──────────────────────────────────────────── */
-.card-hover {
-  transition:
-    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.25s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.12);
-}
-
-/* ── Orange glow shadow (for CTAs) ───────────────────────────── */
-.shadow-orange-glow {
-  box-shadow: 0 4px 20px -4px rgba(224, 123, 0, 0.35);
-}
-
-.shadow-orange-glow:hover {
-  box-shadow: 0 6px 28px -4px rgba(224, 123, 0, 0.45);
-}
-
-/* ── Text balance for headings ────────────────────────────────── */
-h1,
-h2 {
-  text-wrap: balance;
-}
-
-/* ── Focus visible ring (accessibility) ──────────────────────── */
+/* ── Focus visible (accessibility) ──────────────────── */
 :focus-visible {
-  outline: 2px solid #e07b00;
+  outline: 2px solid #1E63A8;
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ── Admin toast animations ───────────────────────────────────── */
+/* ── Admin toast animations ──────────────────────────── */
 @keyframes slide-in-right {
   from {
     transform: translateX(110%);

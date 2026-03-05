@@ -94,13 +94,13 @@ export default function HodovayPricing() {
                         className="flex items-end gap-4 group"
                       >
                         <div className="flex items-center gap-3 shrink-0">
-                          <CheckCircle2 className="w-5 h-5 text-orange-200 group-hover:text-[#E07B00] transition-colors" />
+                          <CheckCircle2 className="w-5 h-5 text-orange-200 group-hover:text-orange-600 transition-colors" />
                           <span className="text-stone-700 group-hover:text-stone-900 font-medium transition-colors">
                             {item.title}
                           </span>
                         </div>
 
-                        <div className="flex-grow border-b border-dotted border-stone-300 mb-1 opacity-50 group-hover:border-[#E07B00]/40 transition-colors" />
+                        <div className="flex-grow border-b border-dotted border-stone-300 mb-1 opacity-50 group-hover:border-orange-600/40 transition-colors" />
 
                         <div className="flex items-center gap-4 shrink-0">
                           <span className="font-mono text-lg font-bold text-stone-900">
@@ -109,11 +109,10 @@ export default function HodovayPricing() {
                           <button
                             onClick={() => addItem(item)}
                             disabled={isAdded}
-                            className={`flex items-center justify-center p-2 rounded transition-colors font-bold ${
-                              isAdded
+                            className={`flex items-center justify-center p-2 rounded transition-colors font-bold ${isAdded
                                 ? "bg-stone-100 text-stone-500 border border-stone-200 cursor-not-allowed"
-                                : "bg-orange-100 text-[#1A1A1A] border border-orange-200 hover:bg-[#E07B00]"
-                            }`}
+                                : "bg-orange-100 text-stone-900 border border-orange-200 hover:bg-orange-600 hover:text-white hover:border-orange-600"
+                              }`}
                           >
                             {isAdded ? "Добавлено" : <Plus className="w-5 h-5" />}
                           </button>

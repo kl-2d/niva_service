@@ -19,7 +19,7 @@ export default function Cart() {
       {/* Mobile: compact round button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden fixed bottom-6 right-6 z-40 bg-[#E07B00] text-white p-4 rounded-full shadow-lg shadow-orange-900/30 hover:bg-[#B86300] hover:-translate-y-1 transition-all flex items-center justify-center"
+        className="md:hidden fixed bottom-6 right-6 z-40 bg-orange-600 text-white p-4 rounded-full shadow-lg shadow-orange-600/30 hover:bg-orange-700 hover:-translate-y-1 transition-all flex items-center justify-center"
       >
         <div className="relative">
           <ShoppingCart className="w-6 h-6" />
@@ -32,7 +32,7 @@ export default function Cart() {
       {/* Desktop: wide pill with label + count + total */}
       <button
         onClick={() => setIsOpen(true)}
-        className="hidden md:flex fixed bottom-8 right-8 z-40 items-center gap-3 bg-[#E07B00] hover:bg-[#B86300] text-white font-semibold px-5 py-4 rounded-2xl shadow-xl shadow-orange-900/30 hover:-translate-y-1 transition-all"
+        className="hidden md:flex fixed bottom-8 right-8 z-40 items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-5 py-4 rounded-2xl shadow-xl shadow-orange-600/30 hover:-translate-y-1 transition-all"
       >
         <div className="relative shrink-0">
           <ShoppingCart className="w-6 h-6" />
@@ -66,17 +66,17 @@ export default function Cart() {
             >
               <div className="p-6 border-b border-stone-200 flex justify-between items-center bg-stone-50">
                 <h2 className="text-xl font-bold text-stone-900 flex items-center gap-2">
-                  <ShoppingCart className="text-[#E07B00]"/>
+                  <ShoppingCart className="text-[#E07B00]" />
                   Ваша корзина услуг
                 </h2>
-                <button 
+                <button
                   onClick={() => setIsOpen(false)}
                   className="text-stone-500 hover:text-stone-900 transition-colors p-1"
                 >
                   <X className="w-6 h-6" />
                 </button>
               </div>
-              
+
               <div className="flex-grow overflow-y-auto p-6 bg-white">
                 {items.length === 0 ? (
                   <div className="text-stone-500 text-center h-full flex items-center justify-center">
@@ -86,7 +86,7 @@ export default function Cart() {
                   <ul className="space-y-4">
                     <AnimatePresence>
                       {items.map((item) => (
-                        <motion.li 
+                        <motion.li
                           key={item.id}
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
@@ -97,7 +97,7 @@ export default function Cart() {
                             <h4 className="text-stone-900 font-medium mb-1">{item.title}</h4>
                             <span className="text-[#E07B00] font-mono text-sm font-semibold">{item.price.toLocaleString("ru-RU")} ₽</span>
                           </div>
-                          <button 
+                          <button
                             onClick={() => removeItem(item.id)}
                             className="text-stone-500 hover:text-red-500 p-2 transition-colors"
                           >
@@ -117,7 +117,7 @@ export default function Cart() {
                 </div>
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full bg-[#E07B00] hover:bg-[#B86300] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 shadow-sm"
+                  className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 shadow-md shadow-orange-600/20 hover:shadow-lg hover:shadow-orange-600/30"
                 >
                   Оформить заявку
                   <ArrowRight className="w-5 h-5" />
@@ -128,12 +128,12 @@ export default function Cart() {
         )}
       </AnimatePresence>
 
-      <CheckoutModal 
-        isOpen={isCheckoutOpen} 
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
         onClose={() => {
           setIsCheckoutOpen(false);
           setIsOpen(false);
-        }} 
+        }}
       />
     </>
   );

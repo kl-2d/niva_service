@@ -56,7 +56,7 @@ export default function RequestCallModal({ isOpen, onClose, promoSource }: Reque
 
   // Усиленные boundary для полей — явные и чёткие
   const inputClass =
-    "w-full bg-white border-2 border-stone-400 text-stone-900 text-base rounded-xl pl-11 pr-4 py-3.5 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400 placeholder:text-sm";
+    "w-full bg-white border-2 border-stone-300 text-stone-900 text-base rounded-xl pl-11 pr-4 py-3.5 outline-none focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 transition-all placeholder:text-stone-400 placeholder:text-sm";
 
   const labelClass = "text-sm font-bold text-stone-700 block mb-1.5";
 
@@ -190,7 +190,7 @@ export default function RequestCallModal({ isOpen, onClose, promoSource }: Reque
                         <textarea
                           rows={3}
                           placeholder="Опишите проблему или укажите важные детали..."
-                          className="w-full bg-white border-2 border-stone-400 text-stone-900 text-base rounded-xl pl-11 pr-4 py-3.5 outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400 placeholder:text-sm resize-none"
+                          className="w-full bg-white border-2 border-stone-300 text-stone-900 text-base rounded-xl pl-11 pr-4 py-3.5 outline-none focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 transition-all placeholder:text-stone-400 placeholder:text-sm resize-none"
                           value={formData.comment}
                           onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
                         />
@@ -200,7 +200,7 @@ export default function RequestCallModal({ isOpen, onClose, promoSource }: Reque
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full bg-[#E07B00] hover:bg-[#B86300] text-white font-black py-4 rounded-xl flex items-center justify-center mt-2 transition-colors shadow-sm text-lg"
+                      className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-xl flex items-center justify-center mt-2 transition-all shadow-md shadow-orange-600/20 hover:shadow-lg hover:shadow-orange-600/30 text-lg"
                     >
                       {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Перезвоните мне"}
                     </button>
