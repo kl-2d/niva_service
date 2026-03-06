@@ -60,6 +60,16 @@ export const serviceSchema = z.object({
   isActive: z.boolean().optional().default(true),
 });
 
+// ── Promo (admin promo management) ────────────────────────────────────────────
+export const promoSchema = z.object({
+  title: z.string().min(2, "Заголовок слишком короткий").max(200, "Заголовок слишком длинный"),
+  description: z.string().max(1000, "Описание слишком длинное").optional().nullable(),
+  isActive: z.boolean().optional(),
+  eventDateStart: z.string().max(20).optional().nullable(),
+  eventDate: z.string().max(20).optional().nullable(),
+});
+
 export type BookingInput = z.infer<typeof bookingSchema>;
 export type CallbackInput = z.infer<typeof callbackSchema>;
 export type ServiceInput = z.infer<typeof serviceSchema>;
+export type PromoInput = z.infer<typeof promoSchema>;

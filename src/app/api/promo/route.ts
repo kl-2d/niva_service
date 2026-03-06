@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
+import { promoSchema } from "@/lib/schemas";
 
 /** Проверяет, актуальна ли акция по датам */
 function isPromoCurrentlyActive(promo: {
@@ -59,7 +60,14 @@ export async function PUT(req: Request) {
         if (authError) return authError;
 
         const body = await req.json();
-        const { title, description, isActive, eventDateStart, eventDate } = body;
+        const parsed = promoSchema.safeParse(body);
+        if (!parsed.success) {
+            return NextResponse.json(
+                { error: parsed.error.issues[0]?.message ?? "Ошибка валидации" },
+                { status: 400 }
+            );
+        }
+        const { title, description, isActive, eventDateStart, eventDate } = parsed.data;
 
         let promo = await prisma.promoEvent.findFirst({ orderBy: { id: "asc" } });
         if (!promo) {

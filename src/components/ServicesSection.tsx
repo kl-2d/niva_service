@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Wrench, Settings, Car, Activity, Zap, Wind, PaintBucket, TrendingUp,
@@ -223,7 +224,10 @@ function PriceTable({ slug }: { slug: string }) {
 
 /* ── Main Section ───────────────────────────────────── */
 export default function ServicesSection() {
-  const [activeSlug, setActiveSlug] = useState<string>(CATEGORIES[0].slug);
+  const searchParams = useSearchParams();
+  const catParam = searchParams.get("cat");
+  const initialSlug = catParam && CATEGORIES.some(c => c.slug === catParam) ? catParam : CATEGORIES[0].slug;
+  const [activeSlug, setActiveSlug] = useState<string>(initialSlug);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const tabsScrollRef = useRef<HTMLDivElement>(null);
   const activeTabRef = useRef<HTMLButtonElement>(null);

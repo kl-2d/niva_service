@@ -41,6 +41,11 @@ export const useCartStore = create<CartState>()(
       name: "niva-cart", // localStorage key
       // Only persist items — totalPrice is derived and recalculated on every mutation
       partialize: (state) => ({ items: state.items }),
+      onRehydrateStorage: () => (state) => {
+        if (state && state.items.length > 0) {
+          state.totalPrice = state.items.reduce((acc, curr) => acc + curr.price, 0);
+        }
+      },
     }
   )
 );
