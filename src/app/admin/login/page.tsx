@@ -140,6 +140,12 @@ export default function AdminLoginPage() {
         <p className="text-center text-[#6B635C] text-xs mt-6">
           Нива Сервис © {new Date().getFullYear()}
         </p>
+        <a
+          href="/admin/recovery"
+          className="block text-center text-[#8C8378] hover:text-white text-xs mt-3 transition"
+        >
+          Забыли пароль?
+        </a>
       </div>
     </div>
   );

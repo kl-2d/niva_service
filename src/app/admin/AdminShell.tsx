@@ -4,14 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   LayoutDashboard, ClipboardList, Wrench, LogOut, Menu, X, ExternalLink,
-  TrendingUp, Users, CalendarCheck, Package, Zap, Video,
+  TrendingUp, Users, CalendarCheck, Package, Zap, Video, Settings,
 } from "lucide-react";
 import BookingsPanel from "./BookingsPanel";
 import ServicesManager from "./ServicesManager";
 import PromoManager from "./PromoManager";
 import VideoReviewsManager from "./VideoReviewsManager";
+import SettingsManager from "./SettingsManager";
 
-type Tab = "dashboard" | "bookings" | "services" | "promo" | "reviews";
+type Tab = "dashboard" | "bookings" | "services" | "promo" | "reviews" | "settings";
 
 interface Booking {
   id: number;
@@ -63,6 +64,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
     { id: "services", label: "Услуги", icon: Wrench },
     { id: "promo", label: "Акции", icon: Zap },
     { id: "reviews", label: "Отзывы", icon: Video },
+    { id: "settings", label: "Настройки", icon: Settings },
   ];
 
   const stats = [
@@ -78,6 +80,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
     services: "Каталог услуг",
     promo: "Управление акциями",
     reviews: "Видео отзывы",
+    settings: "Настройки",
   };
   const PAGE_SUB: Record<Tab, string> = {
     dashboard: "Сводка показателей",
@@ -85,6 +88,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
     services: "Редактирование услуг",
     promo: "Промо-события на сайте",
     reviews: "Видеоотзывы на странице «О нас»",
+    settings: "Email-уведомления и пароль",
   };
 
   const SidebarContent = () => (
@@ -280,6 +284,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
               <VideoReviewsManager />
             </div>
           )}
+          {tab === "settings" && <SettingsManager />}
 
         </main>
       </div>

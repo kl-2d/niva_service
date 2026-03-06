@@ -57,3 +57,9 @@ model VideoReview {
   reviewDate  String // Отображаемая дата ("2025-03-01"), сортировка по ней
   createdAt   DateTime @default(now())
 }
+
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

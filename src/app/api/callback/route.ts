@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { callbackSchema } from "@/lib/schemas";
+import { getNotificationEmails } from "@/lib/getNotificationEmails";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -67,10 +68,7 @@ export async function POST(req: Request) {
 
     // ── Email via Resend ─────────────────────────────────────────────────────
     try {
-      const recipients = (process.env.MANAGER_EMAIL || "")
-        .split(",")
-        .map((e) => e.trim())
-        .filter(Boolean);
+      const recipients = await getNotificationEmails();
       const now = new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" });
 
       const { data, error } = await resend.emails.send({

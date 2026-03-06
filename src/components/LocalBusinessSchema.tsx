@@ -15,7 +15,7 @@ export default function LocalBusinessSchema() {
     logo: "https://niva-service.ru/logo.png",
     image: "https://niva-service.ru/og-image.jpg",
     telephone: ["+7-920-229-56-56", "+7-473-236-18-18"],
-    email: "info@niva-service.ru",
+    email: "niva36@mail.ru",
     address: {
       "@type": "PostalAddress",
       streetAddress: "ул. Матросова, 100",
@@ -33,12 +33,15 @@ export default function LocalBusinessSchema() {
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday", "Tuesday", "Wednesday", "Thursday",
-          "Friday", "Saturday", "Sunday",
-        ],
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         opens: "09:00",
-        closes: "20:00",
+        closes: "18:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Saturday"],
+        opens: "10:00",
+        closes: "16:00",
       },
     ],
     priceRange: "₽₽",

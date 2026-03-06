@@ -262,7 +262,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h4 className="font-bold text-white">Email</h4>
-                    <a href="mailto:info@niva-service.ru" className="text-[#8C8378] hover:text-[#C8553D] transition-colors mt-1 block">info@niva-service.ru</a>
+                    <a href="mailto:niva36@mail.ru" className="text-[#8C8378] hover:text-[#C8553D] transition-colors mt-1 block">niva36@mail.ru</a>
                   </div>
                 </div>
 
@@ -272,7 +272,9 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h4 className="font-bold text-white">Режим работы</h4>
-                    <p className="text-[#8C8378] mt-1">Пн-Вс: 9:00 - 20:00</p>
+                    <p className="text-[#8C8378] mt-1">Пн-Пт: 9:00 — 18:00</p>
+                    <p className="text-[#8C8378] mt-0.5">Сб: 10:00 — 16:00</p>
+                    <p className="text-[#6B635C] mt-0.5">Вс: Выходной</p>
                   </div>
                 </div>
               </div>

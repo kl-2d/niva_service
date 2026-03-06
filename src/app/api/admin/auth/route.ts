@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { signToken } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 const SESSION_COOKIE = "admin_session";
 const SESSION_MAX_AGE = 60 * 60 * 8; // 8 часов
@@ -10,9 +12,34 @@ export async function POST(req: Request) {
     const { username, password } = body as { username?: string; password?: string };
 
     const adminUser = process.env.ADMIN_USER ?? "admin";
-    const adminPassword = process.env.ADMIN_PASSWORD ?? "niva2026";
 
-    if (username !== adminUser || password !== adminPassword) {
+    if (username !== adminUser) {
+      await new Promise((r) => setTimeout(r, 500));
+      return NextResponse.json({ error: "Неверный логин или пароль" }, { status: 401 });
+    }
+
+    // ── Password verification: DB hash → .env fallback ────────────────────────
+    let passwordValid = false;
+
+    try {
+      const hashSetting = await prisma.setting.findUnique({
+        where: { key: "admin_password_hash" },
+      });
+
+      if (hashSetting?.value && password) {
+        passwordValid = await bcrypt.compare(password, hashSetting.value);
+      } else {
+        // No hash in DB yet — use .env plain-text
+        const envPassword = process.env.ADMIN_PASSWORD ?? "niva2026";
+        passwordValid = password === envPassword;
+      }
+    } catch {
+      // DB error — fallback to .env
+      const envPassword = process.env.ADMIN_PASSWORD ?? "niva2026";
+      passwordValid = password === envPassword;
+    }
+
+    if (!passwordValid) {
       await new Promise((r) => setTimeout(r, 500));
       return NextResponse.json({ error: "Неверный логин или пароль" }, { status: 401 });
     }
@@ -40,3 +67,4 @@ export async function DELETE() {
   response.cookies.delete(SESSION_COOKIE);
   return response;
 }
+

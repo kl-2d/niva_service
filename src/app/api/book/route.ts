@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { bookingSchema } from "@/lib/schemas";
+import { getNotificationEmails } from "@/lib/getNotificationEmails";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -71,10 +72,7 @@ export async function POST(req: Request) {
         .map((s) => `<li>${esc(s.title)} — <b>${s.price.toLocaleString("ru-RU")} ₽</b></li>`)
         .join("");
 
-      const recipients = (process.env.MANAGER_EMAIL || "")
-        .split(",")
-        .map((e) => e.trim())
-        .filter(Boolean);
+      const recipients = await getNotificationEmails();
 
       const { data, error } = await resend.emails.send({
         from: "Нива Сервис <onboarding@resend.dev>",

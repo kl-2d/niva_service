@@ -27,8 +27,13 @@ export async function middleware(req: NextRequest) {
   const now = Date.now();
   const { pathname } = req.nextUrl;
 
-  // Allow login page and auth API unconditionally
-  if (pathname === "/admin/login" || pathname.startsWith("/api/admin/auth")) {
+  // Allow login page, recovery page, and auth/recovery APIs unconditionally
+  if (
+    pathname === "/admin/login" ||
+    pathname === "/admin/recovery" ||
+    pathname.startsWith("/api/admin/auth") ||
+    pathname.startsWith("/api/admin/recovery")
+  ) {
     const res = NextResponse.next();
     res.headers.set("x-pathname", pathname);
     return res;
