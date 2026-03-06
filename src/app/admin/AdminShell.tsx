@@ -90,9 +90,9 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
   const SidebarContent = () => (
     <div className="flex flex-col h-full" style={{ background: SIDEBAR_BG }}>
       {/* Logo */}
-      <div className="px-6 py-7 border-b border-white/10">
-        <span className="text-white font-black text-2xl uppercase tracking-widest block">Нива Сервис</span>
-        <p className="text-[#8C8378] text-base mt-1">Панель управления</p>
+      <div className="px-5 py-5 border-b border-white/10">
+        <span className="text-white font-black text-lg uppercase tracking-widest block">Нива Сервис</span>
+        <p className="text-[#8C8378] text-xs mt-1">Панель управления</p>
       </div>
 
       {/* Nav */}
@@ -104,7 +104,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             <button
               key={item.id}
               onClick={() => { setTab(item.id); setSidebarOpen(false); }}
-              className="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-lg font-semibold transition-all relative"
+              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-all relative"
               style={{
                 background: isActive ? SIDEBAR_ACTIVE : "transparent",
                 color: isActive ? "white" : "#8C8378",
@@ -112,10 +112,10 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
               onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "#D5CFCA"; }}
               onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#8C8378"; } }}
             >
-              <Icon className="w-6 h-6 shrink-0" />
+              <Icon className="w-5 h-5 shrink-0" />
               <span className="flex-1 text-left">{item.label}</span>
               {item.count !== undefined && item.count > 0 && (
-                <span className="text-sm font-black px-2.5 py-1 rounded-full"
+                <span className="text-xs font-black px-2 py-0.5 rounded-full"
                   style={{ background: isActive ? "rgba(255,255,255,0.25)" : SIDEBAR_ACTIVE, color: "white" }}>
                   {item.count}
                 </span>
@@ -130,14 +130,14 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
         <a
           href="/"
           target="_blank"
-          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-[#8C8378] hover:text-white hover:bg-white/10 transition-all"
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-[#8C8378] hover:text-white hover:bg-white/10 transition-all"
         >
           <ExternalLink className="w-5 h-5" />
           На сайт
         </a>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-[#8C8378] hover:text-red-400 hover:bg-red-500/10 transition-all"
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-[#8C8378] hover:text-red-400 hover:bg-red-500/10 transition-all"
         >
           <LogOut className="w-5 h-5" />
           Выйти из системы
@@ -149,7 +149,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
   return (
     <div className="min-h-screen flex" style={{ background: "#F0EDE8" }}>
       {/* ── Desktop Sidebar ── */}
-      <aside className="hidden lg:flex flex-col w-[300px] fixed top-0 left-0 h-full z-30 shrink-0">
+      <aside className="hidden lg:flex flex-col w-[260px] fixed top-0 left-0 h-full z-30 shrink-0">
         <SidebarContent />
       </aside>
 
@@ -157,7 +157,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
       {sidebarOpen && (
         <div className="lg:hidden fixed inset-0 z-40 flex">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative w-[300px] h-full z-50 shadow-2xl">
+          <aside className="relative w-[260px] h-full z-50 shadow-2xl">
             <SidebarContent />
             <button
               onClick={() => setSidebarOpen(false)}
@@ -170,9 +170,9 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
       )}
 
       {/* ── Main Content ── */}
-      <div className="flex-1 lg:ml-[300px] flex flex-col min-h-screen">
+      <div className="flex-1 lg:ml-[260px] flex flex-col min-h-screen">
         {/* Topbar */}
-        <header className="sticky top-0 z-20 bg-white border-b-2 border-[#D1CBC3] px-6 h-[76px] flex items-center gap-4 shadow-sm">
+        <header className="sticky top-0 z-20 bg-white border-b-2 border-[#D1CBC3] px-5 h-[60px] flex items-center gap-3 shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-3 rounded-xl hover:bg-[#E6E2DC] text-[#6B635C] transition"
@@ -180,16 +180,16 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex-1">
-            <h1 className="text-xl font-black text-[#1C1F23] leading-tight">
+            <h1 className="text-base font-bold text-[#1C1F23] leading-tight">
               {PAGE_TITLE[tab]}
             </h1>
-            <p className="text-sm text-[#9C9488] leading-none mt-0.5">
+            <p className="text-xs text-[#9C9488] leading-none mt-0.5">
               {PAGE_SUB[tab]}
             </p>
           </div>
           <button
             onClick={handleLogout}
-            className="hidden lg:flex items-center gap-2 text-base text-[#6B635C] hover:text-red-600 transition px-5 py-3 rounded-xl hover:bg-red-50 font-semibold border border-transparent hover:border-red-200"
+            className="hidden lg:flex items-center gap-2 text-sm text-[#6B635C] hover:text-red-600 transition px-4 py-2 rounded-xl hover:bg-red-50 font-semibold border border-transparent hover:border-red-200"
           >
             <LogOut className="w-5 h-5" />
             Выйти
@@ -204,13 +204,13 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             {stats.map((s, i) => {
               const Icon = s.icon;
               return (
-                <div key={i} className={`bg-white rounded-2xl border-2 ${s.border} p-6 shadow-sm flex items-start gap-4`}>
-                  <div className={`${s.bg} ${s.color} p-4 rounded-xl shrink-0 border ${s.border}`}>
-                    <Icon className="w-7 h-7" />
+                <div key={i} className={`bg-white rounded-2xl border-2 ${s.border} p-5 shadow-sm flex items-start gap-3`}>
+                  <div className={`${s.bg} ${s.color} p-3 rounded-xl shrink-0 border ${s.border}`}>
+                    <Icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm text-[#9C9488] mb-1 font-medium">{s.label}</p>
-                    <p className="text-3xl font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{s.value}</p>
+                    <p className="text-xs text-[#9C9488] mb-0.5 font-medium">{s.label}</p>
+                    <p className="text-2xl font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{s.value}</p>
                   </div>
                 </div>
               );
