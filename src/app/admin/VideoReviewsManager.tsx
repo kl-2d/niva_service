@@ -57,6 +57,7 @@ export default function VideoReviewsManager() {
     const [adding, setAdding] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
     const [form, setForm] = useState({ videoUrl: "", description: "", reviewDate: "" });
     const [editForm, setEditForm] = useState({ videoUrl: "", description: "", reviewDate: "" });
@@ -104,7 +105,7 @@ export default function VideoReviewsManager() {
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm("Удалить этот отзыв?")) return;
+        setConfirmDeleteId(null);
         setDeletingId(id);
         await fetch(`/api/reviews/${id}`, { method: "DELETE" }).catch(() => { });
         setDeletingId(null);
@@ -311,14 +312,35 @@ export default function VideoReviewsManager() {
                                         >
                                             <Edit2 className="w-4 h-4" />
                                         </button>
-                                        <button
-                                            onClick={() => handleDelete(r.id)}
-                                            disabled={deletingId === r.id}
-                                            className="p-2 rounded-xl hover:bg-red-50 text-[#D1CBC3] hover:text-red-500 transition disabled:opacity-50"
-                                            title="Удалить"
-                                        >
-                                            {deletingId === r.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                        </button>
+                                        {confirmDeleteId === r.id ? (
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-xs text-red-500 font-medium">Удалить?</span>
+                                                <button
+                                                    onClick={() => handleDelete(r.id)}
+                                                    disabled={deletingId === r.id}
+                                                    className="p-1.5 rounded-lg bg-red-500 text-white hover:bg-red-600 transition disabled:opacity-50"
+                                                    title="Да, удалить"
+                                                >
+                                                    {deletingId === r.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+                                                </button>
+                                                <button
+                                                    onClick={() => setConfirmDeleteId(null)}
+                                                    className="p-1.5 rounded-lg bg-[#E6E2DC] text-[#6B635C] hover:bg-[#D1CBC3] transition"
+                                                    title="Отмена"
+                                                >
+                                                    <X className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                onClick={() => setConfirmDeleteId(r.id)}
+                                                disabled={deletingId === r.id}
+                                                className="p-2 rounded-xl hover:bg-red-50 text-[#D1CBC3] hover:text-red-500 transition disabled:opacity-50"
+                                                title="Удалить"
+                                            >
+                                                {deletingId === r.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                            </button>
+                                        )}
                                     </div>
                                 )}
                             </div>

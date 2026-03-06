@@ -100,32 +100,23 @@ export default function AboutPage() {
               собственные технологические решения, подтвержденные патентами.
             </p>
             <ul className="space-y-4">
-              <li className="flex items-start gap-4">
+              <li className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[#1C1F23] flex items-center justify-center text-[#C8553D] shrink-0">
                   <Award className="w-5 h-5" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-[#1C1F23] text-base">{yearsOfWork} лет опыта</h4>
-                  <p className="text-[#6B635C] text-sm mt-0.5">Знаем каждую гайку в Ниве</p>
-                </div>
+                <h4 className="font-bold text-[#1C1F23] text-base">{yearsOfWork} лет опыта</h4>
               </li>
-              <li className="flex items-start gap-4">
+              <li className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[#1C1F23] flex items-center justify-center text-[#C8553D] shrink-0">
                   <Shield className="w-5 h-5" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-[#1C1F23] text-base">Запатентованные технологии</h4>
-                  <p className="text-[#6B635C] text-sm mt-0.5">Уникальные решения по усилению узлов</p>
-                </div>
+                <h4 className="font-bold text-[#1C1F23] text-base">Запатентованные технологии</h4>
               </li>
-              <li className="flex items-start gap-4">
+              <li className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[#1C1F23] flex items-center justify-center text-[#C8553D] shrink-0">
                   <Wrench className="w-5 h-5" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-[#1C1F23] text-base">Узкая специализация</h4>
-                  <p className="text-[#6B635C] text-sm mt-0.5">Ремонтируем только Нивы и Шевроле Нива</p>
-                </div>
+                <h4 className="font-bold text-[#1C1F23] text-base">Узкая специализация</h4>
               </li>
             </ul>
           </motion.div>
@@ -133,13 +124,13 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-[#E6E2DC] rounded-2xl h-80 flex items-center justify-center text-[#6B635C] overflow-hidden relative"
+            className="bg-[#E6E2DC] rounded-2xl h-80 lg:h-96 flex items-center justify-center text-[#6B635C] overflow-hidden relative"
           >
-            <div className="absolute inset-0 bg-[#1C1F23]/10 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C1F23]/40 via-transparent to-[#C8553D]/10 z-10" />
             <img
-              src="https://images.unsplash.com/photo-1611155876008-62025f191b7d?q=80&w=1000&auto=format&fit=crop"
-              alt="Ремонтная зона автосервиса Нива Сервис в Воронеже"
-              className="w-full h-full object-cover"
+              src="/XXXL.webp"
+              alt="Автосервис Нива Сервис — мастерская в Воронеже"
+              className="w-full h-full object-cover brightness-110 contrast-105 saturate-110"
             />
           </motion.div>
         </div>
