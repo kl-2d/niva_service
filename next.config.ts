@@ -39,10 +39,11 @@ const SECURITY_HEADERS = [
   // Content Security Policy
   { key: "Content-Security-Policy", value: CSP },
   // HSTS — enable after going live with HTTPS
-  // { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   async headers() {
     return [
       {

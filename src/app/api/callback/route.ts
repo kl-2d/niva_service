@@ -98,8 +98,6 @@ export async function POST(req: Request) {
 
       if (error) {
         console.error("Resend callback error:", JSON.stringify(error, null, 2));
-      } else {
-        console.log("Callback email sent via Resend to:", recipients, "| id:", data?.id);
       }
     } catch (emailError) {
       console.error("Resend callback failed:", emailError);

@@ -106,8 +106,6 @@ export async function POST(req: Request) {
 
       if (error) {
         console.error("Resend book error:", JSON.stringify(error, null, 2));
-      } else {
-        console.log("Email sent via Resend to:", recipients, "| id:", data?.id);
       }
     } catch (emailError) {
       console.error("Resend email failed:", emailError);
