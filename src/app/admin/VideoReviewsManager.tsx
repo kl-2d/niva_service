@@ -49,7 +49,7 @@ function getThumbnailUrl(url: string): string | null {
     return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null;
 }
 
-const inputCls = "w-full bg-white border-2 border-[#D1CBC3] text-[#1C1F23] rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#C8553D] focus:border-[#C8553D] transition-all placeholder:text-[#9C9488]";
+const inputCls = "w-full bg-white border-2 border-[#D1CBC3] text-[#1C1F23] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8553D] focus:border-[#C8553D] transition-all placeholder:text-[#9C9488]";
 
 export default function VideoReviewsManager() {
     const [reviews, setReviews] = useState<VideoReview[]>([]);
@@ -142,12 +142,12 @@ export default function VideoReviewsManager() {
 
             {/* Add form */}
             <div className="bg-white border-2 border-[#D1CBC3] rounded-2xl p-6 space-y-4">
-                <h3 className="font-bold text-[#1C1F23] text-lg flex items-center gap-2">
-                    <Plus className="w-5 h-5 text-[#C8553D]" /> Добавить отзыв
+                <h3 className="font-bold text-[#1C1F23] text-base flex items-center gap-2">
+                    <Plus className="w-4 h-4 text-[#C8553D]" /> Добавить отзыв
                 </h3>
 
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-[#6B635C] flex items-center gap-1.5">
+                    <label className="text-sm font-bold text-[#6B635C] flex items-center gap-1.5">
                         <Video className="w-5 h-5 text-[#C8553D]" /> Ссылка на видео (Rutube / YouTube) *
                     </label>
                     <input
@@ -171,7 +171,7 @@ export default function VideoReviewsManager() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-[#6B635C] flex items-center gap-1.5">
+                    <label className="text-sm font-bold text-[#6B635C] flex items-center gap-1.5">
                         <AlignLeft className="w-5 h-5 text-[#9C9488]" /> Описание отзыва
                     </label>
                     <textarea
@@ -184,7 +184,7 @@ export default function VideoReviewsManager() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-[#6B635C] flex items-center gap-1.5">
+                    <label className="text-sm font-bold text-[#6B635C] flex items-center gap-1.5">
                         <Calendar className="w-5 h-5 text-[#C8553D]" /> Дата отзыва *
                     </label>
                     <input
@@ -201,7 +201,7 @@ export default function VideoReviewsManager() {
                 <button
                     onClick={handleAdd}
                     disabled={adding}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#C8553D] hover:bg-[#A8442F] text-white font-bold rounded-xl transition-all disabled:opacity-60"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-[#C8553D] hover:bg-[#A8442F] text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
                 >
                     {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                     {adding ? "Добавление…" : "Добавить отзыв"}

@@ -58,7 +58,7 @@ export default function PromoManager() {
         }
     };
 
-    const inputCls = "w-full bg-white border-2 border-[#D1CBC3] text-[#1C1F23] rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#C8553D] focus:border-[#C8553D] transition-all placeholder:text-[#9C9488]";
+    const inputCls = "w-full bg-white border-2 border-[#D1CBC3] text-[#1C1F23] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8553D] focus:border-[#C8553D] transition-all placeholder:text-[#9C9488]";
 
     // Проверяем актуальность дат
     const today = new Date().toISOString().slice(0, 10);
@@ -87,7 +87,7 @@ export default function PromoManager() {
                         <Zap className={`w-6 h-6 ${form.isActive && !isExpired ? "text-[#C8553D]" : "text-[#9C9488]"}`} />
                     </div>
                     <div>
-                        <p className="font-bold text-[#1C1F23] text-xl">
+                        <p className="font-bold text-[#1C1F23] text-base">
                             {!form.isActive
                                 ? "Акция не активна"
                                 : isExpired
@@ -96,7 +96,7 @@ export default function PromoManager() {
                                         ? "⏳ Акция ещё не началась"
                                         : "✅ Акция активна"}
                         </p>
-                        <p className="text-[#6B635C] text-base mt-1">
+                        <p className="text-[#6B635C] text-sm mt-1">
                             {form.isActive && !isExpired && !notStarted
                                 ? "Плашка отображается в шапке сайта"
                                 : "Плашка скрыта от посетителей"}
@@ -112,7 +112,7 @@ export default function PromoManager() {
                         ? <ToggleRight className="w-14 h-14 text-[#C8553D]" />
                         : <ToggleLeft className="w-14 h-14 text-[#9C9488]" />
                     }
-                    <span className={`text-lg font-bold ${form.isActive ? "text-[#C8553D]" : "text-[#6B635C]"}`}>
+                    <span className={`text-sm font-bold ${form.isActive ? "text-[#C8553D]" : "text-[#6B635C]"}`}>
                         {form.isActive ? "Вкл" : "Выкл"}
                     </span>
                 </button>
@@ -120,11 +120,11 @@ export default function PromoManager() {
 
             {/* Form */}
             <div className="bg-white border-2 border-[#D1CBC3] rounded-2xl p-6 space-y-5">
-                <h3 className="font-black text-[#1C1F23] text-xl">Настройки акции</h3>
+                <h3 className="font-bold text-[#1C1F23] text-base">Настройки акции</h3>
 
                 {/* Title */}
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-[#6B635C] block">Название акции *</label>
+                    <label className="text-sm font-bold text-[#6B635C] block">Название акции *</label>
                     <input
                         type="text"
                         placeholder="Бесплатная диагностика"
@@ -136,7 +136,7 @@ export default function PromoManager() {
 
                 {/* Description */}
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-[#6B635C] block">Описание акции</label>
+                    <label className="text-sm font-bold text-[#6B635C] block">Описание акции</label>
                     <textarea
                         placeholder="Краткое описание для посетителей..."
                         value={form.description}
@@ -149,7 +149,7 @@ export default function PromoManager() {
                 {/* Date range */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label className="text-base font-bold text-[#6B635C] block flex items-center gap-1.5">
+                        <label className="text-sm font-bold text-[#6B635C] block flex items-center gap-1.5">
                             <Calendar className="w-5 h-5 text-[#C8553D]" /> Дата начала
                         </label>
                         <input
@@ -160,7 +160,7 @@ export default function PromoManager() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-base font-bold text-[#6B635C] block flex items-center gap-1.5">
+                        <label className="text-sm font-bold text-[#6B635C] block flex items-center gap-1.5">
                             <Calendar className="w-5 h-5 text-[#9C9488]" /> Дата окончания
                         </label>
                         <input
@@ -175,7 +175,7 @@ export default function PromoManager() {
 
                 {/* Date preview */}
                 {(form.eventDateStart || form.eventDate) && (
-                    <p className="text-base text-[#6B635C] bg-[#F0EDE8] border border-[#D1CBC3] rounded-xl px-4 py-3">
+                    <p className="text-sm text-[#6B635C] bg-[#F0EDE8] border border-[#D1CBC3] rounded-xl px-3 py-2.5">
                         📅 Акция действует:{" "}
                         <b>{form.eventDateStart
                             ? new Date(form.eventDateStart).toLocaleDateString("ru-RU", { day: "numeric", month: "long" })
@@ -191,7 +191,7 @@ export default function PromoManager() {
                 <button
                     onClick={handleSave}
                     disabled={saving || saved}
-                    className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base transition-all ${saved ? "bg-emerald-600 text-white" : "bg-[#C8553D] hover:bg-[#A8442F] text-white"
+                    className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all ${saved ? "bg-emerald-600 text-white" : "bg-[#C8553D] hover:bg-[#A8442F] text-white"
                         } disabled:opacity-70`}
                 >
                     {saving ? (
@@ -204,7 +204,7 @@ export default function PromoManager() {
                 </button>
             </div>
 
-            <div className="bg-[#FAE8E4] border-2 border-[#E8C5B8] rounded-xl p-5 text-base text-[#6B635C]">
+            <div className="bg-[#FAE8E4] border-2 border-[#E8C5B8] rounded-xl p-4 text-sm text-[#6B635C]">
                 💡 По истечении даты окончания акция <b>автоматически отключается</b> и перестаёт показываться на сайте.
             </div>
         </div>
