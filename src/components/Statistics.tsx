@@ -47,8 +47,8 @@ function getStats() {
       value: 100,
       suffix: "%",
       label: "гарантия качества",
-      iconBg: "bg-[#1B2636]",
-      iconColor: "text-[#7BB8E8]",
+      iconBg: "bg-[#1C1F23]",
+      iconColor: "text-[#E8A88C]",
     },
     {
       id: 2,
@@ -56,8 +56,8 @@ function getStats() {
       value: yearsOfWork,
       suffix: " лет",
       label: "успешной работы",
-      iconBg: "bg-[#1B2636]",
-      iconColor: "text-[#7BB8E8]",
+      iconBg: "bg-[#1C1F23]",
+      iconColor: "text-[#E8A88C]",
     },
     {
       id: 3,
@@ -65,7 +65,7 @@ function getStats() {
       value: 10,
       suffix: "",
       label: "высококлассных специалистов",
-      iconBg: "bg-[#1E63A8]",
+      iconBg: "bg-[#C8553D]",
       iconColor: "text-white",
     },
     {
@@ -74,7 +74,7 @@ function getStats() {
       value: 2000,
       suffix: "+",
       label: "выполненных заказов в год",
-      iconBg: "bg-[#1E63A8]",
+      iconBg: "bg-[#C8553D]",
       iconColor: "text-white",
     },
   ];
@@ -83,7 +83,7 @@ function getStats() {
 export default function Statistics() {
   const stats = getStats();
   return (
-    <section className="py-20 md:py-24 bg-[#EAECEF] border-b border-[#D5D9DF]">
+    <section className="py-20 md:py-24 bg-[#E6E2DC] border-b border-[#D1CBC3]">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => {
@@ -95,7 +95,7 @@ export default function Statistics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-center justify-center p-7 bg-white rounded-2xl border-2 border-[#D5D9DF] hover:border-[#1E63A8]/40 transition-all duration-300 group shadow-card hover:shadow-card-hover hover:-translate-y-1"
+                className="flex flex-col items-center justify-center p-7 bg-white rounded-2xl border-2 border-[#D1CBC3] hover:border-[#C8553D]/40 transition-all duration-300 group shadow-card hover:shadow-card-hover hover:-translate-y-1"
               >
                 {/* Icon */}
                 <div className={`w-14 h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center mb-5 shadow-md group-hover:scale-105 transition-transform duration-300`}>
@@ -103,12 +103,12 @@ export default function Statistics() {
                 </div>
 
                 {/* Number */}
-                <h3 className="text-5xl md:text-6xl font-black text-[#1B2636] mb-2 font-mono tabular-nums leading-none">
+                <h3 className="text-5xl md:text-6xl font-black text-[#1C1F23] mb-2 tabular-nums leading-none" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h3>
 
                 {/* Label */}
-                <p className="text-[#5A6475] text-center uppercase tracking-wider text-xs font-bold mt-1">
+                <p className="text-[#6B635C] text-center uppercase tracking-wider text-xs font-bold mt-1">
                   {stat.label}
                 </p>
               </motion.div>

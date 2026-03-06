@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
-import { Inter, Oswald } from "next/font/google";
+import { Roboto, Oswald, Roboto_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "700"],
 });
 
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
+});
+
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "700"],
 });
 
 const SITE_URL = "https://niva-service.ru";
@@ -113,7 +120,7 @@ export default async function RootLayout({
         <meta name="ICBM" content="51.643812, 39.154615" />
       </head>
       <body
-        className={`${inter.variable} ${oswald.variable} antialiased flex flex-col min-h-screen bg-[#F2F3F5] text-[#1B2636]`}
+        className={`${roboto.variable} ${oswald.variable} ${robotoMono.variable} antialiased flex flex-col min-h-screen bg-[var(--col-bg)] text-[var(--col-text)]`}
       >
         {!isAdmin && <Navbar />}
         <main className={`flex-grow${!isAdmin ? " pt-[64px]" : ""}`}>

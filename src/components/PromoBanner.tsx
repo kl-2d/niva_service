@@ -47,12 +47,12 @@ export default function PromoBanner() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20, height: 0 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="relative bg-gradient-to-r from-[#0D1422] via-[#1B2636] to-[#0D1422] border-b border-[#1E63A8]/20 overflow-hidden"
+                        className="relative bg-gradient-to-r from-[#111315] via-[#1C1F23] to-[#111315] border-b border-[#C8553D]/20 overflow-hidden"
                     >
                         {/* Animated background pulse */}
                         <div className="absolute inset-0 opacity-10">
-                            <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#1E63A8] rounded-full blur-3xl animate-pulse" />
-                            <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-[#1E63A8] rounded-full blur-3xl animate-pulse delay-1000" />
+                            <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#C8553D] rounded-full blur-3xl animate-pulse" />
+                            <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-[#C8553D] rounded-full blur-3xl animate-pulse delay-1000" />
                         </div>
 
                         <div className="relative max-w-7xl mx-auto px-4 py-5">
@@ -60,18 +60,18 @@ export default function PromoBanner() {
 
                                 <div className="flex items-center gap-4 flex-1">
                                     {/* Icon */}
-                                    <div className="shrink-0 w-12 h-12 rounded-full bg-[#1E63A8]/20 border border-[#1E63A8]/40 flex items-center justify-center">
-                                        <Zap className="w-6 h-6 text-[#7BB8E8]" />
+                                    <div className="shrink-0 w-12 h-12 rounded-full bg-[#C8553D]/20 border border-[#C8553D]/40 flex items-center justify-center">
+                                        <Zap className="w-6 h-6 text-[#E8A88C]" />
                                     </div>
 
                                     {/* Text */}
                                     <div>
                                         <div className="flex items-center gap-2 mb-0.5">
                                             <span className="relative flex h-2 w-2 shrink-0">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1E63A8] opacity-75" />
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7BB8E8]" />
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C8553D] opacity-75" />
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8A88C]" />
                                             </span>
-                                            <span className="text-[#7BB8E8] text-xs font-bold uppercase tracking-widest">
+                                            <span className="text-[#E8A88C] text-xs font-bold uppercase tracking-widest">
                                                 Акция
                                             </span>
                                         </div>
@@ -79,12 +79,12 @@ export default function PromoBanner() {
                                             {promo.title}
                                         </p>
                                         {promo.description && (
-                                            <p className="text-[#D0DCE8]/80 text-sm mt-0.5">{promo.description}</p>
+                                            <p className="text-[#D5CFCA]/80 text-sm mt-0.5">{promo.description}</p>
                                         )}
                                         {formattedDate && (
                                             <div className="flex items-center gap-1.5 mt-1.5">
-                                                <Calendar className="w-3.5 h-3.5 text-[#7BB8E8] shrink-0" />
-                                                <span className="text-[#D0DCE8]/70 text-xs">Дата акции: <b className="text-white">{formattedDate}</b></span>
+                                                <Calendar className="w-3.5 h-3.5 text-[#E8A88C] shrink-0" />
+                                                <span className="text-[#D5CFCA]/70 text-xs">Дата акции: <b className="text-white">{formattedDate}</b></span>
                                             </div>
                                         )}
                                     </div>
@@ -93,13 +93,13 @@ export default function PromoBanner() {
                                 <div className="flex items-center gap-3 shrink-0">
                                     <button
                                         onClick={() => setModalOpen(true)}
-                                        className="px-6 py-2.5 bg-[#1E63A8] hover:bg-[#175495] text-white font-bold rounded-xl text-sm transition-all transform hover:scale-105 shadow-btn"
+                                        className="px-6 py-2.5 bg-[#C8553D] hover:bg-[#A8442F] text-white font-bold rounded-xl text-sm transition-all transform hover:scale-105 shadow-btn"
                                     >
                                         Записаться
                                     </button>
                                     <button
                                         onClick={() => setDismissed(true)}
-                                        className="p-2 text-blue-200/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+                                        className="p-2 text-[#E8A88C]/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
                                         title="Закрыть"
                                     >
                                         <X className="w-5 h-5" />
