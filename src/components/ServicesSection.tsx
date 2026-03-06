@@ -18,15 +18,22 @@ type CategoryDef = {
 };
 
 const CATEGORIES: CategoryDef[] = [
-  { id: 1, title: "Ремонт ходовой", description: "Диагностика и ремонт подвески, тормозов, рулевого управления.", slug: "hodovoy", icon: Car },
-  { id: 2, title: "Ремонт двигателя", description: "Капитальный ремонт, замена ГРМ, поршневой группы.", slug: "engine", icon: Settings },
-  { id: 3, title: "Ремонт КПП", description: "Устранение шумов, хрустов, выбивания передач. Усиление коробок.", slug: "kpp", icon: Wrench },
-  { id: 4, title: "Ремонт раздатки", description: "Ремонт раздаточной коробки любой сложности.", slug: "razdatka", icon: Activity },
-  { id: 5, title: "Редукторы", description: "Переборка редукторов переднего и заднего мостов.", slug: "reduktory", icon: TrendingUp },
-  { id: 6, title: "Электрика", description: "Компьютерная диагностика ЭСУД, ремонт проводки.", slug: "electrics", icon: Zap },
-  { id: 7, title: "Выхлоп", description: "Замена глушителей, резонаторов, катализаторов.", slug: "vykhlopnaya", icon: Wind },
-  { id: 8, title: "Тюнинг", description: "Лифт-комплекты, силовые бампера, лебедки, грязевая резина.", slug: "tuning", icon: PaintBucket },
-  { id: 9, title: "Развал-схождение", description: "Регулировка углов установки колёс.", slug: "rasval", icon: TrendingUp },
+  { id: 1, title: "Передняя подвеска", description: "Диагностика, замена пружин, амортизаторов, сайлентблоков, шаровых.", slug: "perednyaya-podveska", icon: Car },
+  { id: 2, title: "Задняя подвеска", description: "Замена реактивных штанг, пружин, амортизаторов задней оси.", slug: "zadnyaya-podveska", icon: Car },
+  { id: 3, title: "Рулевое управление", description: "Замена рулевого механизма, трапеции, маятникового рычага.", slug: "rulevoe", icon: Settings },
+  { id: 4, title: "Карданная передача", description: "Замена карданных валов, крестовин, промвалов.", slug: "kardannaya", icon: Activity },
+  { id: 5, title: "Сцепление", description: "Замена корзины, диска сцепления, выжимного подшипника.", slug: "stseplenie", icon: Wrench },
+  { id: 6, title: "КПП", description: "Устранение шумов, хрустов, выбивания передач. Усиление коробок.", slug: "kpp", icon: Wrench },
+  { id: 7, title: "Раздатка", description: "Ремонт раздаточной коробки любой сложности.", slug: "razdatka", icon: Activity },
+  { id: 8, title: "Передний мост", description: "Ремонт и переборка переднего моста, привода, редуктора.", slug: "peredniy-most", icon: TrendingUp },
+  { id: 9, title: "Задний мост", description: "Ремонт заднего моста, замена полуосей, подшипников, сальников.", slug: "zadniy-most", icon: TrendingUp },
+  { id: 10, title: "Тормозная система", description: "Замена колодок, дисков, цилиндров, тормозных шлангов.", slug: "tormoza", icon: Activity },
+  { id: 11, title: "Система охлаждения", description: "Замена радиатора, помпы, термостата, патрубков.", slug: "ohlazhdenie", icon: Wind },
+  { id: 12, title: "Система выпуска", description: "Замена глушителей, резонаторов, катализаторов, приёмных труб.", slug: "vypusk", icon: Wind },
+  { id: 13, title: "Двигатель", description: "Капитальный ремонт, замена ГРМ, поршневой группы.", slug: "dvigatel", icon: Settings },
+  { id: 14, title: "Электрооборудование", description: "Компьютерная диагностика ЭСУД, ремонт проводки, генераторов.", slug: "electro", icon: Zap },
+  { id: 15, title: "Кузов и салон", description: "Антикоррозийная обработка, шумоизоляция, ремонт кузова.", slug: "kuzov", icon: PaintBucket },
+  { id: 16, title: "Модернизация", description: "Лифт-комплекты, силовые бампера, лебёдки, грязевая резина.", slug: "modernizatsiya", icon: TrendingUp },
 ];
 
 /* ── Price Table ────────────────────────────────────── */

@@ -14,18 +14,6 @@ type ServiceWithCategory = {
   category: CategoryObj | null;
 };
 
-const CATEGORIES: CategoryObj[] = [
-  { id: 1, name: "Ходовая", slug: "hodovoy" },
-  { id: 2, name: "Двигатель", slug: "engine" },
-  { id: 3, name: "КПП", slug: "kpp" },
-  { id: 4, name: "Раздатка", slug: "razdatka" },
-  { id: 5, name: "Редукторы", slug: "reduktory" },
-  { id: 6, name: "Выхлопная", slug: "vykhlopnaya" },
-  { id: 7, name: "Тюнинг", slug: "tuning" },
-  { id: 8, name: "Развал-схождение", slug: "rasval" },
-  { id: 9, name: "Электрика", slug: "electrics" },
-];
-
 /* ── Toggle Switch component ───────────────────────────────────── */
 function ActiveToggle({
   serviceId,
@@ -80,6 +68,7 @@ function ActiveToggle({
 
 export default function ServicesManager({ onCountChange }: { onCountChange?: (count: number) => void }) {
   const [services, setServices] = useState<ServiceWithCategory[]>([]);
+  const [categories, setCategories] = useState<CategoryObj[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [catFilter, setCatFilter] = useState<number | null>(null);
@@ -99,7 +88,12 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
   const [addCatId, setAddCatId] = useState<string>("");
   const [addDesc, setAddDesc] = useState("");
 
-  useEffect(() => { fetchServices(); }, []);
+  useEffect(() => {
+    fetchServices();
+    fetch("/api/categories").then(r => r.json()).then((data) => {
+      if (Array.isArray(data)) setCategories(data);
+    }).catch(() => { });
+  }, []);
 
   const fetchServices = async () => {
     setLoading(true);
@@ -217,7 +211,7 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
             <input required type="number" placeholder="Цена (₽) *" value={addPrice} onChange={e => setAddPrice(e.target.value)} className={inputCls} />
             <select value={addCatId} onChange={e => setAddCatId(e.target.value)} className={inputCls}>
               <option value="">— Категория —</option>
-              {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
             <input placeholder="Описание (необязательно)" value={addDesc} onChange={e => setAddDesc(e.target.value)} className={inputCls} />
           </div>
@@ -238,7 +232,7 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
         >
           Все <span className="ml-1 text-xs opacity-70">({services.length})</span>
         </button>
-        {CATEGORIES.map(cat => (
+        {categories.map(cat => (
           <button
             key={cat.id}
             onClick={() => setCatFilter(cat.id)}
@@ -283,7 +277,7 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
                     <label className="text-[10px] font-semibold text-[#9C9488] uppercase tracking-wider mb-1 block">Категория</label>
                     <select value={editCatId} onChange={e => setEditCatId(e.target.value)} className="w-full bg-white border border-[#D1CBC3] rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8553D] text-[#1C1F23]">
                       <option value="">— Без категории —</option>
-                      {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
                   <div className="shrink-0 w-24">

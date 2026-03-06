@@ -232,7 +232,11 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
                           <div className="text-[#9C9488] text-sm mt-0.5">{new Date(b.createdAt).toLocaleDateString("ru-RU")}</div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-lg font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
+                          {b.services.includes("callback") ? (
+                            <span className="text-sm font-bold text-[#C8553D]">📞 Ждёт звонка</span>
+                          ) : (
+                            <span className="text-lg font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
+                          )}
                           <span className={`text-sm px-3 py-1.5 rounded-full font-semibold ${st.cls}`}>{st.label}</span>
                         </div>
                       </div>
