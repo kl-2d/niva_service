@@ -196,10 +196,10 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
       </div>
 
       {/* ── Two-panel layout ── */}
-      <div className="flex gap-4 min-h-[500px]">
+      <div className="flex gap-4 items-start">
 
         {/* ════════ LEFT: Category sidebar ════════ */}
-        <div className="w-64 shrink-0 bg-white border border-[#D1CBC3] rounded-2xl overflow-hidden shadow-sm flex flex-col">
+        <div className="w-64 shrink-0 bg-white border border-[#D1CBC3] rounded-2xl overflow-hidden shadow-sm flex flex-col sticky top-4 self-start">
           <div className="px-4 py-3 bg-[#E6E2DC] border-b border-[#D1CBC3]">
             <h3 className="text-xs font-bold text-[#6B635C] uppercase tracking-wider flex items-center gap-2">
               <FolderOpen className="w-3.5 h-3.5" />
@@ -215,18 +215,18 @@ export default function ServicesManager({ onCountChange }: { onCountChange?: (co
                   key={cat.id}
                   onClick={() => { setSelectedCatId(cat.id); setSearch(""); }}
                   className={`w-full text-left px-4 py-3 border-b border-[#F0EDE8] flex items-center justify-between transition-all group ${isSelected
-                      ? "bg-[#C8553D]/10 border-l-4 border-l-[#C8553D]"
-                      : "hover:bg-[#F0EDE8] border-l-4 border-l-transparent"
+                    ? "bg-[#C8553D]/10 border-l-4 border-l-[#C8553D]"
+                    : "hover:bg-[#F0EDE8] border-l-4 border-l-transparent"
                     }`}
                 >
                   <span className={`text-sm font-medium truncate ${isSelected ? "text-[#C8553D] font-bold" : "text-[#1C1F23]"}`}>
                     {cat.name}
                   </span>
                   <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 ml-2 ${isSelected
-                      ? "bg-[#C8553D] text-white font-bold"
-                      : count === 0
-                        ? "bg-[#F0EDE8] text-[#D1CBC3]"
-                        : "bg-[#E6E2DC] text-[#6B635C] font-medium"
+                    ? "bg-[#C8553D] text-white font-bold"
+                    : count === 0
+                      ? "bg-[#F0EDE8] text-[#D1CBC3]"
+                      : "bg-[#E6E2DC] text-[#6B635C] font-medium"
                     }`}>
                     {count}
                   </span>
