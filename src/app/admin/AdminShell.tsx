@@ -180,10 +180,10 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex-1">
-            <h1 className="text-2xl font-black text-[#1C1F23] leading-tight">
+            <h1 className="text-xl font-black text-[#1C1F23] leading-tight">
               {PAGE_TITLE[tab]}
             </h1>
-            <p className="text-base text-[#9C9488] leading-none mt-0.5">
+            <p className="text-sm text-[#9C9488] leading-none mt-0.5">
               {PAGE_SUB[tab]}
             </p>
           </div>
@@ -209,8 +209,8 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
                     <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <p className="text-base text-[#9C9488] mb-1 font-medium">{s.label}</p>
-                    <p className="text-4xl font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{s.value}</p>
+                    <p className="text-sm text-[#9C9488] mb-1 font-medium">{s.label}</p>
+                    <p className="text-3xl font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{s.value}</p>
                   </div>
                 </div>
               );
@@ -221,7 +221,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           {tab === "dashboard" && (
             <div className="grid lg:grid-cols-2 gap-6">
               <div className="bg-white rounded-2xl border-2 border-[#D1CBC3] shadow-sm p-6">
-                <h2 className="font-black text-[#1C1F23] mb-5 text-xl">Последние заявки</h2>
+                <h2 className="font-black text-[#1C1F23] mb-5 text-lg">Последние заявки</h2>
                 <div className="space-y-4">
                   {bookings.slice(0, 5).map(b => {
                     const st = STATUS_LABEL[b.status] ?? STATUS_LABEL["NEW"];
@@ -250,7 +250,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
               <div className="bg-white rounded-2xl border-2 border-[#D1CBC3] shadow-sm p-8 flex flex-col items-center justify-center gap-5 text-center">
                 <Users className="w-16 h-16 text-[#D1CBC3]" />
                 <div>
-                  <p className="font-black text-[#1C1F23] text-2xl">Добро пожаловать!</p>
+                  <p className="font-black text-[#1C1F23] text-xl">Добро пожаловать!</p>
                   <p className="text-[#6B635C] text-base mt-2 leading-relaxed">
                     Используйте меню слева для управления заявками, услугами и акциями.
                   </p>
@@ -270,8 +270,8 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           {tab === "reviews" && (
             <div>
               <div className="mb-6">
-                <h2 className="text-2xl font-black text-[#1C1F23]">Видео отзывы</h2>
-                <p className="text-[#6B635C] text-base mt-1">Управление видеоотзывами на странице «О нас»</p>
+                <h2 className="text-xl font-black text-[#1C1F23]">Видео отзывы</h2>
+                <p className="text-[#6B635C] text-sm mt-1">Управление видеоотзывами на странице «О нас»</p>
               </div>
               <VideoReviewsManager />
             </div>
