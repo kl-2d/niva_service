@@ -49,7 +49,7 @@ function getThumbnailUrl(url: string): string | null {
     return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null;
 }
 
-const inputCls = "w-full bg-white border-2 border-stone-300 text-stone-900 rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] transition-all placeholder:text-stone-400";
+const inputCls = "w-full bg-white border-2 border-[#D1CBC3] text-[#1C1F23] rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#C8553D] focus:border-[#C8553D] transition-all placeholder:text-[#9C9488]";
 
 export default function VideoReviewsManager() {
     const [reviews, setReviews] = useState<VideoReview[]>([]);
@@ -132,7 +132,7 @@ export default function VideoReviewsManager() {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-[#E07B00]" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#C8553D]" />
             </div>
         );
     }
@@ -141,14 +141,14 @@ export default function VideoReviewsManager() {
         <div className="space-y-8 max-w-3xl">
 
             {/* Add form */}
-            <div className="bg-white border-2 border-stone-200 rounded-2xl p-6 space-y-4">
-                <h3 className="font-bold text-stone-900 text-lg flex items-center gap-2">
-                    <Plus className="w-5 h-5 text-[#E07B00]" /> Добавить отзыв
+            <div className="bg-white border-2 border-[#D1CBC3] rounded-2xl p-6 space-y-4">
+                <h3 className="font-bold text-[#1C1F23] text-lg flex items-center gap-2">
+                    <Plus className="w-5 h-5 text-[#C8553D]" /> Добавить отзыв
                 </h3>
 
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-stone-700 flex items-center gap-1.5">
-                        <Video className="w-5 h-5 text-[#E07B00]" /> Ссылка на видео (Rutube / YouTube) *
+                    <label className="text-base font-bold text-[#6B635C] flex items-center gap-1.5">
+                        <Video className="w-5 h-5 text-[#C8553D]" /> Ссылка на видео (Rutube / YouTube) *
                     </label>
                     <input
                         type="url"
@@ -171,8 +171,8 @@ export default function VideoReviewsManager() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-stone-700 flex items-center gap-1.5">
-                        <AlignLeft className="w-5 h-5 text-stone-400" /> Описание отзыва
+                    <label className="text-base font-bold text-[#6B635C] flex items-center gap-1.5">
+                        <AlignLeft className="w-5 h-5 text-[#9C9488]" /> Описание отзыва
                     </label>
                     <textarea
                         placeholder='Пример: "Отзыв от Ивана, владельца ВАЗ-21214, наш клиент с 2015 года"'
@@ -184,8 +184,8 @@ export default function VideoReviewsManager() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-base font-bold text-stone-700 flex items-center gap-1.5">
-                        <Calendar className="w-5 h-5 text-[#E07B00]" /> Дата отзыва *
+                    <label className="text-base font-bold text-[#6B635C] flex items-center gap-1.5">
+                        <Calendar className="w-5 h-5 text-[#C8553D]" /> Дата отзыва *
                     </label>
                     <input
                         type="date"
@@ -193,7 +193,7 @@ export default function VideoReviewsManager() {
                         onChange={(e) => setForm((f) => ({ ...f, reviewDate: e.target.value }))}
                         className={inputCls}
                     />
-                    <p className="text-xs text-stone-400">Карточки сортируются от свежих к старым</p>
+                    <p className="text-xs text-[#9C9488]">Карточки сортируются от свежих к старым</p>
                 </div>
 
                 {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
@@ -201,7 +201,7 @@ export default function VideoReviewsManager() {
                 <button
                     onClick={handleAdd}
                     disabled={adding}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#E07B00] hover:bg-[#B86300] text-white font-bold rounded-xl transition-all disabled:opacity-60"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#C8553D] hover:bg-[#A8442F] text-white font-bold rounded-xl transition-all disabled:opacity-60"
                 >
                     {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                     {adding ? "Добавление…" : "Добавить отзыв"}
@@ -210,12 +210,12 @@ export default function VideoReviewsManager() {
 
             {/* Reviews list */}
             <div className="space-y-3">
-                <h3 className="font-bold text-stone-700 text-sm uppercase tracking-wider">
+                <h3 className="font-bold text-[#6B635C] text-sm uppercase tracking-wider">
                     Отзывы ({reviews.length}) — сортировка по дате
                 </h3>
 
                 {reviews.length === 0 && (
-                    <div className="bg-stone-50 border-2 border-dashed border-stone-200 rounded-2xl py-12 text-center text-stone-400">
+                    <div className="bg-[#F0EDE8] border-2 border-dashed border-[#D1CBC3] rounded-2xl py-12 text-center text-[#9C9488]">
                         <Video className="w-10 h-10 mx-auto mb-3 opacity-30" />
                         <p className="font-medium">Нет добавленных отзывов</p>
                         <p className="text-sm">Добавьте первый отзыв с Rutube</p>
@@ -228,20 +228,20 @@ export default function VideoReviewsManager() {
                     const isEditing = editId === r.id;
 
                     return (
-                        <div key={r.id} className="bg-white border-2 border-stone-200 rounded-2xl overflow-hidden">
+                        <div key={r.id} className="bg-white border-2 border-[#D1CBC3] rounded-2xl overflow-hidden">
                             <div className="flex gap-4 p-4">
                                 {/* Thumbnail / Platform badge */}
                                 {thumb ? (
                                     <img
                                         src={thumb}
                                         alt="Превью видео"
-                                        className="w-32 h-20 object-cover rounded-xl shrink-0 bg-stone-200"
+                                        className="w-32 h-20 object-cover rounded-xl shrink-0 bg-[#E6E2DC]"
                                     />
                                 ) : (
-                                    <div className="w-32 h-20 bg-stone-100 border-2 border-stone-200 rounded-xl shrink-0 flex flex-col items-center justify-center gap-1">
-                                        <Video className="w-6 h-6 text-stone-400" />
+                                    <div className="w-32 h-20 bg-[#E6E2DC] border-2 border-[#D1CBC3] rounded-xl shrink-0 flex flex-col items-center justify-center gap-1">
+                                        <Video className="w-6 h-6 text-[#9C9488]" />
                                         {platform === "rutube" && (
-                                            <span className="text-[10px] font-bold text-[#E07B00] uppercase">Rutube</span>
+                                            <span className="text-[10px] font-bold text-[#C8553D] uppercase">Rutube</span>
                                         )}
                                     </div>
                                 )}
@@ -253,47 +253,47 @@ export default function VideoReviewsManager() {
                                                 type="url"
                                                 value={editForm.videoUrl}
                                                 onChange={(e) => setEditForm((f) => ({ ...f, videoUrl: e.target.value }))}
-                                                className="w-full border-2 border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#E07B00]"
+                                                className="w-full border-2 border-[#D1CBC3] rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#C8553D] text-[#1C1F23]"
                                                 placeholder="Rutube / YouTube URL"
                                             />
                                             <input
                                                 type="text"
                                                 value={editForm.description}
                                                 onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))}
-                                                className="w-full border-2 border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#E07B00]"
+                                                className="w-full border-2 border-[#D1CBC3] rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#C8553D] text-[#1C1F23]"
                                                 placeholder="Описание"
                                             />
                                             <input
                                                 type="date"
                                                 value={editForm.reviewDate}
                                                 onChange={(e) => setEditForm((f) => ({ ...f, reviewDate: e.target.value }))}
-                                                className="border-2 border-stone-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#E07B00]"
+                                                className="border-2 border-[#D1CBC3] rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#C8553D] text-[#1C1F23]"
                                             />
                                             <div className="flex gap-2">
                                                 <button onClick={() => handleSaveEdit(r.id)} className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 text-white text-sm font-bold rounded-lg">
                                                     <Check className="w-3.5 h-3.5" /> Сохранить
                                                 </button>
-                                                <button onClick={() => setEditId(null)} className="flex items-center gap-1 px-3 py-1.5 bg-stone-200 text-stone-700 text-sm font-bold rounded-lg">
+                                                <button onClick={() => setEditId(null)} className="flex items-center gap-1 px-3 py-1.5 bg-[#E6E2DC] text-[#6B635C] text-sm font-bold rounded-lg">
                                                     <X className="w-3.5 h-3.5" /> Отмена
                                                 </button>
                                             </div>
                                         </div>
                                     ) : (
                                         <>
-                                            <p className="text-xs font-semibold text-[#E07B00] mb-0.5">
+                                            <p className="text-xs font-semibold text-[#C8553D] mb-0.5">
                                                 📅 {fmtDate(r.reviewDate)}
-                                                <span className="ml-2 text-stone-400 font-normal">
+                                                <span className="ml-2 text-[#9C9488] font-normal">
                                                     {platform === "rutube" ? "· Rutube" : platform === "youtube" ? "· YouTube" : ""}
                                                 </span>
                                             </p>
                                             {r.description && (
-                                                <p className="text-sm text-stone-700 leading-snug line-clamp-2">{r.description}</p>
+                                                <p className="text-sm text-[#6B635C] leading-snug line-clamp-2">{r.description}</p>
                                             )}
                                             <a
                                                 href={r.videoUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-xs text-stone-400 hover:text-[#E07B00] transition-colors mt-1 flex items-center gap-1 truncate"
+                                                className="text-xs text-[#9C9488] hover:text-[#C8553D] transition-colors mt-1 flex items-center gap-1 truncate"
                                             >
                                                 <ExternalLink className="w-3 h-3 shrink-0" />
                                                 <span className="truncate">{r.videoUrl}</span>
@@ -306,7 +306,7 @@ export default function VideoReviewsManager() {
                                     <div className="flex flex-col gap-1 shrink-0">
                                         <button
                                             onClick={() => startEdit(r)}
-                                            className="p-2 rounded-xl hover:bg-stone-100 text-stone-400 hover:text-stone-700 transition"
+                                            className="p-2 rounded-xl hover:bg-[#E6E2DC] text-[#9C9488] hover:text-[#1C1F23] transition"
                                             title="Редактировать"
                                         >
                                             <Edit2 className="w-4 h-4" />
@@ -314,7 +314,7 @@ export default function VideoReviewsManager() {
                                         <button
                                             onClick={() => handleDelete(r.id)}
                                             disabled={deletingId === r.id}
-                                            className="p-2 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition disabled:opacity-50"
+                                            className="p-2 rounded-xl hover:bg-red-50 text-[#D1CBC3] hover:text-red-500 transition disabled:opacity-50"
                                             title="Удалить"
                                         >
                                             {deletingId === r.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}

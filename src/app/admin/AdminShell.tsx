@@ -43,8 +43,8 @@ const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
 export { STATUS_LABEL };
 
 // ─── Цвета сайдбара ──────────────────────────────────────────────
-const SIDEBAR_BG = "#1A2B4A";      // тёмно-синий, navy
-const SIDEBAR_ACTIVE = "#E07B00";  // оранжевый акцент
+const SIDEBAR_BG = "#1C1F23";      // графитовый
+const SIDEBAR_ACTIVE = "#C8553D";  // терракотовый акцент
 
 export default function AdminShell({ bookings, totalRevenue, newToday, servicesCount: initialServicesCount }: Props) {
   const [tab, setTab] = useState<Tab>("bookings");
@@ -66,10 +66,10 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
   ];
 
   const stats = [
-    { icon: ClipboardList, label: "Всего заявок", value: bookings.length, color: "text-blue-700", bg: "bg-blue-50", border: "border-blue-200" },
+    { icon: ClipboardList, label: "Всего заявок", value: bookings.length, color: "text-[#C8553D]", bg: "bg-[#FAE8E4]", border: "border-[#E8C5B8]" },
     { icon: CalendarCheck, label: "Новых сегодня", value: newToday, color: "text-amber-700", bg: "bg-amber-50", border: "border-amber-200" },
     { icon: TrendingUp, label: "В обработке", value: bookings.filter(b => b.status === "IN_PROGRESS").length, color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200" },
-    { icon: Package, label: "Услуг в каталоге", value: servicesCount, color: "text-violet-700", bg: "bg-violet-50", border: "border-violet-200" },
+    { icon: Package, label: "Услуг в каталоге", value: servicesCount, color: "text-[#6B635C]", bg: "bg-[#E6E2DC]", border: "border-[#D1CBC3]" },
   ];
 
   const PAGE_TITLE: Record<Tab, string> = {
@@ -92,7 +92,7 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
       {/* Logo */}
       <div className="px-6 py-7 border-b border-white/10">
         <span className="text-white font-black text-2xl uppercase tracking-widest block">Нива Сервис</span>
-        <p className="text-slate-400 text-base mt-1">Панель управления</p>
+        <p className="text-[#8C8378] text-base mt-1">Панель управления</p>
       </div>
 
       {/* Nav */}
@@ -107,10 +107,10 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
               className="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-lg font-semibold transition-all relative"
               style={{
                 background: isActive ? SIDEBAR_ACTIVE : "transparent",
-                color: isActive ? "white" : "#94A3B8",
+                color: isActive ? "white" : "#8C8378",
               }}
-              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "white"; }}
-              onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#94A3B8"; } }}
+              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "#D5CFCA"; }}
+              onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#8C8378"; } }}
             >
               <Icon className="w-6 h-6 shrink-0" />
               <span className="flex-1 text-left">{item.label}</span>
@@ -130,14 +130,14 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
         <a
           href="/"
           target="_blank"
-          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-[#8C8378] hover:text-white hover:bg-white/10 transition-all"
         >
           <ExternalLink className="w-5 h-5" />
           На сайт
         </a>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
+          className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium text-[#8C8378] hover:text-red-400 hover:bg-red-500/10 transition-all"
         >
           <LogOut className="w-5 h-5" />
           Выйти из системы
@@ -172,24 +172,24 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
       {/* ── Main Content ── */}
       <div className="flex-1 lg:ml-[300px] flex flex-col min-h-screen">
         {/* Topbar */}
-        <header className="sticky top-0 z-20 bg-white border-b-2 border-stone-200 px-6 h-[76px] flex items-center gap-4 shadow-sm">
+        <header className="sticky top-0 z-20 bg-white border-b-2 border-[#D1CBC3] px-6 h-[76px] flex items-center gap-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-3 rounded-xl hover:bg-stone-100 text-stone-600 transition"
+            className="lg:hidden p-3 rounded-xl hover:bg-[#E6E2DC] text-[#6B635C] transition"
           >
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex-1">
-            <h1 className="text-2xl font-black text-stone-900 leading-tight">
+            <h1 className="text-2xl font-black text-[#1C1F23] leading-tight">
               {PAGE_TITLE[tab]}
             </h1>
-            <p className="text-base text-stone-500 leading-none mt-0.5">
+            <p className="text-base text-[#9C9488] leading-none mt-0.5">
               {PAGE_SUB[tab]}
             </p>
           </div>
           <button
             onClick={handleLogout}
-            className="hidden lg:flex items-center gap-2 text-base text-stone-500 hover:text-red-600 transition px-5 py-3 rounded-xl hover:bg-red-50 font-semibold border border-transparent hover:border-red-200"
+            className="hidden lg:flex items-center gap-2 text-base text-[#6B635C] hover:text-red-600 transition px-5 py-3 rounded-xl hover:bg-red-50 font-semibold border border-transparent hover:border-red-200"
           >
             <LogOut className="w-5 h-5" />
             Выйти
@@ -209,8 +209,8 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
                     <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <p className="text-base text-stone-500 mb-1 font-medium">{s.label}</p>
-                    <p className="text-4xl font-black text-stone-900">{s.value}</p>
+                    <p className="text-base text-[#9C9488] mb-1 font-medium">{s.label}</p>
+                    <p className="text-4xl font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{s.value}</p>
                   </div>
                 </div>
               );
@@ -220,45 +220,45 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           {/* Dashboard tab */}
           {tab === "dashboard" && (
             <div className="grid lg:grid-cols-2 gap-6">
-              <div className="bg-white rounded-2xl border-2 border-stone-200 shadow-sm p-6">
-                <h2 className="font-black text-stone-900 mb-5 text-xl">Последние заявки</h2>
+              <div className="bg-white rounded-2xl border-2 border-[#D1CBC3] shadow-sm p-6">
+                <h2 className="font-black text-[#1C1F23] mb-5 text-xl">Последние заявки</h2>
                 <div className="space-y-4">
                   {bookings.slice(0, 5).map(b => {
                     const st = STATUS_LABEL[b.status] ?? STATUS_LABEL["NEW"];
                     return (
-                      <div key={b.id} className="flex items-center justify-between py-3 border-b border-stone-100 last:border-0">
+                      <div key={b.id} className="flex items-center justify-between py-3 border-b border-[#E6E2DC] last:border-0">
                         <div>
-                          <div className="font-bold text-stone-900 text-base">{b.name}</div>
-                          <div className="text-stone-400 text-sm mt-0.5">{new Date(b.createdAt).toLocaleDateString("ru-RU")}</div>
+                          <div className="font-bold text-[#1C1F23] text-base">{b.name}</div>
+                          <div className="text-[#9C9488] text-sm mt-0.5">{new Date(b.createdAt).toLocaleDateString("ru-RU")}</div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="font-mono text-lg font-black text-stone-700">{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
+                          <span className="text-lg font-black text-[#1C1F23]" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{b.totalPrice.toLocaleString("ru-RU")} ₽</span>
                           <span className={`text-sm px-3 py-1.5 rounded-full font-semibold ${st.cls}`}>{st.label}</span>
                         </div>
                       </div>
                     );
                   })}
-                  {bookings.length === 0 && <p className="text-stone-400 text-center py-6 text-base">Заявок пока нет</p>}
+                  {bookings.length === 0 && <p className="text-[#9C9488] text-center py-6 text-base">Заявок пока нет</p>}
                 </div>
                 {bookings.length > 5 && (
-                  <button onClick={() => setTab("bookings")} className="mt-5 text-base text-[#E07B00] font-bold hover:underline">
+                  <button onClick={() => setTab("bookings")} className="mt-5 text-base text-[#C8553D] font-bold hover:underline">
                     Показать все заявки →
                   </button>
                 )}
               </div>
 
-              <div className="bg-white rounded-2xl border-2 border-stone-200 shadow-sm p-8 flex flex-col items-center justify-center gap-5 text-center">
-                <Users className="w-16 h-16 text-stone-200" />
+              <div className="bg-white rounded-2xl border-2 border-[#D1CBC3] shadow-sm p-8 flex flex-col items-center justify-center gap-5 text-center">
+                <Users className="w-16 h-16 text-[#D1CBC3]" />
                 <div>
-                  <p className="font-black text-stone-900 text-2xl">Добро пожаловать!</p>
-                  <p className="text-stone-500 text-base mt-2 leading-relaxed">
+                  <p className="font-black text-[#1C1F23] text-2xl">Добро пожаловать!</p>
+                  <p className="text-[#6B635C] text-base mt-2 leading-relaxed">
                     Используйте меню слева для управления заявками, услугами и акциями.
                   </p>
                 </div>
                 <div className="flex gap-3 mt-2 flex-wrap justify-center">
-                  <button onClick={() => setTab("bookings")} className="px-6 py-3 bg-[#E07B00] text-white rounded-xl text-base font-bold hover:bg-[#B86300] transition">Заявки</button>
-                  <button onClick={() => setTab("services")} className="px-6 py-3 bg-stone-100 text-stone-800 rounded-xl text-base font-bold hover:bg-stone-200 transition">Услуги</button>
-                  <button onClick={() => setTab("promo")} className="px-6 py-3 bg-orange-50 text-[#E07B00] border border-[#E07B00]/30 rounded-xl text-base font-bold hover:bg-orange-100 transition">Акции</button>
+                  <button onClick={() => setTab("bookings")} className="px-6 py-3 bg-[#C8553D] text-white rounded-xl text-base font-bold hover:bg-[#A8442F] transition">Заявки</button>
+                  <button onClick={() => setTab("services")} className="px-6 py-3 bg-[#E6E2DC] text-[#1C1F23] rounded-xl text-base font-bold hover:bg-[#D1CBC3] transition">Услуги</button>
+                  <button onClick={() => setTab("promo")} className="px-6 py-3 bg-[#FAE8E4] text-[#C8553D] border border-[#C8553D]/30 rounded-xl text-base font-bold hover:bg-[#F5D5CE] transition">Акции</button>
                 </div>
               </div>
             </div>
@@ -270,8 +270,8 @@ export default function AdminShell({ bookings, totalRevenue, newToday, servicesC
           {tab === "reviews" && (
             <div>
               <div className="mb-6">
-                <h2 className="text-2xl font-black text-stone-900">Видео отзывы</h2>
-                <p className="text-stone-500 text-base mt-1">Управление видеоотзывами на странице «О нас»</p>
+                <h2 className="text-2xl font-black text-[#1C1F23]">Видео отзывы</h2>
+                <p className="text-[#6B635C] text-base mt-1">Управление видеоотзывами на странице «О нас»</p>
               </div>
               <VideoReviewsManager />
             </div>

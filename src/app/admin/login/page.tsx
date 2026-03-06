@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1C1C1C] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#1C1F23] flex items-center justify-center p-4">
       {/* Background texture */}
       <div className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
       <div className="relative w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#E07B00] mb-4 shadow-lg shadow-orange-900/40">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#C8553D] mb-4 shadow-lg shadow-[#C8553D]/30">
             <Wrench className="w-8 h-8 text-white" />
           </div>
           <h1
@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
           >
             Нива Сервис
           </h1>
-          <p className="text-stone-400 text-sm mt-1">Панель управления</p>
+          <p className="text-[#8C8378] text-sm mt-1">Панель управления</p>
         </div>
 
         {/* Card */}
@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Username */}
             <div>
-              <label className="block text-stone-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+              <label className="block text-[#8C8378] text-xs font-medium mb-1.5 uppercase tracking-wider">
                 Логин
               </label>
               <input
@@ -80,14 +80,14 @@ export default function AdminLoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 disabled={loading}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-stone-600 focus:outline-none focus:border-[#E07B00] focus:ring-1 focus:ring-[#E07B00] transition disabled:opacity-50"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#6B635C] focus:outline-none focus:border-[#C8553D] focus:ring-1 focus:ring-[#C8553D] transition disabled:opacity-50"
                 placeholder="admin"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-stone-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+              <label className="block text-[#8C8378] text-xs font-medium mb-1.5 uppercase tracking-wider">
                 Пароль
               </label>
               <div className="relative">
@@ -98,13 +98,13 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={loading}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pr-12 text-white placeholder-stone-600 focus:outline-none focus:border-[#E07B00] focus:ring-1 focus:ring-[#E07B00] transition disabled:opacity-50"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pr-12 text-white placeholder-[#6B635C] focus:outline-none focus:border-[#C8553D] focus:ring-1 focus:ring-[#C8553D] transition disabled:opacity-50"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300 transition"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B635C] hover:text-[#D5CFCA] transition"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -123,7 +123,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading || !username || !password}
-              className="w-full bg-[#E07B00] hover:bg-[#B86300] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-[#C8553D] hover:bg-[#A8442F] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
                 <>
@@ -137,7 +137,7 @@ export default function AdminLoginPage() {
           </form>
         </div>
 
-        <p className="text-center text-stone-600 text-xs mt-6">
+        <p className="text-center text-[#6B635C] text-xs mt-6">
           Нива Сервис © {new Date().getFullYear()}
         </p>
       </div>

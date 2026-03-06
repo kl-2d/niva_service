@@ -136,38 +136,38 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
       {/* ── New booking toast ── */}
       {newToast && (
         <div className="fixed top-5 right-5 z-[100] w-80 animate-slide-in-right">
-          <div className="relative bg-white border-2 border-[#E07B00] rounded-2xl shadow-2xl shadow-[#E07B00]/20 overflow-hidden">
-            {/* Orange top bar */}
-            <div className="h-1 bg-gradient-to-r from-[#E07B00] to-amber-400 w-full" />
+          <div className="relative bg-white border-2 border-[#C8553D] rounded-2xl shadow-2xl shadow-[#C8553D]/20 overflow-hidden">
+            {/* Top bar */}
+            <div className="h-1 bg-gradient-to-r from-[#C8553D] to-[#E8A88C] w-full" />
             <div className="p-4">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#E07B00] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#C8553D] flex items-center justify-center shrink-0">
                   <Bell className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-black text-stone-900 mb-0.5">🎉 Новая заявка!</p>
-                  <p className="text-base font-bold text-stone-800 truncate">{newToast.name}</p>
+                  <p className="text-sm font-black text-[#1C1F23] mb-0.5">🎉 Новая заявка!</p>
+                  <p className="text-base font-bold text-[#1C1F23] truncate">{newToast.name}</p>
                   <a
                     href={`tel:${newToast.phone.replace(/\D/g, "")}`}
-                    className="text-sm text-[#E07B00] font-bold hover:text-[#B86300] transition-colors"
+                    className="text-sm text-[#C8553D] font-bold hover:text-[#A8442F] transition-colors"
                   >
                     {newToast.phone}
                   </a>
                   {/* Promo tag */}
                   {newToast.comment?.includes("[Перешёл по акции:") && (
-                    <p className="text-xs text-[#E07B00] font-bold mt-1">🎯 По акции</p>
+                    <p className="text-xs text-[#C8553D] font-bold mt-1">🎯 По акции</p>
                   )}
                 </div>
                 <button
                   onClick={() => setNewToast(null)}
-                  className="text-stone-300 hover:text-stone-600 transition-colors shrink-0 mt-0.5"
+                  className="text-[#D1CBC3] hover:text-[#1C1F23] transition-colors shrink-0 mt-0.5"
                 >
                   ✕
                 </button>
               </div>
               {/* Progress bar */}
-              <div className="mt-3 h-1 bg-stone-100 rounded-full overflow-hidden">
-                <div className="h-full bg-[#E07B00] rounded-full animate-shrink-width" />
+              <div className="mt-3 h-1 bg-[#E6E2DC] rounded-full overflow-hidden">
+                <div className="h-full bg-[#C8553D] rounded-full animate-shrink-width" />
               </div>
             </div>
           </div>
@@ -181,23 +181,23 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
               key={f.id}
               onClick={() => setFilter(f.id)}
               className={`px-5 py-3 rounded-xl text-base font-bold border transition-all ${filter === f.id
-                ? "bg-[#E07B00] text-white border-[#E07B00] shadow-sm"
-                : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
+                ? "bg-[#C8553D] text-white border-[#C8553D] shadow-sm"
+                : "bg-white text-[#6B635C] border-[#D1CBC3] hover:border-[#C8553D]/40"
                 }`}
             >
               {f.label}
-              <span className={`ml-2 px-2 py-0.5 rounded-full text-sm font-bold ${filter === f.id ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"}`}>
+              <span className={`ml-2 px-2 py-0.5 rounded-full text-sm font-bold ${filter === f.id ? "bg-white/20 text-white" : "bg-[#E6E2DC] text-[#6B635C]"}`}>
                 {f.count}
               </span>
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <ArrowUpDown className="w-5 h-5 text-stone-400" />
+          <ArrowUpDown className="w-5 h-5 text-[#9C9488]" />
           <select
             value={sort}
             onChange={e => setSort(e.target.value as SortKey)}
-            className="text-base border-2 border-stone-200 rounded-xl px-4 py-3 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#E07B00] focus:border-[#E07B00] font-medium"
+            className="text-base border-2 border-[#D1CBC3] rounded-xl px-4 py-3 bg-white text-[#1C1F23] focus:outline-none focus:ring-2 focus:ring-[#C8553D] focus:border-[#C8553D] font-medium"
           >
             <option value="date_desc">Сначала новые</option>
             <option value="date_asc">Сначала старые</option>
@@ -210,7 +210,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
       {/* Booking cards */}
       <div className="space-y-4">
         {filtered.length === 0 && (
-          <div className="bg-white rounded-2xl border-2 border-stone-200 p-14 text-center text-stone-400 text-lg">
+          <div className="bg-white rounded-2xl border-2 border-[#D1CBC3] p-14 text-center text-[#9C9488] text-lg">
             Заявок в этой категории нет
           </div>
         )}
@@ -237,7 +237,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
             <div
               key={b.id}
               className={`bg-white rounded-2xl border shadow-sm transition-all ${b.status === "NEW" ? "border-amber-200" :
-                b.status === "IN_PROGRESS" ? "border-blue-200" : "border-stone-200"
+                b.status === "IN_PROGRESS" ? "border-blue-200" : "border-[#D1CBC3]"
                 }`}
             >
               {/* Card body */}
@@ -248,13 +248,13 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
                   {/* Name + status badge + promo badge */}
                   <div className="flex flex-col gap-2 min-w-[120px]">
-                    <div className="font-black text-stone-900 text-lg leading-tight">{b.name}</div>
+                    <div className="font-black text-[#1C1F23] text-lg leading-tight">{b.name}</div>
                     <div className="flex flex-wrap items-center gap-2">
                       <span className={`self-start text-sm px-3 py-1 rounded-full font-bold border ${meta.cls}`}>
                         {meta.label}
                       </span>
                       {promoName && (
-                        <span className="self-start inline-flex items-center gap-1 text-sm px-3 py-1 rounded-full font-bold bg-[#E07B00]/10 text-[#E07B00] border border-[#E07B00]/30">
+                        <span className="self-start inline-flex items-center gap-1 text-sm px-3 py-1 rounded-full font-bold bg-[#FAE8E4] text-[#C8553D] border border-[#C8553D]/30">
                           🎯 По акции: {promoName}
                         </span>
                       )}
@@ -263,10 +263,10 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
                   {/* Телефон */}
                   <div className="flex flex-col gap-1 min-w-[150px]">
-                    <div className="text-xs font-bold text-stone-400 uppercase tracking-wider">Телефон</div>
+                    <div className="text-xs font-bold text-[#9C9488] uppercase tracking-wider">Телефон</div>
                     <a
                       href={`tel:${b.phone.replace(/\D/g, "")}`}
-                      className="text-base font-bold text-[#E07B00] hover:text-[#B86300] transition-colors flex items-center gap-1.5"
+                      className="text-base font-bold text-[#C8553D] hover:text-[#A8442F] transition-colors flex items-center gap-1.5"
                     >
                       <Phone className="w-4 h-4 shrink-0" />
                       {b.phone}
@@ -275,30 +275,30 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
                   {/* Машина */}
                   <div className="flex flex-col gap-1 min-w-[130px]">
-                    <div className="text-xs font-bold text-stone-400 uppercase tracking-wider">Машина</div>
-                    <div className="text-base text-stone-800 font-semibold flex items-center gap-1.5">
-                      <Car className="w-4 h-4 text-stone-400 shrink-0" />
-                      {b.carBrand || <span className="text-stone-300 font-normal">—</span>}
+                    <div className="text-xs font-bold text-[#9C9488] uppercase tracking-wider">Машина</div>
+                    <div className="text-base text-[#1C1F23] font-semibold flex items-center gap-1.5">
+                      <Car className="w-4 h-4 text-[#9C9488] shrink-0" />
+                      {b.carBrand || <span className="text-[#D1CBC3] font-normal">—</span>}
                     </div>
                   </div>
 
                   {/* Госномер */}
                   <div className="flex flex-col gap-1 min-w-[130px]">
-                    <div className="text-xs font-bold text-stone-400 uppercase tracking-wider">Госномер</div>
-                    <div className="text-base font-mono font-bold text-stone-800 tracking-widest uppercase">
-                      {b.carPlate || <span className="text-stone-300 font-normal font-sans tracking-normal">—</span>}
+                    <div className="text-xs font-bold text-[#9C9488] uppercase tracking-wider">Госномер</div>
+                    <div className="text-base font-bold text-[#1C1F23] tracking-widest uppercase" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>
+                      {b.carPlate || <span className="text-[#D1CBC3] font-normal tracking-normal" style={{ fontFamily: "inherit" }}>—</span>}
                     </div>
                   </div>
                 </div>
 
                 {/* ── Row 2: dates + price + actions ── */}
-                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-3 border-t border-stone-100">
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-3 border-t border-[#E6E2DC]">
 
                   {/* Дата заказа */}
                   <div className="flex flex-col gap-1 min-w-[160px]">
-                    <div className="text-xs font-bold text-stone-400 uppercase tracking-wider">Дата заказа</div>
-                    <div className="text-base text-stone-700 font-medium flex items-center gap-1.5">
-                      <CalendarDays className="w-4 h-4 text-stone-400 shrink-0" />
+                    <div className="text-xs font-bold text-[#9C9488] uppercase tracking-wider">Дата заказа</div>
+                    <div className="text-base text-[#6B635C] font-medium flex items-center gap-1.5">
+                      <CalendarDays className="w-4 h-4 text-[#9C9488] shrink-0" />
                       {new Date(b.createdAt).toLocaleString("ru-RU", {
                         day: "2-digit", month: "2-digit", year: "numeric",
                         hour: "2-digit", minute: "2-digit",
@@ -308,12 +308,12 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
                   {/* Желаемая дата */}
                   <div className="flex flex-col gap-1 min-w-[160px]">
-                    <div className="text-xs font-bold text-stone-400 uppercase tracking-wider">Желаемая дата</div>
-                    <div className="text-base text-stone-700 font-medium flex items-center gap-1.5">
-                      <CalendarDays className="w-4 h-4 text-stone-400 shrink-0" />
+                    <div className="text-xs font-bold text-[#9C9488] uppercase tracking-wider">Желаемая дата</div>
+                    <div className="text-base text-[#6B635C] font-medium flex items-center gap-1.5">
+                      <CalendarDays className="w-4 h-4 text-[#9C9488] shrink-0" />
                       {b.date
                         ? new Date(b.date).toLocaleDateString("ru-RU", { day: "2-digit", month: "long", year: "numeric" })
-                        : <span className="text-stone-300">не указана</span>
+                        : <span className="text-[#D1CBC3]">не указана</span>
                       }
                     </div>
                   </div>
@@ -335,8 +335,8 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Price (non-callback bookings) */}
                   {!isCallback && (
                     <div className="text-right shrink-0">
-                      <div className="text-xl font-black font-mono text-stone-900 whitespace-nowrap">{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
-                      <div className="text-sm text-stone-400">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
+                      <div className="text-xl font-black text-[#1C1F23] whitespace-nowrap" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{b.totalPrice.toLocaleString("ru-RU")} ₽</div>
+                      <div className="text-sm text-[#9C9488]">{parsedServices.length} {parsedServices.length === 1 ? "услуга" : parsedServices.length < 5 ? "услуги" : "услуг"}</div>
                     </div>
                   )}
 
@@ -353,7 +353,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                   {/* Expand */}
                   <button
                     onClick={() => setExpanded(isExpanded ? null : b.id)}
-                    className="p-3 rounded-xl hover:bg-stone-100 text-stone-400 transition shrink-0 border-2 border-stone-200"
+                    className="p-3 rounded-xl hover:bg-[#E6E2DC] text-[#9C9488] transition shrink-0 border-2 border-[#D1CBC3]"
                     title="Показать услуги"
                   >
                     <ChevronDown className={`w-6 h-6 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
@@ -372,7 +372,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                       </button>
                       <button
                         onClick={() => setConfirmDeleteId(null)}
-                        className="px-3 py-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 text-sm font-bold transition"
+                        className="px-3 py-2 rounded-lg bg-[#E6E2DC] hover:bg-[#D1CBC3] text-[#6B635C] text-sm font-bold transition"
                       >
                         Нет
                       </button>
@@ -381,7 +381,7 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
                     <button
                       onClick={() => setConfirmDeleteId(b.id)}
                       disabled={pendingId === b.id}
-                      className="p-3 rounded-xl hover:bg-red-50 text-stone-300 hover:text-red-500 transition shrink-0 disabled:opacity-50 disabled:cursor-wait border-2 border-stone-200 hover:border-red-200"
+                      className="p-3 rounded-xl hover:bg-red-50 text-[#D1CBC3] hover:text-red-500 transition shrink-0 disabled:opacity-50 disabled:cursor-wait border-2 border-[#D1CBC3] hover:border-red-200"
                       title="Удалить заявку"
                     >
                       <Trash2 className="w-6 h-6" />
@@ -392,27 +392,27 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
 
               {/* Expanded: services list */}
               {isExpanded && (
-                <div className="border-t-2 border-stone-100 px-6 py-5 bg-stone-50 rounded-b-2xl">
-                  <h4 className="text-sm font-bold text-stone-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <div className="border-t-2 border-[#E6E2DC] px-6 py-5 bg-[#F0EDE8] rounded-b-2xl">
+                  <h4 className="text-sm font-bold text-[#6B635C] uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Wrench className="w-4 h-4" />
                     Выбранные услуги
                   </h4>
                   {parsedServices.length > 0 ? (
                     <ul className="space-y-3">
                       {parsedServices.map((s, i) => (
-                        <li key={i} className="flex justify-between items-center text-base border-b border-stone-100 pb-2 last:border-0 last:pb-0">
-                          <span className="text-stone-700 font-medium">{s.title}</span>
-                          <span className="font-mono font-bold text-stone-900 text-lg">{s.price?.toLocaleString("ru-RU")} ₽</span>
+                        <li key={i} className="flex justify-between items-center text-base border-b border-[#DDD8D1] pb-2 last:border-0 last:pb-0">
+                          <span className="text-[#6B635C] font-medium">{s.title}</span>
+                          <span className="font-bold text-[#1C1F23] text-lg" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>{s.price?.toLocaleString("ru-RU")} ₽</span>
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-stone-400 text-base">{b.services}</p>
+                    <p className="text-[#9C9488] text-base">{b.services}</p>
                   )}
                   {cleanComment && (
-                    <div className="mt-5 pt-4 border-t border-stone-200">
-                      <h4 className="text-sm font-bold text-stone-500 uppercase tracking-wider mb-3">💬 Комментарий клиента</h4>
-                      <p className="text-base text-stone-700 bg-white border-2 border-stone-200 rounded-xl px-5 py-4 leading-relaxed">{cleanComment}</p>
+                    <div className="mt-5 pt-4 border-t border-[#D1CBC3]">
+                      <h4 className="text-sm font-bold text-[#6B635C] uppercase tracking-wider mb-3">💬 Комментарий клиента</h4>
+                      <p className="text-base text-[#6B635C] bg-white border-2 border-[#D1CBC3] rounded-xl px-5 py-4 leading-relaxed">{cleanComment}</p>
                     </div>
                   )}
                 </div>
