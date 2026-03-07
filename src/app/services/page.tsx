@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     "рулевое управление нива",
     "карданная передача нива",
   ],
-  alternates: { canonical: "https://niva-service.ru/services" },
+  alternates: { canonical: "https://niva36.ru/services" },
   openGraph: {
-    url: "https://niva-service.ru/services",
+    url: "https://niva36.ru/services",
     title: "Цены на ремонт Нивы в Воронеже",
     description: "Полный прайс-лист на ремонт Нивы (ВАЗ-2121), Шевроле Нива и внедорожников.",
   },
@@ -40,8 +40,8 @@ export default function ServicesPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Главная", item: "https://niva-service.ru" },
-              { "@type": "ListItem", position: 2, name: "Услуги и цены", item: "https://niva-service.ru/services" },
+              { "@type": "ListItem", position: 1, name: "Главная", item: "https://niva36.ru" },
+              { "@type": "ListItem", position: 2, name: "Услуги и цены", item: "https://niva36.ru/services" },
             ],
           }),
         }}

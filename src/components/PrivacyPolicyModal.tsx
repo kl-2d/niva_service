@@ -45,7 +45,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }: Props) {
                 <h3 className="font-bold text-[#1C1F23] mb-2">1. Общие положения</h3>
                 <p>
                   Настоящая Политика конфиденциальности определяет порядок обработки и защиты
-                  персональных данных пользователей сайта <strong>niva-service.ru</strong> (далее — Сайт),
+                  персональных данных пользователей сайта <strong>niva36.ru</strong> (далее — Сайт),
                   принадлежащего ИП «Нива Сервис» (ОГРН 304366434500094, г. Воронеж).
                 </p>
               </section>

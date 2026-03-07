@@ -13,9 +13,9 @@ export const metadata: Metadata = {
     "ремонт нивы воронеж контакты",
     "шевроле нива ремонт воронеж",
   ],
-  alternates: { canonical: "https://niva-service.ru/about" },
+  alternates: { canonical: "https://niva36.ru/about" },
   openGraph: {
-    url: "https://niva-service.ru/about",
+    url: "https://niva36.ru/about",
     title: "О компании — Нива Сервис Воронеж",
     description:
       "15+ лет специализируемся на ремонте Нивы и Шевроле Нива в Воронеже. Ул. Матросова, 100. ☎ +7 920 229-56-56.",

@@ -51,8 +51,8 @@ export default function AboutPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Главная", item: "https://niva-service.ru" },
-              { "@type": "ListItem", position: 2, name: "О нас", item: "https://niva-service.ru/about" },
+              { "@type": "ListItem", position: 1, name: "Главная", item: "https://niva36.ru" },
+              { "@type": "ListItem", position: 2, name: "О нас", item: "https://niva36.ru/about" },
             ],
           }),
         }}

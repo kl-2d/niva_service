@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/api/"],
       },
     ],
-    sitemap: "https://niva-service.ru/sitemap.xml",
-    host: "https://niva-service.ru",
+    sitemap: "https://niva36.ru/sitemap.xml",
+    host: "https://niva36.ru",
   };
 }

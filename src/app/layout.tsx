@@ -24,7 +24,7 @@ const robotoMono = Roboto_Mono({
   weight: ["400", "500", "700"],
 });
 
-const SITE_URL = "https://niva-service.ru";
+const SITE_URL = "https://niva36.ru";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

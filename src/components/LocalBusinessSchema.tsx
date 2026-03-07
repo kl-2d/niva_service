@@ -6,15 +6,15 @@ export default function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": ["AutoRepair", "LocalBusiness"],
-    "@id": "https://niva-service.ru/#business",
+    "@id": "https://niva36.ru/#business",
     name: "Нива Сервис",
     alternateName: ["Niva Service", "НиваСервис"],
     description:
       "Специализированный автосервис в Воронеже по ремонту автомобилей Нива (ВАЗ-2121), Шевроле Нива и внедорожников. Ремонт ходовой, двигателя, КПП, раздатки, редукторов, выхлопной системы и тюнинг.",
     slogan: "Единственный специализированный сервис Воронежа по семейству НИВА",
-    url: "https://niva-service.ru",
-    logo: "https://niva-service.ru/og-image.jpg",
-    image: "https://niva-service.ru/og-image.jpg",
+    url: "https://niva36.ru",
+    logo: "https://niva36.ru/og-image.jpg",
+    image: "https://niva36.ru/og-image.jpg",
     telephone: ["+7-920-229-56-56", "+7-473-236-18-18"],
     email: "niva36@mail.ru",
     address: {
