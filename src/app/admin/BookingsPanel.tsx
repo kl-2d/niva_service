@@ -37,25 +37,38 @@ export default function BookingsPanel({ initialBookings }: { initialBookings: Bo
   const knownIds = useRef<Set<number>>(new Set(initialBookings.map(b => b.id)));
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /** Play a short "ding" using Web Audio API — no file needed */
+  /** Play a pleasant 3-note chime (C5→E5→G5) — soft messenger-like notification */
   const playDing = useCallback(() => {
     try {
       const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      const gain = ctx.createGain();
-      gain.connect(ctx.destination);
-      gain.gain.setValueAtTime(0, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+      const master = ctx.createGain();
+      master.connect(ctx.destination);
+      master.gain.setValueAtTime(0.25, ctx.currentTime);
 
-      const osc1 = ctx.createOscillator();
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(880, ctx.currentTime);
-      osc1.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.3);
-      osc1.connect(gain);
-      osc1.start(ctx.currentTime);
-      osc1.stop(ctx.currentTime + 1.2);
+      // Three ascending notes: C5 (523), E5 (659), G5 (784)
+      const notes = [523, 659, 784];
+      const noteSpacing = 0.22;
+      const noteDuration = 0.6;
 
-      setTimeout(() => ctx.close(), 1500);
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.value = freq;
+        osc.connect(gain);
+        gain.connect(master);
+
+        const start = ctx.currentTime + i * noteSpacing;
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(0.5, start + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + noteDuration);
+
+        osc.start(start);
+        osc.stop(start + noteDuration);
+      });
+
+      const totalDuration = notes.length * noteSpacing + noteDuration;
+      setTimeout(() => ctx.close(), (totalDuration + 0.2) * 1000);
     } catch { /* AudioContext not available */ }
   }, []);
 
