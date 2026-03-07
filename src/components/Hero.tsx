@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ChevronRight, Zap, Calendar } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import RequestCallModal from "./RequestCallModal";
 
@@ -46,13 +47,16 @@ export default function Hero() {
     <>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image with dark overlay */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('/hero-bg.jpg')`,
-            backgroundColor: "#1C1F23",
-          }}
-        >
+        <div className="absolute inset-0">
+          <Image
+            src="/hero-bg.jpg"
+            alt="Нива Сервис — специализированный автосервис по ремонту Нивы в Воронеже"
+            fill
+            priority
+            quality={80}
+            sizes="100vw"
+            className="object-cover object-center"
+          />
           <div className="absolute inset-0 bg-[#0D0F12]/78"></div>
         </div>
 

@@ -93,12 +93,16 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   verification: {
-    // Добавьте свои коды верификации когда будут готовы:
+    // Добавьте свои коды верификации:
     // google: "ваш-код-google-search-console",
     // yandex: "ваш-код-яндекс-вебмастер",
   },
   icons: {
     icon: "/favicon.ico",
+    apple: "/og-image.jpg",
+  },
+  other: {
+    "theme-color": "#1C1F23",
   },
 };
 

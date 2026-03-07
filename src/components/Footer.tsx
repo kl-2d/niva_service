@@ -22,9 +22,9 @@ export default function Footer() {
                     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
                   </svg>
                 </div>
-                <h2 className="text-lg font-black text-white uppercase tracking-wider" style={{ fontFamily: "var(--font-oswald)" }}>
+                <span className="text-lg font-black text-white uppercase tracking-wider" style={{ fontFamily: "var(--font-oswald)" }}>
                   Нива Сервис
-                </h2>
+                </span>
               </div>
               {/* Accent underline */}
               <div className="h-0.5 w-10 bg-[#C8553D] rounded-full mb-4" />
@@ -38,7 +38,7 @@ export default function Footer() {
 
             {/* Contacts */}
             <div>
-              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-5">Контакты</h3>
+              <p className="text-sm font-black text-white uppercase tracking-widest mb-5">Контакты</p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-[#8C8378]">
                   <div className="w-8 h-8 rounded-lg bg-[#C8553D]/20 flex items-center justify-center shrink-0 mt-0.5">
@@ -47,13 +47,13 @@ export default function Footer() {
                   <span className="text-sm leading-relaxed">г. Воронеж<br />ул. Матросова, 100</span>
                 </li>
                 <li className="flex flex-col gap-2">
-                  <a href="tel:+79202295656" className="flex items-center gap-3 text-[#8C8378] hover:text-white transition-colors group">
+                  <a href="tel:+79202295656" className="flex items-center gap-3 text-[#8C8378] hover:text-white transition-colors group" aria-label="Позвонить по номеру +7 920 229-56-56">
                     <div className="w-8 h-8 rounded-lg bg-[#C8553D]/20 flex items-center justify-center shrink-0 group-hover:bg-[#C8553D]/35 transition-colors">
                       <Phone className="w-4 h-4 text-[#E8A88C]" />
                     </div>
                     <span className="font-bold text-sm">+7 920 229-56-56</span>
                   </a>
-                  <a href="tel:+74732361818" className="flex items-center gap-3 text-[#8C8378] hover:text-white transition-colors group">
+                  <a href="tel:+74732361818" className="flex items-center gap-3 text-[#8C8378] hover:text-white transition-colors group" aria-label="Позвонить по номеру +7 473 236-18-18">
                     <div className="w-8 h-8 rounded-lg bg-transparent flex items-center justify-center shrink-0">
                       {/* spacer */}
                     </div>
@@ -65,7 +65,7 @@ export default function Footer() {
 
             {/* Working Hours */}
             <div>
-              <h3 className="text-sm font-black text-white uppercase tracking-widest mb-5">Режим работы</h3>
+              <p className="text-sm font-black text-white uppercase tracking-widest mb-5">Режим работы</p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-[#8C8378]">
                   <div className="w-8 h-8 rounded-lg bg-[#C8553D]/20 flex items-center justify-center shrink-0 mt-0.5">
@@ -88,6 +88,7 @@ export default function Footer() {
                 height="100%"
                 frameBorder="0"
                 allowFullScreen={true}
+                loading="lazy"
                 className="absolute inset-0"
                 title="Нива Сервис на карте"
               ></iframe>

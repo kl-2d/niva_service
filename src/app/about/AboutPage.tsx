@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Award, Shield, Wrench, MapPin, Phone, Mail, Clock, Video, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface VideoReview {
   id: number;
@@ -127,10 +128,12 @@ export default function AboutPage() {
             className="bg-[#E6E2DC] rounded-2xl h-80 lg:h-96 flex items-center justify-center text-[#6B635C] overflow-hidden relative"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-[#1C1F23]/40 via-transparent to-[#C8553D]/10 z-10" />
-            <img
+            <Image
               src="/XXXL.webp"
               alt="Автосервис Нива Сервис — мастерская в Воронеже"
-              className="w-full h-full object-cover brightness-110 contrast-105 saturate-110"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover brightness-110 contrast-105 saturate-110"
             />
           </motion.div>
         </div>
@@ -286,6 +289,7 @@ export default function AboutPage() {
                 width="100%"
                 height="100%"
                 frameBorder="0"
+                loading="lazy"
                 title="Нива Сервис на карте — ул. Матросова, 100, Воронеж"
                 className="w-full h-full grayscale-[20%] contrast-125"
               ></iframe>

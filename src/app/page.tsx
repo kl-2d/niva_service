@@ -4,6 +4,7 @@ import Statistics from "@/components/Statistics";
 import ServicesPreview from "@/components/ServicesPreview";
 import ProcessTimeline from "@/components/ProcessTimeline";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
+import FAQSection from "@/components/FAQSection";
 
 export const metadata: Metadata = {
   title: "Нива Сервис — Специализированный ремонт Нивы (ВАЗ-2121, Chevrolet Niva, Lada 4×4) в Воронеже",
@@ -25,6 +26,8 @@ export default function Home() {
       <Statistics />
       <ServicesPreview />
       <ProcessTimeline />
+      <FAQSection />
     </>
   );
 }
+
