@@ -184,31 +184,34 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     {/* Дата */}
                     <div>
                       <label className={labelClass}>Желаемая дата (необязательно)</label>
-                      <div
-                        className="relative flex items-center gap-2 bg-white border-2 border-[#D1CBC3] rounded-xl px-4 py-3.5 focus-within:ring-2 focus-within:ring-[#C8553D] focus-within:border-[#C8553D] transition-all cursor-pointer"
-                        onClick={() => { (document.getElementById('checkout-date') as HTMLInputElement)?.showPicker?.(); }}
-                      >
-                        <Calendar className="w-5 h-5 text-[#9C9488] shrink-0" />
-                        <span className={`flex-1 text-base ${formData.date ? 'text-[#1C1F23]' : 'text-[#9C9488]'}`}>
-                          {formData.date
-                            ? new Date(formData.date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
-                            : 'дд.мм.гггг'}
-                        </span>
+                      <div className="relative">
+                        <div
+                          className="flex items-center gap-2 bg-white border-2 border-[#D1CBC3] rounded-xl pl-4 pr-40 py-3.5 focus-within:ring-2 focus-within:ring-[#C8553D] focus-within:border-[#C8553D] transition-all cursor-pointer"
+                          onClick={() => { (document.getElementById('checkout-date') as HTMLInputElement)?.showPicker?.(); }}
+                        >
+                          <Calendar className="w-5 h-5 text-[#9C9488] shrink-0" />
+                          <span className={`flex-1 text-base cursor-pointer select-none ${formData.date ? 'text-[#1C1F23]' : 'text-[#9C9488]'}`}>
+                            {formData.date
+                              ? new Date(formData.date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
+                              : 'дд.мм.гггг'}
+                          </span>
+                          <input
+                            id="checkout-date"
+                            type="date"
+                            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                            value={formData.date}
+                            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                          />
+                        </div>
+                        {/* Floating button — visually above the field */}
                         <button
                           type="button"
-                          className="flex items-center gap-1.5 bg-[#C8553D] hover:bg-[#A8442F] text-white text-sm font-bold px-3 py-1.5 rounded-lg transition-colors shrink-0"
-                          onClick={(ev) => { ev.stopPropagation(); (document.getElementById('checkout-date') as HTMLInputElement)?.showPicker?.(); }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex items-center gap-1.5 bg-[#C8553D] hover:bg-[#A8442F] text-white text-sm font-bold px-4 py-2.5 rounded-lg transition-all cursor-pointer shadow-md shadow-[#C8553D]/25 hover:shadow-lg hover:shadow-[#C8553D]/35 hover:scale-[1.03] active:scale-[0.97]"
+                          onClick={() => { (document.getElementById('checkout-date') as HTMLInputElement)?.showPicker?.(); }}
                         >
-                          <Calendar className="w-3.5 h-3.5" />
+                          <Calendar className="w-4 h-4" />
                           Выбрать дату
                         </button>
-                        <input
-                          id="checkout-date"
-                          type="date"
-                          className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-                          value={formData.date}
-                          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        />
                       </div>
                     </div>
 

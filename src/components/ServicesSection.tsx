@@ -187,8 +187,8 @@ function PriceTable({ slug }: { slug: string }) {
                   </div>
 
                   <div className="flex items-center justify-between pl-8 md:pl-0 md:contents">
-                    <span className="font-black text-[#1C1F23] text-xl md:text-2xl md:text-right md:pr-4 whitespace-nowrap tabular-nums" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>
-                      {item.price.toLocaleString("ru-RU")} <span className="text-[#6B635C] font-bold text-lg">₽</span>
+                    <span className="font-bold text-[#1C1F23] text-lg md:text-xl md:text-right md:pr-4 whitespace-nowrap tabular-nums" style={{ fontFamily: "var(--font-roboto-mono, var(--font-mono))" }}>
+                      {item.price.toLocaleString("ru-RU")} <span className="text-[#6B635C] font-bold text-base">₽</span>
                     </span>
                     <button
                       onClick={() => addItem(item)}
