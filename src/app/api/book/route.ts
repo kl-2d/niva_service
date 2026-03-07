@@ -75,7 +75,7 @@ export async function POST(req: Request) {
       const recipients = await getNotificationEmails();
 
       const { data, error } = await resend.emails.send({
-        from: "Нива Сервис <onboarding@resend.dev>",
+        from: "Нива Сервис <info@niva36.ru>",
         to: recipients,
         subject: `🔧 Новая заявка с сайта от: ${esc(name)}`,
         html: `

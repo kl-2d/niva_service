@@ -72,7 +72,7 @@ export async function POST(req: Request) {
       const now = new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" });
 
       const { data, error } = await resend.emails.send({
-        from: "Нива Сервис <onboarding@resend.dev>",
+        from: "Нива Сервис <info@niva36.ru>",
         to: recipients,
         subject: `📞 Заявка на звонок от: ${esc(name)} (${esc(phone)})`,
         html: `
